@@ -1,11 +1,11 @@
 import { useInView } from './useInView'
 
 const images = [
-  { src: '/cart-setup.jpg', alt: 'Mobile charcuterie cart setup at event venue', span: 'lg:col-span-2 lg:row-span-2' },
+  { src: '/event-photo.jpg', alt: 'Gourmet Grazin event setup', span: 'lg:col-span-2 lg:row-span-2' },
   { src: '/charcuterie-board.png', alt: 'Artisan charcuterie board with meats, cheeses, and fruits', span: '' },
   { src: '/cart-closeup.jpg', alt: 'Close-up of charcuterie cart spread', span: '' },
-  { src: '/cart-outdoor.png', alt: 'Outdoor event setup with mobile cart', span: 'lg:col-span-2' },
-  { src: '/event-photo.jpg', alt: 'Gourmet Grazin event photo', span: '' },
+  { src: '/cart-outdoor.png', alt: 'Outdoor event setup with mobile cart', span: '' },
+  { src: '/cart-setup.jpg', alt: 'Mobile charcuterie cart panoramic view', span: 'lg:col-span-2' },
 ]
 
 export default function Gallery() {
@@ -27,7 +27,11 @@ export default function Gallery() {
           {images.map((img, i) => (
             <div
               key={i}
-              className={`overflow-hidden ${img.span} ${i === 0 ? 'h-[400px] lg:h-full' : 'h-[300px]'}`}
+              className={`overflow-hidden ${img.span} ${
+                i === 0 ? 'h-[400px] lg:h-full' :
+                i === 4 ? 'h-[220px]' :
+                'h-[300px]'
+              }`}
             >
               <img
                 src={img.src}

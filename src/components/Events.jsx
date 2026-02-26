@@ -50,7 +50,7 @@ export default function Events({ onInquire }) {
           {/* Right - Image */}
           <div className={`overflow-hidden fade-in-up fade-in-up-delay-2 ${isVisible ? 'visible' : ''}`}>
             <img
-              src="/cart-setup.jpg"
+              src="/cart-closeup.jpg"
               alt="Gourmet Grazin' cart at an elegant event"
               className="w-full h-[500px] lg:h-[600px] object-cover"
             />
