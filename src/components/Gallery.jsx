@@ -1,13 +1,5 @@
 import { useInView } from './useInView'
 
-const images = [
-  { src: '/event-photo.jpg', alt: 'Gourmet Grazin event setup', span: 'lg:col-span-2 lg:row-span-2' },
-  { src: '/charcuterie-board.png', alt: 'Artisan charcuterie board with meats, cheeses, and fruits', span: '' },
-  { src: '/cart-closeup.jpg', alt: 'Close-up of charcuterie cart spread', span: '' },
-  { src: '/cart-outdoor.png', alt: 'Outdoor event setup with mobile cart', span: '' },
-  { src: '/cart-setup.jpg', alt: 'Mobile charcuterie cart panoramic view', span: 'lg:col-span-2' },
-]
-
 export default function Gallery() {
   const [ref, isVisible] = useInView()
 
@@ -23,23 +15,49 @@ export default function Gallery() {
           </h2>
         </div>
 
-        <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 fade-in-up fade-in-up-delay-2 ${isVisible ? 'visible' : ''}`}>
-          {images.map((img, i) => (
-            <div
-              key={i}
-              className={`overflow-hidden ${img.span} ${
-                i === 0 ? 'h-[400px] lg:h-full' :
-                i === 4 ? 'h-[220px]' :
-                'h-[300px]'
-              }`}
-            >
+        <div className={`fade-in-up fade-in-up-delay-2 ${isVisible ? 'visible' : ''}`}>
+          {/* Row 1: Two images side by side */}
+          <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mb-4">
+            <div className="md:col-span-3 h-[300px] md:h-[400px] overflow-hidden">
               <img
-                src={img.src}
-                alt={img.alt}
+                src="/event-photo.jpg"
+                alt="Gourmet Grazin event setup"
                 className="w-full h-full object-cover img-hover"
               />
             </div>
-          ))}
+            <div className="md:col-span-2 h-[300px] md:h-[400px] overflow-hidden">
+              <img
+                src="/charcuterie-board.png"
+                alt="Artisan charcuterie board with meats, cheeses, and fruits"
+                className="w-full h-full object-cover img-hover"
+              />
+            </div>
+          </div>
+
+          {/* Row 2: Three images */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+            <div className="h-[280px] md:h-[320px] overflow-hidden">
+              <img
+                src="/cart-closeup.jpg"
+                alt="Close-up of charcuterie cart spread"
+                className="w-full h-full object-cover img-hover"
+              />
+            </div>
+            <div className="h-[280px] md:h-[320px] overflow-hidden">
+              <img
+                src="/cart-outdoor.png"
+                alt="Outdoor event setup with mobile cart"
+                className="w-full h-full object-cover img-hover"
+              />
+            </div>
+            <div className="h-[280px] md:h-[320px] overflow-hidden">
+              <img
+                src="/cart-setup.jpg"
+                alt="Mobile charcuterie cart panoramic view"
+                className="w-full h-full object-cover object-center img-hover"
+              />
+            </div>
+          </div>
         </div>
       </div>
     </section>
