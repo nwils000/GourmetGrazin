@@ -5,6 +5,7 @@ import About from './components/About'
 import Services from './components/Services'
 import Gallery from './components/Gallery'
 import Events from './components/Events'
+import Testimonials from './components/Testimonials'
 import HowItWorks from './components/HowItWorks'
 import FAQ from './components/FAQ'
 import CTA from './components/CTA'
@@ -26,6 +27,7 @@ function App() {
       <Services />
       <Gallery />
       <Events onInquire={handleInquire} />
+      <Testimonials />
       <HowItWorks />
       <FAQ />
       <CTA onInquire={handleInquire} />
