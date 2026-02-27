@@ -16,6 +16,7 @@ export default function Navbar({ onInquire }) {
     { label: 'Services', href: '#services' },
     { label: 'Gallery', href: '#gallery' },
     { label: 'Events', href: '#events' },
+    { label: 'Reviews', href: '#reviews' },
     { label: 'FAQ', href: '#faq' },
   ]
 

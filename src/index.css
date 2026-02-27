@@ -70,3 +70,46 @@
 .img-hover:hover {
   transform: scale(1.05);
 }
+
+/* Testimonials scroll */
+@keyframes scrollLeft {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes scrollRight {
+  0% { transform: translateX(-50%); }
+  100% { transform: translateX(0); }
+}
+
+.testimonial-scroll-mask {
+  -webkit-mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+  mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+  overflow: hidden;
+}
+
+.testimonial-scroll-left {
+  display: flex;
+  width: max-content;
+  animation: scrollLeft 45s linear infinite;
+}
+
+.testimonial-scroll-right {
+  display: flex;
+  width: max-content;
+  animation: scrollRight 45s linear infinite;
+}
+
+.testimonial-scroll-left:hover,
+.testimonial-scroll-right:hover {
+  animation-play-state: paused;
+}
+
+.testimonial-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.testimonial-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+}
