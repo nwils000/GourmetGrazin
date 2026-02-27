@@ -121,7 +121,7 @@ export default function Testimonials() {
             ))}
           </div>
           <span className="text-charcoal font-serif text-lg">5.0</span>
-          <span className="text-charcoal-light text-sm font-light">on Google</span>
+          <span className="text-charcoal-light text-sm font-light">on Facebook</span>
         </div>
       </div>
 
