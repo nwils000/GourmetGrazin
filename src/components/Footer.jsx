@@ -1,4 +1,5 @@
 import { Instagram } from 'lucide-react'
+import { Link } from 'react-router-dom'
 
 export default function Footer() {
   return (
@@ -18,7 +19,7 @@ export default function Footer() {
           <div>
             <h4 className="text-xs tracking-[0.2em] uppercase mb-6 text-cream/80">Navigation</h4>
             <div className="space-y-3">
-              {['About', 'Services', 'Gallery', 'Events', 'FAQ'].map(link => (
+              {['About', 'Events'].map(link => (
                 <a
                   key={link}
                   href={`#${link.toLowerCase()}`}
@@ -27,6 +28,13 @@ export default function Footer() {
                   {link}
                 </a>
               ))}
+              <Link to="/luxury-cart-experiences" className="block text-cream/60 text-sm font-light hover:text-gold transition-colors duration-300">Luxury Cart Experiences</Link>
+              <Link to="/snack-boards" className="block text-cream/60 text-sm font-light hover:text-gold transition-colors duration-300">Snack Boards</Link>
+              <Link to="/cups-boxes" className="block text-cream/60 text-sm font-light hover:text-gold transition-colors duration-300">Cups & Boxes</Link>
+              <Link to="/personalizations" className="block text-cream/60 text-sm font-light hover:text-gold transition-colors duration-300">Personalizations</Link>
+              <Link to="/gallery" className="block text-cream/60 text-sm font-light hover:text-gold transition-colors duration-300">Gallery</Link>
+              <Link to="/meet-the-owners" className="block text-cream/60 text-sm font-light hover:text-gold transition-colors duration-300">Meet the Owners</Link>
+              <Link to="/faq" className="block text-cream/60 text-sm font-light hover:text-gold transition-colors duration-300">FAQ</Link>
             </div>
           </div>
 

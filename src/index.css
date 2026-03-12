@@ -37,7 +37,7 @@
 }
 
 .animate-marquee {
-  animation: marquee 25s linear infinite;
+  animation: marquee 60s linear infinite;
 }
 
 @keyframes fadeInUp {
@@ -112,4 +112,23 @@
 .testimonial-card:hover {
   transform: translateY(-4px);
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+}
+
+@keyframes galleryScroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.gallery-carousel-wrapper {
+  overflow: hidden;
+  width: 100%;
+}
+
+.gallery-carousel {
+  display: flex;
+  animation: galleryScroll 60s linear infinite;
+}
+
+.gallery-carousel-wrapper:hover .gallery-carousel {
+  animation-play-state: paused;
 }

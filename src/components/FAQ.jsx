@@ -9,11 +9,11 @@ const faqs = [
   },
   {
     question: 'How far in advance should I book?',
-    answer: 'We recommend booking at least 2-4 weeks in advance, especially during peak wedding and event season (spring through fall). Popular dates fill quickly, so the earlier the better!',
+    answer: 'We recommend booking 1\u20132 months in advance for most events. For weddings and peak season (spring through fall), we suggest reaching out even earlier \u2014 popular dates fill quickly, so the sooner the better!',
   },
   {
     question: 'How many guests can the mobile cart serve?',
-    answer: 'Our mobile cart comfortably serves 50-150+ guests depending on the package. For larger events, we can supplement with additional grazing tables. We\'ll customize to your guest count.',
+    answer: 'Our cart comfortably serves 25\u2013150+ guests depending on the package. For groups smaller than 25, we recommend one of our beautifully crafted charcuterie boards instead. For larger events, we can supplement with additional grazing tables \u2014 we\'ll customize to your guest count.',
   },
   {
     question: 'Can you accommodate dietary restrictions?',
@@ -21,7 +21,7 @@ const faqs = [
   },
   {
     question: 'What\'s included in the charcuterie classes?',
-    answer: 'Our classes include all supplies, ingredients, a personal cutting board to take home, step-by-step instruction, and of course — tastings! Perfect for groups of 6-20 people.',
+    answer: 'Our classes include all supplies, ingredients, a personal cutting board to take home, step-by-step instruction, and of course \u2014 tastings! We come to you for your charcuterie class at your home or venue. Perfect for groups of 6\u201320 people.',
   },
   {
     question: 'Do you provide setup and breakdown?',

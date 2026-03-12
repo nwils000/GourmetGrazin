@@ -1,10 +1,27 @@
+import { Link } from 'react-router-dom'
 import { useInView } from './useInView'
+
+const galleryImages = [
+  { src: '/gallery/gallery1.jpg', alt: 'Gourmet Grazin cart at outdoor event' },
+  { src: '/gallery/gallery2.jpg', alt: 'Cart being served to guests' },
+  { src: '/gallery/gallery3.jpg', alt: 'Close-up cart spread with accompaniments' },
+  { src: '/gallery/gallery4.jpg', alt: 'Gourmet Grazin branded cart' },
+  { src: '/gallery/gallery5.jpeg', alt: 'Cart food detail shot' },
+  { src: '/gallery/gallery6.jpeg', alt: 'Cart serving experience' },
+  { src: '/gallery/gallery7.jpg', alt: 'Gourmet Grazin at formal event' },
+  { src: '/gallery/gourmet-cart-1.jpeg', alt: 'Mobile cart setup' },
+  { src: '/gallery/gourmet-cart-2.jpeg', alt: 'Cart with full spread' },
+  { src: '/event-photo.jpg', alt: 'Event photo' },
+  { src: '/cart-closeup.jpg', alt: 'Close-up of cart' },
+  { src: '/cart-setup.jpg', alt: 'Cart outdoor setup' },
+]
 
 export default function Gallery() {
   const [ref, isVisible] = useInView()
+  const doubled = [...galleryImages, ...galleryImages]
 
   return (
-    <section id="gallery" className="py-24 lg:py-32 bg-cream">
+    <section id="gallery" className="py-24 lg:py-32 bg-cream overflow-hidden">
       <div ref={ref} className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="text-center mb-16">
           <p className={`text-gold text-xs tracking-[0.3em] uppercase mb-4 fade-in-up ${isVisible ? 'visible' : ''}`}>
@@ -14,51 +31,37 @@ export default function Gallery() {
             A taste of our <em className="text-gold">work.</em>
           </h2>
         </div>
+      </div>
 
-        <div className={`fade-in-up fade-in-up-delay-2 ${isVisible ? 'visible' : ''}`}>
-          {/* Row 1: Two images side by side */}
-          <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mb-4">
-            <div className="md:col-span-3 h-[300px] md:h-[400px] overflow-hidden">
-              <img
-                src="/event-photo.jpg"
-                alt="Gourmet Grazin event setup"
-                className="w-full h-full object-cover img-hover"
-              />
-            </div>
-            <div className="md:col-span-2 h-[300px] md:h-[400px] overflow-hidden">
-              <img
-                src="/charcuterie-board.png"
-                alt="Artisan charcuterie board with meats, cheeses, and fruits"
-                className="w-full h-full object-cover img-hover"
-              />
-            </div>
-          </div>
-
-          {/* Row 2: Three images */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-            <div className="h-[280px] md:h-[320px] overflow-hidden">
-              <img
-                src="/cart-closeup.jpg"
-                alt="Close-up of charcuterie cart spread"
-                className="w-full h-full object-cover img-hover"
-              />
-            </div>
-            <div className="h-[280px] md:h-[320px] overflow-hidden">
-              <img
-                src="/cart-outdoor.png"
-                alt="Outdoor event setup with mobile cart"
-                className="w-full h-full object-cover img-hover"
-              />
-            </div>
-            <div className="h-[280px] md:h-[320px] overflow-hidden">
-              <img
-                src="/cart-setup.jpg"
-                alt="Mobile charcuterie cart panoramic view"
-                className="w-full h-full object-cover object-center img-hover"
-              />
-            </div>
+      {/* Rotating Carousel */}
+      <div className={`fade-in-up fade-in-up-delay-2 ${isVisible ? 'visible' : ''}`}>
+        <div className="overflow-hidden group">
+          <div
+            className="flex animate-marquee hover:[animation-play-state:paused]"
+            style={{ width: 'max-content' }}
+          >
+            {doubled.map((img, i) => (
+              <div key={i} className="flex-shrink-0 w-[320px] sm:w-[400px] lg:w-[450px] px-2">
+                <div className="h-[240px] sm:h-[280px] lg:h-[320px] overflow-hidden">
+                  <img
+                    src={img.src}
+                    alt={img.alt}
+                    className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                  />
+                </div>
+              </div>
+            ))}
           </div>
         </div>
+      </div>
+
+      <div className="text-center mt-12">
+        <Link
+          to="/gallery"
+          className="inline-block border border-charcoal text-charcoal px-10 py-4 text-xs tracking-[0.2em] uppercase hover:bg-charcoal hover:text-cream transition-all duration-300"
+        >
+          View Full Gallery
+        </Link>
       </div>
     </section>
   )

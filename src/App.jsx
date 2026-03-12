@@ -1,3 +1,4 @@
+import { Routes, Route } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 import Marquee from './components/Marquee'
@@ -7,11 +8,33 @@ import Gallery from './components/Gallery'
 import Events from './components/Events'
 import Testimonials from './components/Testimonials'
 import HowItWorks from './components/HowItWorks'
-import FAQ from './components/FAQ'
 import CTA from './components/CTA'
 import Footer from './components/Footer'
+import FAQPage from './pages/FAQPage'
+import LuxuryCartPage from './pages/LuxuryCartPage'
+import SnackBoardsPage from './pages/SnackBoardsPage'
+import CupsBoxesPage from './pages/CupsBoxesPage'
+import PersonalizationsPage from './pages/PersonalizationsPage'
+import MeetOwnersPage from './pages/MeetOwnersPage'
+import GalleryPage from './pages/GalleryPage'
 
 const HONEYBOOK_URL = 'https://elevatedeventrentals.hbportal.co/public/gourmet-grazin'
+
+function HomePage({ onInquire }) {
+  return (
+    <>
+      <Hero onInquire={onInquire} />
+      <Marquee />
+      <About />
+      <Services />
+      <Gallery />
+      <Events onInquire={onInquire} />
+      <Testimonials />
+      <HowItWorks />
+      <CTA onInquire={onInquire} />
+    </>
+  )
+}
 
 function App() {
   const handleInquire = () => {
@@ -21,16 +44,16 @@ function App() {
   return (
     <div className="min-h-screen bg-cream">
       <Navbar onInquire={handleInquire} />
-      <Hero onInquire={handleInquire} />
-      <Marquee />
-      <About />
-      <Services />
-      <Gallery />
-      <Events onInquire={handleInquire} />
-      <Testimonials />
-      <HowItWorks />
-      <FAQ />
-      <CTA onInquire={handleInquire} />
+      <Routes>
+        <Route path="/" element={<HomePage onInquire={handleInquire} />} />
+        <Route path="/faq" element={<FAQPage />} />
+        <Route path="/luxury-cart-experiences" element={<LuxuryCartPage />} />
+        <Route path="/snack-boards" element={<SnackBoardsPage />} />
+        <Route path="/cups-boxes" element={<CupsBoxesPage />} />
+        <Route path="/personalizations" element={<PersonalizationsPage />} />
+        <Route path="/meet-the-owners" element={<MeetOwnersPage />} />
+        <Route path="/gallery" element={<GalleryPage />} />
+      </Routes>
       <Footer />
     </div>
   )
