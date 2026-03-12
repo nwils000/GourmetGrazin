@@ -51,13 +51,13 @@ const specialOccasionBoards = [
     title: 'Birthday & Anniversary Board',
     description:
       'Celebrate with style — featuring cheese-cut numbers for the guest of honor\'s milestone, surrounded by their favorite flavors.',
-    image: '/boards/birthday.jpeg',
+    image: '/boards/birthday.png',
   },
   {
     title: 'Easter Board',
     description:
       'A spring-inspired spread with bunny-shaped arrangements, pastel accents, and seasonal flavors perfect for Easter brunch.',
-    image: '/boards/easter.jpeg',
+    image: '/boards/easter.png',
   },
   {
     title: 'Thanksgiving Board',
@@ -75,7 +75,7 @@ const specialOccasionBoards = [
     title: 'Halloween Board',
     description:
       'Spooky, creative, and delicious — themed boards with playful Halloween-inspired designs and seasonal flavors.',
-    image: '/boards/halloween.jpg',
+    image: '/boards/halloween.png',
   },
   {
     title: 'Custom Message Board',

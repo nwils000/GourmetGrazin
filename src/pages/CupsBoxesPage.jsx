@@ -118,7 +118,7 @@ export default function CupsBoxesPage() {
         <div ref={cupsImgRef} className="max-w-5xl mx-auto px-6 lg:px-8">
           <div className={`overflow-hidden fade-in-up ${cupsImgVisible ? 'visible' : ''}`}>
             <img
-              src="/cups-boxes/cups.jpeg"
+              src="/cups-boxes/cups.png"
               alt="Beautifully arranged charcuterie cups"
               className="w-full h-[400px] md:h-[500px] object-cover"
             />
@@ -164,7 +164,7 @@ export default function CupsBoxesPage() {
         <div ref={boxesImgRef} className="max-w-5xl mx-auto px-6 lg:px-8">
           <div className={`overflow-hidden fade-in-up ${boxesImgVisible ? 'visible' : ''}`}>
             <img
-              src="/cups-boxes/boxes.jpeg"
+              src="/cups-boxes/boxes.png"
               alt="Curated charcuterie boxes for sharing"
               className="w-full h-[400px] md:h-[500px] object-cover"
             />

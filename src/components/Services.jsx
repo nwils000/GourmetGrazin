@@ -34,7 +34,7 @@ const services = [
     number: '05',
     title: 'Cups, Boxes & More',
     description: 'Elegant individual charcuterie cups and curated boxes — a stunning, budget-friendly option that delivers the elevated look and feel of a full spread in a perfectly portioned package.',
-    image: '/cups-boxes/cups.jpeg',
+    image: '/cups-boxes/cups.png',
     link: '/cups-boxes',
   },
 ]
