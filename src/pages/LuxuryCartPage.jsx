@@ -1,7 +1,6 @@
 import { useEffect } from 'react'
 import { useInView } from '../components/useInView'
-
-const HONEYBOOK_URL = 'https://elevatedeventrentals.hbportal.co/public/gourmet-grazin'
+import HoneyBookForm from '../components/HoneyBookForm'
 
 const grazingItems = [
   {
@@ -179,9 +178,7 @@ export default function LuxuryCartPage() {
                 is styled, stocked, and served with intention.
               </p>
               <a
-                href={HONEYBOOK_URL}
-                target="_blank"
-                rel="noopener noreferrer"
+                href="#book-cart"
                 className={`inline-block bg-charcoal text-cream px-10 py-4 text-xs tracking-[0.2em] uppercase hover:bg-gold transition-colors duration-300 fade-in-up fade-in-up-delay-3 ${heroVisible ? 'visible' : ''}`}
               >
                 Book Your Cart
@@ -248,36 +245,28 @@ export default function LuxuryCartPage() {
 
       <SectionDivider />
 
-      {/* Custom Menu CTA Section */}
-      <section className="py-24 lg:py-32 bg-charcoal text-cream">
-        <div ref={ctaRef} className="max-w-4xl mx-auto px-6 lg:px-8 text-center">
-          <p
-            className={`text-gold text-xs tracking-[0.3em] uppercase mb-4 fade-in-up ${ctaVisible ? 'visible' : ''}`}
+      {/* Booking Form Section */}
+      <section id="book-cart" className="py-24 lg:py-32 bg-charcoal text-cream">
+        <div ref={ctaRef} className="max-w-3xl mx-auto px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <p
+              className={`text-gold text-xs tracking-[0.3em] uppercase mb-4 fade-in-up ${ctaVisible ? 'visible' : ''}`}
+            >
+              Book Your Cart
+            </p>
+            <h2
+              className={`font-serif text-3xl md:text-4xl lg:text-5xl leading-[1.1] mb-6 text-cream fade-in-up fade-in-up-delay-1 ${ctaVisible ? 'visible' : ''}`}
+            >
+              Ready to elevate
+              <br />
+              your <em className="text-gold">event?</em>
+            </h2>
+          </div>
+          <div
+            className={`fade-in-up fade-in-up-delay-2 ${ctaVisible ? 'visible' : ''}`}
           >
-            Custom Menus
-          </p>
-          <h2
-            className={`font-serif text-3xl md:text-4xl lg:text-5xl leading-[1.1] mb-6 text-cream fade-in-up fade-in-up-delay-1 ${ctaVisible ? 'visible' : ''}`}
-          >
-            Don't see exactly what
-            <br />
-            you're <em className="text-gold">looking for?</em>
-          </h2>
-          <p
-            className={`text-cream/70 text-lg leading-relaxed font-light max-w-2xl mx-auto mb-10 fade-in-up fade-in-up-delay-2 ${ctaVisible ? 'visible' : ''}`}
-          >
-            We love bringing unique visions to life. Our team will work with you
-            to design a fully custom cart menu tailored to your event's theme,
-            dietary needs, and style. Just inquire — we'll make it happen.
-          </p>
-          <a
-            href={HONEYBOOK_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={`inline-block border border-cream text-cream px-10 py-4 text-xs tracking-[0.2em] uppercase hover:bg-gold hover:border-gold transition-all duration-300 fade-in-up fade-in-up-delay-3 ${ctaVisible ? 'visible' : ''}`}
-          >
-            Inquire Now
-          </a>
+            <HoneyBookForm formId="7" />
+          </div>
         </div>
       </section>
     </>

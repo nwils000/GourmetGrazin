@@ -14,7 +14,7 @@ const services = [
     title: 'Grazing Tables',
     description: 'Stunning tablescapes overflowing with carefully curated bites. Perfect for larger gatherings where you want a dramatic, Instagram-worthy display that keeps guests mingling.',
     image: '/grazing-table.png',
-    link: '/luxury-cart-experiences',
+    link: '/grazing-tables',
   },
   {
     number: '03',
@@ -28,7 +28,7 @@ const services = [
     title: 'Charcuterie Classes',
     description: 'Learn the art of the board! Our hands-on classes are perfect for team building, girls\' night, bridal parties, or anyone who wants to master the art of a beautiful spread.',
     image: '/charcuterie-class.png',
-    link: '/luxury-cart-experiences',
+    link: '/charcuterie-classes',
   },
   {
     number: '05',

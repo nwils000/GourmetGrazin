@@ -17,6 +17,8 @@ import CupsBoxesPage from './pages/CupsBoxesPage'
 import PersonalizationsPage from './pages/PersonalizationsPage'
 import MeetOwnersPage from './pages/MeetOwnersPage'
 import GalleryPage from './pages/GalleryPage'
+import GrazingTablesPage from './pages/GrazingTablesPage'
+import CharcuterieClassesPage from './pages/CharcuterieClassesPage'
 
 const HONEYBOOK_URL = 'https://elevatedeventrentals.hbportal.co/public/gourmet-grazin'
 
@@ -53,6 +55,8 @@ function App() {
         <Route path="/personalizations" element={<PersonalizationsPage />} />
         <Route path="/meet-the-owners" element={<MeetOwnersPage />} />
         <Route path="/gallery" element={<GalleryPage />} />
+        <Route path="/grazing-tables" element={<GrazingTablesPage />} />
+        <Route path="/charcuterie-classes" element={<CharcuterieClassesPage />} />
       </Routes>
       <Footer />
     </div>
