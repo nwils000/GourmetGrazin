@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { Menu, X, ChevronDown } from 'lucide-react'
+import { Menu, X, ChevronDown, ShoppingBag } from 'lucide-react'
+import { useCart } from '../context/CartContext'
 
 const servicesDropdown = [
   { label: 'Luxury Cart Experiences', href: '/luxury-cart-experiences' },
@@ -16,6 +17,7 @@ const navLinks = [
   { label: 'Events', href: '#events', type: 'anchor' },
   { label: 'Meet the Owners', href: '/meet-the-owners', type: 'route' },
   { label: 'FAQ', href: '/faq', type: 'route' },
+  { label: 'Shop', href: '/shop', type: 'route' },
 ]
 
 export default function Navbar({ onInquire }) {
@@ -26,6 +28,7 @@ export default function Navbar({ onInquire }) {
   const dropdownRef = useRef(null)
   const timeoutRef = useRef(null)
   const location = useLocation()
+  const { setCartOpen, itemCount } = useCart()
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50)
@@ -122,23 +125,47 @@ export default function Navbar({ onInquire }) {
             })}
           </div>
 
-          {/* CTA Button */}
-          <div className="hidden lg:block">
+          {/* CTA + Cart */}
+          <div className="hidden lg:flex items-center gap-4">
             <button
               onClick={onInquire}
               className="bg-charcoal text-cream px-6 py-2.5 text-xs tracking-[0.2em] uppercase hover:bg-gold transition-colors duration-300 rounded-none"
             >
               Inquire
             </button>
+            <button
+              onClick={() => setCartOpen(true)}
+              className="relative text-charcoal hover:text-gold transition-colors duration-300 p-2"
+            >
+              <ShoppingBag size={20} />
+              {itemCount > 0 && (
+                <span className="absolute -top-1 -right-1 bg-gold text-cream text-[9px] w-4.5 h-4.5 flex items-center justify-center rounded-full font-sans leading-none">
+                  {itemCount}
+                </span>
+              )}
+            </button>
           </div>
 
-          {/* Mobile Menu Button */}
-          <button
-            className="lg:hidden text-charcoal p-2"
-            onClick={() => setMobileOpen(!mobileOpen)}
-          >
-            {mobileOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
+          {/* Mobile Menu + Cart */}
+          <div className="lg:hidden flex items-center gap-2">
+            <button
+              onClick={() => setCartOpen(true)}
+              className="relative text-charcoal hover:text-gold transition-colors p-2"
+            >
+              <ShoppingBag size={20} />
+              {itemCount > 0 && (
+                <span className="absolute -top-1 -right-1 bg-gold text-cream text-[9px] w-4.5 h-4.5 flex items-center justify-center rounded-full font-sans leading-none">
+                  {itemCount}
+                </span>
+              )}
+            </button>
+            <button
+              className="text-charcoal p-2"
+              onClick={() => setMobileOpen(!mobileOpen)}
+            >
+              {mobileOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
         </div>
       </div>
 
