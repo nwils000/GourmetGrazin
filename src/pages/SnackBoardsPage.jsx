@@ -1,6 +1,16 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useInView } from '../components/useInView'
+import { useCart } from '../context/CartContext'
 
+/* ── Sizing & pricing (shared by ALL boards) ── */
+const sizes = [
+  { key: 'small', label: 'Small (2-5 people)', price: 65 },
+  { key: 'medium', label: 'Medium (5-10 people)', price: 120 },
+  { key: 'large', label: 'Large (10-15 people)', price: 175 },
+  { key: 'xlarge', label: 'X-Large (15-20+ people)', price: 210 },
+]
+
+/* ── Classic boards ── */
 const classics = [
   {
     number: '01',
@@ -40,6 +50,7 @@ const classics = [
   },
 ]
 
+/* ── Special occasion boards ── */
 const specialOccasionBoards = [
   {
     title: 'Game Day Board',
@@ -50,14 +61,16 @@ const specialOccasionBoards = [
   {
     title: 'Birthday & Anniversary Board',
     description:
-      'Celebrate with style — featuring cheese-cut numbers for the guest of honor\'s milestone, surrounded by their favorite flavors.',
+      "Celebrate with style — featuring cheese-cut numbers for the guest of honor's milestone, surrounded by their favorite flavors.",
     image: '/boards/birthday.png',
+    personalization: true,
+    personalizationPlaceholder: 'e.g. 30',
   },
   {
     title: 'Easter Board',
     description:
       'A spring-inspired spread with bunny-shaped arrangements, pastel accents, and seasonal flavors perfect for Easter brunch.',
-    image: '/boards/easter.png',
+    image: '/boards/easter/easter1.jpg',
   },
   {
     title: 'Thanksgiving Board',
@@ -75,25 +88,173 @@ const specialOccasionBoards = [
     title: 'Halloween Board',
     description:
       'Spooky, creative, and delicious — themed boards with playful Halloween-inspired designs and seasonal flavors.',
-    image: '/boards/halloween.png',
+    image: '/boards/easter.png',
   },
   {
     title: 'Custom Message Board',
     description:
       'A classic board personalized with a custom message crafted in cheese or cookie letters — perfect for any celebration.',
     image: '/boards/custom-message.jpeg',
+    personalization: true,
+    personalizationPlaceholder: 'e.g. Happy Birthday!',
   },
 ]
 
+/* ── Helper: slugify a title for use in IDs ── */
+function slugify(str) {
+  return str
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)/g, '')
+}
+
+/* ── Board configuration modal (shared by classics & specials) ── */
+function BoardModal({ board, onClose }) {
+  const { addLocalItem } = useCart()
+  const [selectedSize, setSelectedSize] = useState(0)
+  const [quantity, setQuantity] = useState(1)
+  const [personalizationText, setPersonalizationText] = useState('')
+
+  const chosen = sizes[selectedSize]
+
+  function handleAddToCart() {
+    addLocalItem({
+      id: `board-${slugify(board.title)}-${chosen.key}`,
+      title: board.title,
+      size: chosen.label,
+      price: chosen.price,
+      quantity,
+      customization: board.personalization ? personalizationText || null : null,
+    })
+    onClose()
+  }
+
+  return (
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center px-4"
+      onClick={onClose}
+    >
+      {/* Backdrop */}
+      <div className="absolute inset-0 bg-charcoal/60 backdrop-blur-sm" />
+
+      {/* Panel */}
+      <div
+        className="relative bg-cream border border-gold/20 w-full max-w-lg p-8 md:p-10 shadow-xl animate-fade-in max-h-[90vh] overflow-y-auto"
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Close button */}
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4 text-charcoal-light hover:text-gold transition-colors text-2xl leading-none"
+          aria-label="Close"
+        >
+          &times;
+        </button>
+
+        {/* Title & description */}
+        <h3 className="font-serif text-2xl md:text-3xl mb-2">{board.title}</h3>
+        <p className="text-charcoal-light font-light text-sm leading-relaxed mb-8">
+          {board.description}
+        </p>
+
+        {/* Size selector */}
+        <p className="text-xs tracking-[0.2em] uppercase text-gold mb-3">
+          Select a Size
+        </p>
+        <div className="grid grid-cols-2 gap-3 mb-8">
+          {sizes.map((s, idx) => (
+            <button
+              key={s.key}
+              onClick={() => setSelectedSize(idx)}
+              className={`border py-3 px-4 text-left transition-all duration-200 ${
+                selectedSize === idx
+                  ? 'border-gold bg-gold/10'
+                  : 'border-gold/20 hover:border-gold/40'
+              }`}
+            >
+              <span className="block font-serif text-sm">{s.key === 'xlarge' ? 'X-Large' : s.key.charAt(0).toUpperCase() + s.key.slice(1)}</span>
+              <span className="block text-charcoal-light text-xs mt-0.5">
+                {s.label.match(/\(.*\)/)?.[0]}
+              </span>
+              <span className="block text-gold font-serif text-lg mt-1">${s.price}</span>
+            </button>
+          ))}
+        </div>
+
+        {/* Personalization (conditional) */}
+        {board.personalization && (
+          <div className="mb-8">
+            <p className="text-xs tracking-[0.2em] uppercase text-gold mb-3">
+              Personalization
+            </p>
+            <input
+              type="text"
+              value={personalizationText}
+              onChange={(e) => setPersonalizationText(e.target.value)}
+              placeholder={board.personalizationPlaceholder || ''}
+              className="w-full border border-gold/20 bg-white px-4 py-3 text-sm font-light text-charcoal placeholder:text-charcoal-light/50 focus:border-gold focus:outline-none transition-colors"
+            />
+          </div>
+        )}
+
+        {/* Quantity selector */}
+        <div className="mb-8">
+          <p className="text-xs tracking-[0.2em] uppercase text-gold mb-3">
+            Quantity
+          </p>
+          <div className="flex items-center gap-4">
+            <button
+              onClick={() => setQuantity((q) => Math.max(1, q - 1))}
+              className="w-10 h-10 border border-gold/20 flex items-center justify-center text-lg hover:border-gold transition-colors"
+            >
+              &minus;
+            </button>
+            <span className="font-serif text-xl w-8 text-center">{quantity}</span>
+            <button
+              onClick={() => setQuantity((q) => q + 1)}
+              className="w-10 h-10 border border-gold/20 flex items-center justify-center text-lg hover:border-gold transition-colors"
+            >
+              +
+            </button>
+          </div>
+        </div>
+
+        {/* Add to Cart */}
+        <button
+          onClick={handleAddToCart}
+          className="w-full bg-charcoal text-cream px-8 py-4 text-xs tracking-[0.2em] uppercase hover:bg-gold transition-colors duration-300"
+        >
+          Add to Cart &mdash; ${chosen.price * quantity}
+        </button>
+      </div>
+    </div>
+  )
+}
+
+/* ── Main page component ── */
 export default function SnackBoardsPage() {
   const [heroRef, heroVisible] = useInView()
   const [classicsRef, classicsVisible] = useInView()
   const [specialRef, specialVisible] = useInView()
   const [ctaRef, ctaVisible] = useInView()
 
+  const [activeBoard, setActiveBoard] = useState(null)
+
   useEffect(() => {
     window.scrollTo(0, 0)
   }, [])
+
+  // Lock body scroll when modal is open
+  useEffect(() => {
+    if (activeBoard) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = ''
+    }
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [activeBoard])
 
   return (
     <main>
@@ -149,7 +310,8 @@ export default function SnackBoardsPage() {
             {classics.map((board, i) => (
               <div
                 key={board.number}
-                className={`group bg-cream p-8 border border-gold/15 hover:border-gold/40 transition-all duration-300 fade-in-up fade-in-up-delay-${Math.min(i + 1, 4)} ${classicsVisible ? 'visible' : ''}`}
+                onClick={() => setActiveBoard(board)}
+                className={`group bg-cream p-8 border border-gold/15 hover:border-gold/40 transition-all duration-300 cursor-pointer fade-in-up fade-in-up-delay-${Math.min(i + 1, 4)} ${classicsVisible ? 'visible' : ''}`}
               >
                 <span className="font-serif text-3xl text-gold/30 group-hover:text-gold transition-colors duration-300">
                   {board.number}
@@ -157,9 +319,10 @@ export default function SnackBoardsPage() {
                 <h3 className="font-serif text-xl md:text-2xl mt-4 mb-3 group-hover:text-gold transition-colors duration-300">
                   {board.title}
                 </h3>
-                <p className="text-charcoal-light font-light text-sm leading-relaxed">
+                <p className="text-charcoal-light font-light text-sm leading-relaxed mb-4">
                   {board.description}
                 </p>
+                <p className="text-gold font-serif text-sm">starting at $65</p>
               </div>
             ))}
           </div>
@@ -195,7 +358,8 @@ export default function SnackBoardsPage() {
             {specialOccasionBoards.map((board, i) => (
               <div
                 key={board.title}
-                className={`group fade-in-up fade-in-up-delay-${Math.min(i + 1, 4)} ${specialVisible ? 'visible' : ''}`}
+                onClick={() => setActiveBoard(board)}
+                className={`group cursor-pointer fade-in-up fade-in-up-delay-${Math.min(i + 1, 4)} ${specialVisible ? 'visible' : ''}`}
               >
                 <div className="overflow-hidden mb-4">
                   <img
@@ -207,9 +371,10 @@ export default function SnackBoardsPage() {
                 <h3 className="font-serif text-xl md:text-2xl mb-2 group-hover:text-gold transition-colors duration-300">
                   {board.title}
                 </h3>
-                <p className="text-charcoal-light font-light text-sm leading-relaxed">
+                <p className="text-charcoal-light font-light text-sm leading-relaxed mb-2">
                   {board.description}
                 </p>
+                <p className="text-gold font-serif text-sm">starting at $65</p>
               </div>
             ))}
           </div>
@@ -227,26 +392,26 @@ export default function SnackBoardsPage() {
           <h2
             className={`font-serif text-4xl md:text-5xl leading-[1.1] mb-6 fade-in-up fade-in-up-delay-1 ${ctaVisible ? 'visible' : ''}`}
           >
-            Let's craft your
+            Your perfect board
             <br />
-            perfect <em className="text-gold">board.</em>
+            is just a <em className="text-gold">click away.</em>
           </h2>
           <p
-            className={`text-charcoal-light leading-relaxed font-light max-w-lg mx-auto mb-10 fade-in-up fade-in-up-delay-2 ${ctaVisible ? 'visible' : ''}`}
+            className={`text-charcoal-light leading-relaxed font-light max-w-lg mx-auto fade-in-up fade-in-up-delay-2 ${ctaVisible ? 'visible' : ''}`}
           >
-            Whether it's a classic spread or a custom celebration board, we'd love to
-            create something special for your next event.
+            Browse our collection above, choose your size, and add to cart — it's that
+            simple.
           </p>
-          <a
-            href="https://elevatedeventrentals.hbportal.co/public/gourmet-grazin"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={`inline-block bg-charcoal text-cream px-10 py-4 text-xs tracking-[0.2em] uppercase hover:bg-gold transition-colors duration-300 fade-in-up fade-in-up-delay-3 ${ctaVisible ? 'visible' : ''}`}
-          >
-            Inquire Now
-          </a>
         </div>
       </section>
+
+      {/* Board configuration modal */}
+      {activeBoard && (
+        <BoardModal
+          board={activeBoard}
+          onClose={() => setActiveBoard(null)}
+        />
+      )}
     </main>
   )
 }

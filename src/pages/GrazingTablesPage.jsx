@@ -2,8 +2,40 @@ import { useEffect } from 'react'
 import { useInView } from '../components/useInView'
 import HoneyBookForm from '../components/HoneyBookForm'
 
+function SectionDivider() {
+  return (
+    <div className="flex items-center justify-center py-4">
+      <div className="h-px w-16 bg-gold/30" />
+      <div className="mx-4 h-1.5 w-1.5 rotate-45 bg-gold/50" />
+      <div className="h-px w-16 bg-gold/30" />
+    </div>
+  )
+}
+
+const whatWeProvide = [
+  'A lavish selection of cheeses, cured meats, fresh fruits, nuts, crackers, and gourmet sweets',
+  'Elegant platters, boards, and decor to match your event theme',
+  'Thoughtful presentation with floral accents, greenery, or custom signage',
+  'Full setup and breakdown for a stress-free experience',
+]
+
+const servingSizes = [
+  { label: 'Small', guests: '30\u201350 guests' },
+  { label: 'Medium', guests: '50\u2013100 guests' },
+  { label: 'Large', guests: '100\u2013200+ guests' },
+]
+
+const whyChooseUs = [
+  'Each table is curated and styled to be both a feast for the eyes and the palate',
+  'Perfect for creating Instagram-worthy moments at your event',
+  'Custom options available for dietary restrictions, color schemes, and event themes',
+]
+
 export default function GrazingTablesPage() {
   const [heroRef, heroVisible] = useInView()
+  const [provideRef, provideVisible] = useInView()
+  const [sizesRef, sizesVisible] = useInView()
+  const [whyRef, whyVisible] = useInView()
   const [formRef, formVisible] = useInView()
 
   useEffect(() => {
@@ -37,8 +69,115 @@ export default function GrazingTablesPage() {
         </div>
       </section>
 
+      <SectionDivider />
+
+      {/* What We Provide Section */}
+      <section className="py-20 lg:py-28 bg-taupe-light">
+        <div ref={provideRef} className="max-w-7xl mx-auto px-6 lg:px-8">
+          <div className="max-w-2xl mx-auto text-center mb-14">
+            <p
+              className={`text-gold text-xs tracking-[0.3em] uppercase mb-4 fade-in-up ${provideVisible ? 'visible' : ''}`}
+            >
+              The Experience
+            </p>
+            <h2
+              className={`font-serif text-3xl md:text-4xl lg:text-5xl leading-[1.1] fade-in-up fade-in-up-delay-1 ${provideVisible ? 'visible' : ''}`}
+            >
+              What we <em className="text-gold">provide.</em>
+            </h2>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 max-w-4xl mx-auto">
+            {whatWeProvide.map((item, i) => (
+              <div
+                key={i}
+                className={`bg-cream border border-taupe/40 p-8 md:p-10 hover:border-gold/40 transition-colors duration-500 fade-in-up fade-in-up-delay-${Math.min(i + 1, 4)} ${provideVisible ? 'visible' : ''}`}
+              >
+                <div className="flex items-start gap-4">
+                  <span className="text-gold text-lg mt-0.5">&#10047;</span>
+                  <p className="text-charcoal-light font-light text-sm leading-relaxed">
+                    {item}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <SectionDivider />
+
+      {/* Serving Sizes Section */}
+      <section className="py-20 lg:py-28 bg-cream">
+        <div ref={sizesRef} className="max-w-7xl mx-auto px-6 lg:px-8">
+          <div className="max-w-2xl mx-auto text-center mb-14">
+            <p
+              className={`text-gold text-xs tracking-[0.3em] uppercase mb-4 fade-in-up ${sizesVisible ? 'visible' : ''}`}
+            >
+              Serving Sizes
+            </p>
+            <h2
+              className={`font-serif text-3xl md:text-4xl lg:text-5xl leading-[1.1] fade-in-up fade-in-up-delay-1 ${sizesVisible ? 'visible' : ''}`}
+            >
+              Scaled to your <em className="text-gold">gathering.</em>
+            </h2>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 max-w-4xl mx-auto">
+            {servingSizes.map((size, i) => (
+              <div
+                key={size.label}
+                className={`bg-taupe-light border border-taupe/40 p-8 md:p-10 text-center hover:border-gold/40 transition-colors duration-500 fade-in-up fade-in-up-delay-${Math.min(i + 1, 4)} ${sizesVisible ? 'visible' : ''}`}
+              >
+                <h3 className="font-serif text-2xl md:text-3xl text-gold mb-3">
+                  {size.label}
+                </h3>
+                <p className="text-charcoal-light font-light text-sm tracking-wide">
+                  {size.guests}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <SectionDivider />
+
+      {/* Why Choose Us Section */}
+      <section className="py-20 lg:py-28 bg-taupe-light">
+        <div ref={whyRef} className="max-w-7xl mx-auto px-6 lg:px-8">
+          <div className="max-w-2xl mx-auto text-center mb-14">
+            <p
+              className={`text-gold text-xs tracking-[0.3em] uppercase mb-4 fade-in-up ${whyVisible ? 'visible' : ''}`}
+            >
+              Why Choose Us
+            </p>
+            <h2
+              className={`font-serif text-3xl md:text-4xl lg:text-5xl leading-[1.1] fade-in-up fade-in-up-delay-1 ${whyVisible ? 'visible' : ''}`}
+            >
+              More than a table, <em className="text-gold">an experience.</em>
+            </h2>
+          </div>
+          <div className="max-w-3xl mx-auto space-y-6">
+            {whyChooseUs.map((item, i) => (
+              <div
+                key={i}
+                className={`bg-cream border border-taupe/40 p-8 md:p-10 hover:border-gold/40 transition-colors duration-500 fade-in-up fade-in-up-delay-${Math.min(i + 1, 4)} ${whyVisible ? 'visible' : ''}`}
+              >
+                <div className="flex items-start gap-4">
+                  <span className="text-gold text-lg mt-0.5">&#10047;</span>
+                  <p className="text-charcoal-light font-light text-sm leading-relaxed">
+                    {item}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <SectionDivider />
+
       {/* Form Section */}
-      <section className="py-24 lg:py-32 bg-taupe-light">
+      <section className="py-24 lg:py-32 bg-charcoal text-cream">
         <div ref={formRef} className="max-w-3xl mx-auto px-6 lg:px-8">
           <div className="text-center mb-12">
             <p
@@ -47,7 +186,7 @@ export default function GrazingTablesPage() {
               Book Your Table
             </p>
             <h2
-              className={`font-serif text-4xl md:text-5xl leading-[1.1] mb-6 fade-in-up fade-in-up-delay-1 ${formVisible ? 'visible' : ''}`}
+              className={`font-serif text-4xl md:text-5xl leading-[1.1] mb-6 text-cream fade-in-up fade-in-up-delay-1 ${formVisible ? 'visible' : ''}`}
             >
               Let's plan your
               <br />

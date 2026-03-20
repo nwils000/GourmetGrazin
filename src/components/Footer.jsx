@@ -19,16 +19,15 @@ export default function Footer() {
           <div>
             <h4 className="text-xs tracking-[0.2em] uppercase mb-6 text-cream/80">Navigation</h4>
             <div className="space-y-3">
-              {['About', 'Events'].map(link => (
-                <a
-                  key={link}
-                  href={`#${link.toLowerCase()}`}
-                  className="block text-cream/60 text-sm font-light hover:text-gold transition-colors duration-300"
-                >
-                  {link}
-                </a>
-              ))}
+              <a
+                href="#about"
+                className="block text-cream/60 text-sm font-light hover:text-gold transition-colors duration-300"
+              >
+                About
+              </a>
               <Link to="/luxury-cart-experiences" className="block text-cream/60 text-sm font-light hover:text-gold transition-colors duration-300">Luxury Cart Experiences</Link>
+              <Link to="/grazing-tables" className="block text-cream/60 text-sm font-light hover:text-gold transition-colors duration-300">Grazing Tables</Link>
+              <Link to="/charcuterie-classes" className="block text-cream/60 text-sm font-light hover:text-gold transition-colors duration-300">Charcuterie Classes</Link>
               <Link to="/snack-boards" className="block text-cream/60 text-sm font-light hover:text-gold transition-colors duration-300">Snack Boards</Link>
               <Link to="/cups-boxes" className="block text-cream/60 text-sm font-light hover:text-gold transition-colors duration-300">Cups & Boxes</Link>
               <Link to="/personalizations" className="block text-cream/60 text-sm font-light hover:text-gold transition-colors duration-300">Personalizations</Link>

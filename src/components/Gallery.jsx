@@ -4,15 +4,19 @@ import { useInView } from './useInView'
 const galleryImages = [
   { src: '/gallery/gallery1.jpg', alt: 'Gourmet Grazin cart at outdoor event' },
   { src: '/gallery/gallery2.jpg', alt: 'Cart being served to guests' },
+  { src: '/gallery/new/disperse1.jpg', alt: 'Easter charcuterie board with salami roses' },
   { src: '/gallery/gallery3.jpg', alt: 'Close-up cart spread with accompaniments' },
-  { src: '/gallery/gallery4.jpg', alt: 'Gourmet Grazin branded cart' },
   { src: '/gallery/gallery5.jpeg', alt: 'Cart food detail shot' },
+  { src: '/gallery/new/disperse2.jpg', alt: 'Charcuterie board with peeps and Lindt bunnies' },
   { src: '/gallery/gallery6.jpeg', alt: 'Cart serving experience' },
   { src: '/gallery/gallery7.jpg', alt: 'Gourmet Grazin at formal event' },
+  { src: '/gallery/new/disperse3.jpg', alt: 'Colorful charcuterie board with meat roses' },
   { src: '/gallery/gourmet-cart-1.jpeg', alt: 'Mobile cart setup' },
   { src: '/gallery/gourmet-cart-2.jpeg', alt: 'Cart with full spread' },
+  { src: '/gallery/new/disperse4.jpg', alt: 'Bunny-shaped brie charcuterie board' },
   { src: '/event-photo.jpg', alt: 'Event photo' },
   { src: '/cart-closeup.jpg', alt: 'Close-up of cart' },
+  { src: '/gallery/new/disperse5.jpeg', alt: 'Chocolate and charcuterie board' },
   { src: '/cart-setup.jpg', alt: 'Cart outdoor setup' },
 ]
 

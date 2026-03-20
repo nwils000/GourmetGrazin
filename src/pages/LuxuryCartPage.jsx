@@ -8,16 +8,19 @@ const grazingItems = [
     badge: 'MOST POPULAR',
     description:
       "Our signature mobile charcuterie cart \u2014 and the experience that started it all. Stocked with an artisan selection of imported cheeses, premium cured meats, seasonal fruits, gourmet crackers, and house-paired accompaniments, our cart is served tableside by our team for a refined, interactive grazing experience your guests won't forget.",
+    startingPrice: '$400',
   },
   {
     title: 'Personalized Favor Bar',
     description:
       "Let your guests curate their own take-home creation. From artisan candy and gourmet cookies to mini charcuterie boards, our favor bar transforms party favors into an experience \u2014 beautifully styled and fully customizable to your event's aesthetic.",
+    startingPrice: '$400',
   },
   {
     title: 'Sweet & Savory Social',
     description:
       'The best of both worlds on one cart. Indulge in a thoughtfully curated mix of artisan cheeses, cured meats, premium chocolates, candied nuts, and seasonal sweets \u2014 a balanced spread that satisfies every craving with effortless sophistication.',
+    startingPrice: '$400',
   },
 ]
 
@@ -26,21 +29,25 @@ const beverageItems = [
     title: 'The Mocktail Bar',
     description:
       "Handcrafted, non-alcoholic cocktails served fresh from our cart. From baby showers and church gatherings to corporate receptions, our mocktail bar brings a sophisticated sipping experience \u2014 beautifully garnished and entirely customizable to your event's palette.",
+    startingPrice: '$250',
   },
   {
     title: 'The Lemonade Atelier',
     description:
       'Fresh-pressed lemonade elevated to an art form. Choose from signature infusions like lavender, strawberry basil, and peach mint \u2014 each crafted with premium ingredients and served with the elegance your event deserves.',
+    startingPrice: '$250',
   },
   {
     title: 'The Cocoa & Cider Bar',
     description:
       'A warm, seasonal indulgence for fall and winter gatherings. Rich hot cocoa and spiced apple cider served from our cart with artisan toppings \u2014 marshmallows, whipped cream, cinnamon sticks, and caramel drizzle.',
+    startingPrice: '$250',
   },
   {
     title: 'The Floral & Fizz Bar',
     description:
       'Where mixology meets floral artistry. Our sparkling mocktails are topped with edible flowers and fresh botanical garnishes for a picture-perfect sipping moment that doubles as a stunning visual centerpiece.',
+    startingPrice: '$250',
   },
 ]
 
@@ -49,11 +56,13 @@ const brunchItems = [
     title: 'The Morning Soir\u00e9e',
     description:
       'A curated brunch experience served from our cart. Think mini quiches, artisan pastries, fresh fruit, yogurt parfaits, and gourmet spreads \u2014 all beautifully arranged and perfect for morning celebrations, bridal brunches, or weekend gatherings.',
+    startingPrice: '$400',
   },
   {
     title: 'The Build-Your-Own Bowl Bar',
     description:
       'Interactive and Instagram-worthy. Guests build their own acai bowls, yogurt parfaits, or savory brunch bowls with a stunning spread of premium toppings \u2014 from fresh berries and granola to avocado and microgreens.',
+    startingPrice: '$400',
   },
 ]
 
@@ -62,16 +71,19 @@ const dessertItems = [
     title: 'The Confectionery Cart',
     description:
       "A sweet lover's dream on wheels. Our dessert cart arrives with an indulgent selection of gourmet treats \u2014 from chocolate truffles and macarons to mini tarts and seasonal confections, all styled to perfection.",
+    startingPrice: '$350',
   },
   {
     title: 'The Parisian Pastry Cart',
     description:
       "Transport your guests to a Parisian patisserie. Mini croissants, delicate macarons, fruit tarts, and \u00e9clairs \u2014 each piece a work of art, served with the charm and elegance of a French bakery.",
+    startingPrice: '$350',
   },
   {
     title: 'The Chocolate Fondue Bar',
     description:
       'An interactive, indulgent experience. Rich, melted chocolate paired with fresh strawberries, marshmallows, pretzels, and more \u2014 your guests dip, drizzle, and delight in a truly memorable dessert moment.',
+    startingPrice: '$350',
   },
 ]
 
@@ -101,6 +113,19 @@ function MenuCard({ item, index, isVisible }) {
       <p className="text-charcoal-light font-light text-sm leading-relaxed">
         {item.description}
       </p>
+      {item.startingPrice && (
+        <p className="text-gold font-serif text-sm mt-4">
+          Starting at {item.startingPrice}
+        </p>
+      )}
+      <a
+        href="https://gourmetgrazin.hbportal.co/public/gourmet-grazin"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="inline-block mt-4 text-xs tracking-[0.15em] uppercase border border-gold text-gold px-5 py-2 hover:bg-gold hover:text-cream transition-colors duration-300"
+      >
+        Inquire
+      </a>
     </div>
   )
 }

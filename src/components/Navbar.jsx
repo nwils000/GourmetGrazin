@@ -5,6 +5,8 @@ import { useCart } from '../context/CartContext'
 
 const servicesDropdown = [
   { label: 'Luxury Cart Experiences', href: '/luxury-cart-experiences' },
+  { label: 'Grazing Tables', href: '/grazing-tables' },
+  { label: 'Charcuterie Classes', href: '/charcuterie-classes' },
   { label: 'Snack Boards', href: '/snack-boards' },
   { label: 'Cups & Boxes', href: '/cups-boxes' },
   { label: 'Personalizations', href: '/personalizations' },
@@ -14,7 +16,6 @@ const navLinks = [
   { label: 'About', href: '#about', type: 'anchor' },
   { label: 'Services', type: 'dropdown', items: servicesDropdown },
   { label: 'Gallery', href: '/gallery', type: 'route' },
-  { label: 'Events', href: '#events', type: 'anchor' },
   { label: 'Meet the Owners', href: '/meet-the-owners', type: 'route' },
   { label: 'FAQ', href: '/faq', type: 'route' },
   { label: 'Shop', href: '/shop', type: 'route' },
@@ -28,7 +29,7 @@ export default function Navbar({ onInquire }) {
   const dropdownRef = useRef(null)
   const timeoutRef = useRef(null)
   const location = useLocation()
-  const { setCartOpen, itemCount } = useCart()
+  const { setCartOpen, cartItemCount: itemCount } = useCart()
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50)
@@ -66,7 +67,7 @@ export default function Navbar({ onInquire }) {
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-3">
-            <img src="/logo.png" alt="Gourmet Grazin'" className="h-14 w-14 object-contain" />
+            <span className="font-serif text-xl tracking-wide text-charcoal">Gourmet Grazin'</span>
           </Link>
 
           {/* Desktop Links */}

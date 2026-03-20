@@ -1,5 +1,6 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useInView } from '../components/useInView'
+import { useCart } from '../context/CartContext'
 
 const cups = [
   {
@@ -51,6 +52,123 @@ const boxes = [
   },
 ]
 
+function slugify(str) {
+  return str
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)/g, '')
+}
+
+function CupCard({ cup, index, isVisible }) {
+  const { addLocalItem } = useCart()
+  const [qty, setQty] = useState(15)
+
+  const handleAdd = () => {
+    addLocalItem({
+      id: `cup-${slugify(cup.title)}`,
+      title: `Charcuterie Cup - ${cup.title}`,
+      price: 8,
+      quantity: qty,
+    })
+  }
+
+  return (
+    <div
+      className={`bg-cream p-8 fade-in-up fade-in-up-delay-${Math.min(index + 1, 4)} ${isVisible ? 'visible' : ''}`}
+    >
+      <h3 className="font-serif text-xl md:text-2xl mb-3 text-charcoal">
+        {cup.title}
+      </h3>
+      <p className="text-charcoal-light font-light text-sm leading-relaxed mb-4">
+        {cup.description}
+      </p>
+      <div className="flex items-center gap-3 text-sm mb-4">
+        <span className="font-serif text-lg text-gold">$8/cup</span>
+        <span className="text-charcoal-light font-light">· 15 minimum</span>
+      </div>
+      <div className="flex items-center gap-3 mb-4">
+        <label className="text-xs tracking-[0.15em] uppercase text-charcoal-light">Qty</label>
+        <div className="flex items-center border border-taupe/30">
+          <button
+            onClick={() => setQty((q) => Math.max(15, q - 1))}
+            className="px-3 py-2 text-charcoal hover:bg-taupe-light transition-colors"
+          >
+            &minus;
+          </button>
+          <span className="px-4 py-2 font-light text-sm min-w-[3rem] text-center">{qty}</span>
+          <button
+            onClick={() => setQty((q) => q + 1)}
+            className="px-3 py-2 text-charcoal hover:bg-taupe-light transition-colors"
+          >
+            +
+          </button>
+        </div>
+      </div>
+      <button
+        onClick={handleAdd}
+        className="w-full bg-charcoal text-cream px-6 py-3 text-xs tracking-[0.2em] uppercase hover:bg-gold transition-colors duration-300"
+      >
+        Add to Cart
+      </button>
+    </div>
+  )
+}
+
+function BoxCard({ box, index, isVisible }) {
+  const { addLocalItem } = useCart()
+  const [qty, setQty] = useState(15)
+
+  const handleAdd = () => {
+    addLocalItem({
+      id: `box-${slugify(box.title)}`,
+      title: `Charcuterie Box - ${box.title}`,
+      price: 10,
+      quantity: qty,
+    })
+  }
+
+  return (
+    <div
+      className={`bg-cream p-8 fade-in-up fade-in-up-delay-${Math.min(index + 1, 4)} ${isVisible ? 'visible' : ''}`}
+    >
+      <h3 className="font-serif text-xl md:text-2xl mb-3 text-charcoal">
+        {box.title}
+      </h3>
+      <p className="text-charcoal-light font-light text-sm leading-relaxed mb-4">
+        {box.description}
+      </p>
+      <div className="flex items-center gap-3 text-sm mb-4">
+        <span className="font-serif text-lg text-gold">$10/box</span>
+        <span className="text-charcoal-light font-light">· 15 minimum</span>
+      </div>
+      <div className="flex items-center gap-3 mb-4">
+        <label className="text-xs tracking-[0.15em] uppercase text-charcoal-light">Qty</label>
+        <div className="flex items-center border border-taupe/30">
+          <button
+            onClick={() => setQty((q) => Math.max(15, q - 1))}
+            className="px-3 py-2 text-charcoal hover:bg-taupe-light transition-colors"
+          >
+            &minus;
+          </button>
+          <span className="px-4 py-2 font-light text-sm min-w-[3rem] text-center">{qty}</span>
+          <button
+            onClick={() => setQty((q) => q + 1)}
+            className="px-3 py-2 text-charcoal hover:bg-taupe-light transition-colors"
+          >
+            +
+          </button>
+        </div>
+      </div>
+      <button
+        onClick={handleAdd}
+        className="w-full bg-charcoal text-cream px-6 py-3 text-xs tracking-[0.2em] uppercase hover:bg-gold transition-colors duration-300"
+      >
+        Add to Cart
+      </button>
+    </div>
+  )
+}
+
 export default function CupsBoxesPage() {
   useEffect(() => {
     window.scrollTo(0, 0)
@@ -61,7 +179,7 @@ export default function CupsBoxesPage() {
   const [cupsImgRef, cupsImgVisible] = useInView()
   const [boxesRef, boxesVisible] = useInView()
   const [boxesImgRef, boxesImgVisible] = useInView()
-  const [ctaRef, ctaVisible] = useInView()
+  const [noteRef, noteVisible] = useInView()
 
   return (
     <main className="pt-24">
@@ -97,17 +215,7 @@ export default function CupsBoxesPage() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
             {cups.map((cup, i) => (
-              <div
-                key={cup.title}
-                className={`bg-cream p-8 fade-in-up fade-in-up-delay-${Math.min(i + 1, 4)} ${cupsVisible ? 'visible' : ''}`}
-              >
-                <h3 className="font-serif text-xl md:text-2xl mb-3 text-charcoal">
-                  {cup.title}
-                </h3>
-                <p className="text-charcoal-light font-light text-sm leading-relaxed">
-                  {cup.description}
-                </p>
-              </div>
+              <CupCard key={cup.title} cup={cup} index={i} isVisible={cupsVisible} />
             ))}
           </div>
         </div>
@@ -143,17 +251,7 @@ export default function CupsBoxesPage() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
             {boxes.map((box, i) => (
-              <div
-                key={box.title}
-                className={`bg-cream p-8 fade-in-up fade-in-up-delay-${Math.min(i + 1, 4)} ${boxesVisible ? 'visible' : ''}`}
-              >
-                <h3 className="font-serif text-xl md:text-2xl mb-3 text-charcoal">
-                  {box.title}
-                </h3>
-                <p className="text-charcoal-light font-light text-sm leading-relaxed">
-                  {box.description}
-                </p>
-              </div>
+              <BoxCard key={box.title} box={box} index={i} isVisible={boxesVisible} />
             ))}
           </div>
         </div>
@@ -172,23 +270,12 @@ export default function CupsBoxesPage() {
         </div>
       </section>
 
-      {/* CTA Section */}
+      {/* Note Section */}
       <section className="py-24 lg:py-32 bg-taupe-light">
-        <div ref={ctaRef} className="max-w-7xl mx-auto px-6 lg:px-8 text-center">
-          <h2 className={`font-serif text-4xl md:text-5xl leading-[1.1] mb-6 fade-in-up ${ctaVisible ? 'visible' : ''}`}>
-            Ready to <em className="text-gold">order?</em>
-          </h2>
-          <p className={`text-charcoal-light leading-relaxed font-light max-w-lg mx-auto mb-10 fade-in-up fade-in-up-delay-1 ${ctaVisible ? 'visible' : ''}`}>
-            Whether it's cups for a corporate event or boxes for a celebration, we'd love to hear from you.
+        <div ref={noteRef} className="max-w-7xl mx-auto px-6 lg:px-8 text-center">
+          <p className={`text-charcoal-light leading-relaxed font-light max-w-lg mx-auto fade-in-up ${noteVisible ? 'visible' : ''}`}>
+            Items added to your cart will be submitted through our booking system.
           </p>
-          <a
-            href="https://elevatedeventrentals.hbportal.co/public/gourmet-grazin"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={`inline-block bg-charcoal text-cream px-10 py-4 text-xs tracking-[0.2em] uppercase hover:bg-gold transition-colors duration-300 fade-in-up fade-in-up-delay-2 ${ctaVisible ? 'visible' : ''}`}
-          >
-            Inquire Now
-          </a>
         </div>
       </section>
     </main>

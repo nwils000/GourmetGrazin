@@ -5,7 +5,6 @@ import Marquee from './components/Marquee'
 import About from './components/About'
 import Services from './components/Services'
 import Gallery from './components/Gallery'
-import Events from './components/Events'
 import Testimonials from './components/Testimonials'
 import HowItWorks from './components/HowItWorks'
 import CTA from './components/CTA'
@@ -33,7 +32,6 @@ function HomePage({ onInquire }) {
       <About />
       <Services />
       <Gallery />
-      <Events onInquire={onInquire} />
       <Testimonials />
       <HowItWorks />
       <CTA onInquire={onInquire} />

@@ -33,12 +33,11 @@ function ProductCard({ product, index, isVisible }) {
             className="w-full h-full object-cover img-hover"
           />
         ) : (
-          <div className="text-center px-6">
-            <ShoppingBag size={40} className="text-gold/40 mx-auto mb-3" />
-            <p className="text-charcoal-light/40 text-xs tracking-wider uppercase">
-              Image coming soon
-            </p>
-          </div>
+          <img
+            src="/charcuterie-board.png"
+            alt={product.title}
+            className="w-full h-full object-cover img-hover"
+          />
         )}
       </div>
 
