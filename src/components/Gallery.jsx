@@ -1,7 +1,9 @@
 import { Link } from 'react-router-dom'
 import { useInView } from './useInView'
+import { useDriveImages } from '../hooks/useDriveImages'
+import { FOLDER_IDS } from '../lib/googleDrive'
 
-const galleryImages = [
+const defaultGalleryImages = [
   { src: '/gallery/gallery1.jpg', alt: 'Gourmet Grazin cart at outdoor event' },
   { src: '/gallery/gallery2.jpg', alt: 'Cart being served to guests' },
   { src: '/gallery/new/disperse1.jpg', alt: 'Easter charcuterie board with salami roses' },
@@ -22,6 +24,7 @@ const galleryImages = [
 
 export default function Gallery() {
   const [ref, isVisible] = useInView()
+  const { images: galleryImages } = useDriveImages(FOLDER_IDS.gallery, defaultGalleryImages)
   const doubled = [...galleryImages, ...galleryImages]
 
   return (

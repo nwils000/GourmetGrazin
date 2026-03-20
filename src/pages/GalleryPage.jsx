@@ -1,7 +1,9 @@
 import { useEffect, useState, useRef, useCallback } from 'react'
 import { useInView } from '../components/useInView'
+import { useDriveImages } from '../hooks/useDriveImages'
+import { FOLDER_IDS } from '../lib/googleDrive'
 
-const galleryImages = [
+const defaultGalleryImages = [
   { src: '/gallery/gallery1.jpg', alt: 'Gallery image 1' },
   { src: '/gallery/gallery2.jpg', alt: 'Gallery image 2' },
   { src: '/gallery/new/disperse1.jpg', alt: 'Easter charcuterie board with salami roses' },
@@ -50,7 +52,7 @@ function CarouselArrow({ direction, onClick }) {
   )
 }
 
-function ManualCarousel() {
+function ManualCarousel({ galleryImages }) {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isPaused, setIsPaused] = useState(false)
   const timerRef = useRef(null)
@@ -167,6 +169,7 @@ export default function GalleryPage() {
   const [heroRef, heroVisible] = useInView()
   const [carouselRef, carouselVisible] = useInView()
   const [gridRef, gridVisible] = useInView()
+  const { images: galleryImages } = useDriveImages(FOLDER_IDS.gallery, defaultGalleryImages)
 
   useEffect(() => {
     window.scrollTo(0, 0)
@@ -220,7 +223,7 @@ export default function GalleryPage() {
       {/* Manual Carousel with Arrows & Dots */}
       <section className="py-16 lg:py-24 bg-cream">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <ManualCarousel />
+          <ManualCarousel galleryImages={galleryImages} />
         </div>
       </section>
 
