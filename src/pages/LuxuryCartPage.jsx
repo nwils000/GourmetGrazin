@@ -119,9 +119,7 @@ function MenuCard({ item, index, isVisible }) {
         </p>
       )}
       <a
-        href="https://gourmetgrazin.hbportal.co/public/gourmet-grazin"
-        target="_blank"
-        rel="noopener noreferrer"
+        href="#book-cart"
         className="inline-block mt-4 text-xs tracking-[0.15em] uppercase border border-gold text-gold px-5 py-2 hover:bg-gold hover:text-cream transition-colors duration-300"
       >
         Inquire

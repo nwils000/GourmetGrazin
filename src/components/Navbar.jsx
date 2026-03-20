@@ -67,7 +67,7 @@ export default function Navbar({ onInquire }) {
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-3">
-            <span className="font-serif text-xl tracking-wide text-charcoal">Gourmet Grazin'</span>
+            <img src="/logo.png" alt="Gourmet Grazin'" className="h-14 w-14 object-contain" />
           </Link>
 
           {/* Desktop Links */}
