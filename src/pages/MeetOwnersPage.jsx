@@ -96,9 +96,7 @@ export default function MeetOwnersPage() {
             We'd love to be part of your next celebration. Reach out and let's bring your vision to life.
           </p>
           <a
-            href="https://elevatedeventrentals.hbportal.co/public/gourmet-grazin"
-            target="_blank"
-            rel="noopener noreferrer"
+            href="/luxury-cart-experiences#book-cart"
             className={`inline-block bg-charcoal text-cream px-10 py-4 text-xs tracking-[0.2em] uppercase hover:bg-gold transition-colors duration-300 fade-in-up fade-in-up-delay-2 ${ctaVisible ? 'visible' : ''}`}
           >
             Inquire Now

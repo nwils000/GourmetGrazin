@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, useNavigate } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 import Marquee from './components/Marquee'
@@ -22,8 +22,6 @@ import CharcuterieClassesPage from './pages/CharcuterieClassesPage'
 import ShopPage from './pages/ShopPage'
 import { CartProvider } from './context/CartContext'
 
-const HONEYBOOK_URL = 'https://elevatedeventrentals.hbportal.co/public/gourmet-grazin'
-
 function HomePage({ onInquire }) {
   return (
     <>
@@ -40,8 +38,14 @@ function HomePage({ onInquire }) {
 }
 
 function App() {
+  const navigate = useNavigate()
+
   const handleInquire = () => {
-    window.open(HONEYBOOK_URL, '_blank', 'noopener,noreferrer')
+    navigate('/luxury-cart-experiences#book-cart')
+    // Scroll to the form after navigation
+    setTimeout(() => {
+      document.getElementById('book-cart')?.scrollIntoView({ behavior: 'smooth' })
+    }, 100)
   }
 
   return (
