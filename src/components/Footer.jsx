@@ -79,7 +79,7 @@ export default function Footer() {
 
         {/* Centered white logo at bottom */}
         <div className="mt-12 flex justify-center">
-          <img src="/logo.png" alt="Gourmet Grazin'" className="h-24 w-24 object-contain brightness-0 invert" />
+          <img src="/logo.png" alt="Gourmet Grazin'" className="h-24 w-24 object-contain" />
         </div>
       </div>
     </footer>
