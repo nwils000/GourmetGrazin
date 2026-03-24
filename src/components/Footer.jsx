@@ -8,7 +8,7 @@ export default function Footer() {
         <div className="grid md:grid-cols-3 gap-12">
           {/* Brand */}
           <div>
-            <img src="/logo.png" alt="Gourmet Grazin'" className="h-20 w-20 object-contain mb-4 invert brightness-75 sepia hue-rotate-[15deg] saturate-[0.3]" />
+            <h3 className="font-serif text-2xl text-cream mb-4 tracking-wide">Gourmet Grazin'</h3>
             <p className="text-cream/60 font-light text-sm leading-relaxed max-w-xs">
               Elevated charcuterie and custom mobile carts for weddings, showers, parties,
               and more. Proudly serving Kentucky.
@@ -75,6 +75,11 @@ export default function Footer() {
           <p className="text-cream/40 text-xs">
             Kentucky
           </p>
+        </div>
+
+        {/* Centered white logo at bottom */}
+        <div className="mt-12 flex justify-center">
+          <img src="/logo.png" alt="Gourmet Grazin'" className="h-24 w-24 object-contain brightness-0 invert" />
         </div>
       </div>
     </footer>

@@ -13,7 +13,6 @@ const defaultGalleryImages = [
   { src: '/gallery/gallery6.jpeg', alt: 'Cart serving experience' },
   { src: '/gallery/gallery7.jpg', alt: 'Gourmet Grazin at formal event' },
   { src: '/gallery/new/disperse3.jpg', alt: 'Colorful charcuterie board with meat roses' },
-  { src: '/gallery/gourmet-cart-1.jpeg', alt: 'Mobile cart setup' },
   { src: '/gallery/gourmet-cart-2.jpeg', alt: 'Cart with full spread' },
   { src: '/gallery/new/disperse4.jpg', alt: 'Bunny-shaped brie charcuterie board' },
   { src: '/event-photo.jpg', alt: 'Event photo' },

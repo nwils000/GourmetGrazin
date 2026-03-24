@@ -6,9 +6,9 @@ import { useCart } from '../context/CartContext'
 const servicesDropdown = [
   { label: 'Luxury Cart Experiences', href: '/luxury-cart-experiences' },
   { label: 'Grazing Tables', href: '/grazing-tables' },
-  { label: 'Charcuterie Classes', href: '/charcuterie-classes' },
   { label: 'Snack Boards', href: '/snack-boards' },
   { label: 'Cups & Boxes', href: '/cups-boxes' },
+  { label: 'Charcuterie Classes', href: '/charcuterie-classes' },
   { label: 'Personalizations', href: '/personalizations' },
 ]
 
@@ -66,8 +66,8 @@ export default function Navbar({ onInquire }) {
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-3">
-            <img src="/logo.png" alt="Gourmet Grazin'" className="h-14 w-14 object-contain" />
+          <Link to="/" className="flex items-center">
+            <span className="font-serif text-2xl text-charcoal tracking-wide">Gourmet Grazin'</span>
           </Link>
 
           {/* Desktop Links */}

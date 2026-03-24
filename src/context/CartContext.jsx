@@ -15,11 +15,13 @@ export function CartProvider({ children }) {
   // ── Shopify cart functions (unchanged) ──
 
   const addToCart = useCallback(
-    async (variantId, quantity = 1) => {
+    async (variantId, quantity = 1, customAttributes = []) => {
       if (!checkout) return
-      const next = await shopifyClient.checkout.addLineItems(checkout.id, [
-        { variantId, quantity },
-      ])
+      const lineItem = { variantId, quantity }
+      if (customAttributes.length > 0) {
+        lineItem.customAttributes = customAttributes
+      }
+      const next = await shopifyClient.checkout.addLineItems(checkout.id, [lineItem])
       setCheckout(next)
       setCartOpen(true)
     },

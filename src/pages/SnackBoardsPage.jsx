@@ -1,52 +1,48 @@
 import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { useInView } from '../components/useInView'
 import { useCart } from '../context/CartContext'
+import shopifyClient from '../lib/shopify'
 
 /* ── Sizing & pricing (shared by ALL boards) ── */
 const sizes = [
-  { key: 'small', label: 'Small (2-5 people)', price: 65 },
-  { key: 'medium', label: 'Medium (5-10 people)', price: 120 },
-  { key: 'large', label: 'Large (10-15 people)', price: 175 },
-  { key: 'xlarge', label: 'X-Large (15-20+ people)', price: 210 },
+  { key: 'small', label: 'Small (2-5 people)', price: 65, variantTitle: 'Small' },
+  { key: 'medium', label: 'Medium (5-10 people)', price: 120, variantTitle: 'Medium' },
+  { key: 'large', label: 'Large (10-15 people)', price: 175, variantTitle: 'Large' },
+  { key: 'xlarge', label: 'X-Large (15-20+ people)', price: 210, variantTitle: 'X-Large' },
 ]
 
 /* ── Classic boards ── */
 const classics = [
   {
     number: '01',
-    title: 'Le Classique Gourmet',
+    title: 'The Classic Board',
     description:
       'An elevated selection of artisan cheeses, premium cured meats, seasonal fruit, nuts, olives, and house-paired accompaniments — beautifully styled for effortless entertaining.',
   },
   {
     number: '02',
-    title: 'Le Sucré-Salé',
+    title: 'The Sweet-Salty Board',
     description:
       'The perfect balance of indulgence — artisan cheeses and charcuterie paired with chocolates, macarons, and curated sweet accents.',
   },
   {
     number: '03',
-    title: 'Le Brunch Élégant',
+    title: 'The Brunch Board',
     description:
       'A charming morning-inspired spread featuring mini pastries, creamy cheeses, fresh berries, honey accents, and delicate brunch pairings.',
   },
   {
     number: '04',
-    title: 'Le Jardin Végétal',
+    title: 'The Veggie Board',
     description:
       'A thoughtfully crafted plant-based selection featuring dairy-free cheeses, fresh produce, marinated vegetables, nuts, fruit, and elevated vegan accompaniments.',
   },
   {
     number: '05',
-    title: 'Le Panier Fruité',
+    title: 'The Fruit Board',
     description:
       'A stunning display of seasonal fruit, berries, and citrus — artfully arranged for a refreshing, naturally sweet addition to any celebration.',
-  },
-  {
-    number: '06',
-    title: 'Le Festin Végane',
-    description:
-      'A crisp and colorful display of fresh, seasonal vegetables paired with house-made dips, whipped spreads, and artisan breads — vibrant, refreshing, and beautifully arranged.',
   },
 ]
 
@@ -108,24 +104,104 @@ function slugify(str) {
     .replace(/(^-|-$)/g, '')
 }
 
+/* ── Image gallery for modal ── */
+function ImageGallery({ images }) {
+  const [current, setCurrent] = useState(0)
+  if (!images || images.length === 0) return null
+
+  return (
+    <div className="relative mb-6">
+      <img
+        src={images[current].src}
+        alt=""
+        className="w-full h-56 md:h-72 object-cover"
+      />
+      {images.length > 1 && (
+        <>
+          <button
+            onClick={() => setCurrent((c) => (c - 1 + images.length) % images.length)}
+            className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-cream/80 flex items-center justify-center text-charcoal hover:bg-gold hover:text-cream transition-colors"
+          >
+            &#8249;
+          </button>
+          <button
+            onClick={() => setCurrent((c) => (c + 1) % images.length)}
+            className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-cream/80 flex items-center justify-center text-charcoal hover:bg-gold hover:text-cream transition-colors"
+          >
+            &#8250;
+          </button>
+          <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1.5">
+            {images.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => setCurrent(i)}
+                className={`w-2 h-2 rounded-full transition-colors ${
+                  i === current ? 'bg-gold' : 'bg-cream/60'
+                }`}
+              />
+            ))}
+          </div>
+        </>
+      )}
+    </div>
+  )
+}
+
 /* ── Board configuration modal (shared by classics & specials) ── */
-function BoardModal({ board, onClose }) {
-  const { addLocalItem } = useCart()
+function BoardModal({ board, onClose, shopifyProducts }) {
+  const { addToCart, addLocalItem } = useCart()
   const [selectedSize, setSelectedSize] = useState(0)
   const [quantity, setQuantity] = useState(1)
   const [personalizationText, setPersonalizationText] = useState('')
+  const [adding, setAdding] = useState(false)
 
   const chosen = sizes[selectedSize]
 
-  function handleAddToCart() {
-    addLocalItem({
-      id: `board-${slugify(board.title)}-${chosen.key}`,
-      title: board.title,
-      size: chosen.label,
-      price: chosen.price,
-      quantity,
-      customization: board.personalization ? personalizationText || null : null,
-    })
+  // Find matching Shopify product by title
+  const shopifyProduct = shopifyProducts.find(
+    (p) => p.title.toLowerCase() === board.title.toLowerCase()
+  )
+
+  const shopifyImages = shopifyProduct?.images || []
+
+  async function handleAddToCart() {
+    if (adding) return
+    setAdding(true)
+
+    let added = false
+
+    if (shopifyProduct) {
+      const variants = shopifyProduct.variants
+      let variant
+
+      if (variants.length === 1) {
+        variant = variants[0]
+      } else {
+        variant = variants.find((v) => v.title === chosen.variantTitle)
+      }
+
+      if (variant) {
+        const customAttributes = []
+        if (board.personalization && personalizationText) {
+          customAttributes.push({ key: 'Personalization', value: personalizationText })
+        }
+        await addToCart(variant.id, quantity, customAttributes)
+        added = true
+      }
+    }
+
+    if (!added) {
+      addLocalItem({
+        id: `board-${slugify(board.title)}-${chosen.key}`,
+        title: board.title,
+        size: chosen.label,
+        price: chosen.price,
+        quantity,
+        customization: board.personalization ? personalizationText || null : null,
+      })
+    }
+
+    setAdding(false)
     onClose()
   }
 
@@ -145,11 +221,14 @@ function BoardModal({ board, onClose }) {
         {/* Close button */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 text-charcoal-light hover:text-gold transition-colors text-2xl leading-none"
+          className="absolute top-4 right-4 text-charcoal-light hover:text-gold transition-colors text-2xl leading-none z-10"
           aria-label="Close"
         >
           &times;
         </button>
+
+        {/* Product images from Shopify */}
+        <ImageGallery images={shopifyImages} />
 
         {/* Title & description */}
         <h3 className="font-serif text-2xl md:text-3xl mb-2">{board.title}</h3>
@@ -222,9 +301,10 @@ function BoardModal({ board, onClose }) {
         {/* Add to Cart */}
         <button
           onClick={handleAddToCart}
-          className="w-full bg-charcoal text-cream px-8 py-4 text-xs tracking-[0.2em] uppercase hover:bg-gold transition-colors duration-300"
+          disabled={adding}
+          className="w-full bg-charcoal text-cream px-8 py-4 text-xs tracking-[0.2em] uppercase hover:bg-gold transition-colors duration-300 disabled:opacity-50"
         >
-          Add to Cart &mdash; ${chosen.price * quantity}
+          {adding ? 'Adding...' : `Add to Cart \u2014 $${chosen.price * quantity}`}
         </button>
       </div>
     </div>
@@ -239,9 +319,11 @@ export default function SnackBoardsPage() {
   const [ctaRef, ctaVisible] = useInView()
 
   const [activeBoard, setActiveBoard] = useState(null)
+  const [shopifyProducts, setShopifyProducts] = useState([])
 
   useEffect(() => {
     window.scrollTo(0, 0)
+    shopifyClient.product.fetchAll().then(setShopifyProducts)
   }, [])
 
   // Lock body scroll when modal is open
@@ -274,10 +356,15 @@ export default function SnackBoardsPage() {
             <em className="text-gold">occasion.</em>
           </h1>
           <p
-            className={`text-charcoal-light text-lg md:text-xl max-w-2xl mx-auto font-light leading-relaxed fade-in-up fade-in-up-delay-2 ${heroVisible ? 'visible' : ''}`}
+            className={`text-charcoal-light text-lg md:text-xl max-w-2xl mx-auto font-light leading-relaxed mb-6 fade-in-up fade-in-up-delay-2 ${heroVisible ? 'visible' : ''}`}
           >
             From timeless classics to themed celebrations, each board is handcrafted
             with premium ingredients and artful precision.
+          </p>
+          <p
+            className={`text-gold font-serif text-base md:text-lg fade-in-up fade-in-up-delay-3 ${heroVisible ? 'visible' : ''}`}
+          >
+            All boards are made fresh to order. Please allow 24–48 hours for preparation.
           </p>
         </div>
       </section>
@@ -381,8 +468,30 @@ export default function SnackBoardsPage() {
         </div>
       </section>
 
+      {/* Charcuterie Classes CTA */}
+      <section className="py-16 lg:py-20 bg-taupe-light">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 text-center">
+          <p className="text-gold text-xs tracking-[0.3em] uppercase mb-4">
+            Learn the Art
+          </p>
+          <h2 className="font-serif text-3xl md:text-4xl leading-[1.1] mb-4">
+            Want to build your own board?
+          </h2>
+          <p className="text-charcoal-light leading-relaxed font-light max-w-lg mx-auto mb-8">
+            Join one of our hands-on charcuterie classes and learn to create stunning
+            boards for any occasion.
+          </p>
+          <Link
+            to="/charcuterie-classes"
+            className="inline-block bg-charcoal text-cream px-8 py-4 text-xs tracking-[0.2em] uppercase hover:bg-gold transition-colors duration-300"
+          >
+            Book a Class
+          </Link>
+        </div>
+      </section>
+
       {/* CTA Section */}
-      <section className="py-24 lg:py-32 bg-taupe-light">
+      <section className="py-24 lg:py-32 bg-cream">
         <div ref={ctaRef} className="max-w-7xl mx-auto px-6 lg:px-8 text-center">
           <p
             className={`text-gold text-xs tracking-[0.3em] uppercase mb-4 fade-in-up ${ctaVisible ? 'visible' : ''}`}
@@ -410,6 +519,7 @@ export default function SnackBoardsPage() {
         <BoardModal
           board={activeBoard}
           onClose={() => setActiveBoard(null)}
+          shopifyProducts={shopifyProducts}
         />
       )}
     </main>

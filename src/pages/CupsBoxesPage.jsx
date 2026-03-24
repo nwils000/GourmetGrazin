@@ -1,22 +1,20 @@
 import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { useInView } from '../components/useInView'
 import { useCart } from '../context/CartContext'
+import shopifyClient from '../lib/shopify'
 
 const cups = [
   {
-    title: 'Le Doux et Salé',
-    description: 'A mix of cheeses, crackers, chocolate-covered pretzels, and fresh fruit.',
+    title: 'The Classic Cup',
+    description: 'A mix of cheddar cheese, pepperoni, salami, crostini crackers, chocolate-covered pretzels, and fresh fruit.',
   },
   {
-    title: 'Le Sucré',
+    title: 'The Sweet Tooth Cup',
     description: 'Mini cookies, brownie bites, Rice Krispy treats, chocolate-covered strawberries, and berries.',
   },
   {
-    title: 'Le Salé',
-    description: 'Cheeses, cured meats, crackers, olives, nuts, and fruit.',
-  },
-  {
-    title: 'Le Petit Déjeuner',
+    title: 'Yogurt Cups',
     description: 'Yogurt, granola, berries, and a drizzle of honey.',
   },
   {
@@ -27,28 +25,22 @@ const cups = [
 
 const boxes = [
   {
-    title: 'Le Classique',
-    description: 'A balanced selection of sweet and savory items for 2–4 people.',
+    title: 'The Classic Box',
+    description: 'A balanced selection of sweet and savory premium items. Contains cured salami, pepperoni, brie, manchego, berries, and chocolate covered pretzels with rosemary accents.',
   },
   {
-    title: 'Le Gourmand',
-    description: 'Loaded with cookies, brownies, chocolate-covered treats, and fruit for 2–6 people.',
+    title: 'The Sweet Tooth Box',
+    description: 'Loaded with cookies, brownies, chocolate-covered treats, and fruit.',
   },
   {
-    title: 'Le Salé Élégant',
-    description: 'Cheese, meats, nuts, crackers, and fruit, perfect for small gatherings.',
-  },
-  {
-    title: 'Le Petit Déjeuner Deluxe',
+    title: 'The Brunch Box',
     description: 'Bagels, mini muffins, yogurt, fruit, and spreads for morning events.',
   },
   {
-    title: 'Le Luxe',
-    description: 'Upgraded items like chocolate truffles, gourmet cheeses, artisan crackers, and berries, customizable by theme.',
-  },
-  {
-    title: 'La Création',
-    description: 'Tailored to dietary needs, color schemes, or event themes.',
+    title: 'Custom Message Charcuterie Box',
+    description: 'The Classic Box with a custom message of your choice! A balance of sweet and savory with cured meats, brie, manchego, berries, and chocolate covered pretzels.',
+    personalization: true,
+    personalizationPlaceholder: 'e.g. Happy Birthday!',
   },
 ]
 
@@ -59,17 +51,33 @@ function slugify(str) {
     .replace(/(^-|-$)/g, '')
 }
 
-function CupCard({ cup, index, isVisible }) {
-  const { addLocalItem } = useCart()
+function CupCard({ cup, index, isVisible, shopifyProducts }) {
+  const { addToCart, addLocalItem } = useCart()
   const [qty, setQty] = useState(15)
+  const [adding, setAdding] = useState(false)
 
-  const handleAdd = () => {
-    addLocalItem({
-      id: `cup-${slugify(cup.title)}`,
-      title: `Charcuterie Cup - ${cup.title}`,
-      price: 8,
-      quantity: qty,
-    })
+  const shopifyProduct = shopifyProducts.find(
+    (p) => p.title.toLowerCase() === cup.title.toLowerCase()
+  )
+
+  const handleAdd = async () => {
+    if (adding) return
+    setAdding(true)
+
+    const variant = shopifyProduct?.variants?.[0]
+
+    if (variant) {
+      await addToCart(variant.id, qty)
+    } else {
+      addLocalItem({
+        id: `cup-${slugify(cup.title)}`,
+        title: `Charcuterie Cup - ${cup.title}`,
+        price: 8,
+        quantity: qty,
+      })
+    }
+
+    setAdding(false)
   }
 
   return (
@@ -84,7 +92,7 @@ function CupCard({ cup, index, isVisible }) {
       </p>
       <div className="flex items-center gap-3 text-sm mb-4">
         <span className="font-serif text-lg text-gold">$8/cup</span>
-        <span className="text-charcoal-light font-light">· 15 minimum</span>
+        <span className="text-charcoal-light font-light">&middot; 15 minimum</span>
       </div>
       <div className="flex items-center gap-3 mb-4">
         <label className="text-xs tracking-[0.15em] uppercase text-charcoal-light">Qty</label>
@@ -106,25 +114,48 @@ function CupCard({ cup, index, isVisible }) {
       </div>
       <button
         onClick={handleAdd}
-        className="w-full bg-charcoal text-cream px-6 py-3 text-xs tracking-[0.2em] uppercase hover:bg-gold transition-colors duration-300"
+        disabled={adding}
+        className="w-full bg-charcoal text-cream px-6 py-3 text-xs tracking-[0.2em] uppercase hover:bg-gold transition-colors duration-300 disabled:opacity-50"
       >
-        Add to Cart
+        {adding ? 'Adding...' : 'Add to Cart'}
       </button>
     </div>
   )
 }
 
-function BoxCard({ box, index, isVisible }) {
-  const { addLocalItem } = useCart()
-  const [qty, setQty] = useState(15)
+function BoxCard({ box, index, isVisible, shopifyProducts }) {
+  const { addToCart, addLocalItem } = useCart()
+  const [qty, setQty] = useState(6)
+  const [customText, setCustomText] = useState('')
+  const [adding, setAdding] = useState(false)
 
-  const handleAdd = () => {
-    addLocalItem({
-      id: `box-${slugify(box.title)}`,
-      title: `Charcuterie Box - ${box.title}`,
-      price: 10,
-      quantity: qty,
-    })
+  const shopifyProduct = shopifyProducts.find(
+    (p) => p.title.toLowerCase() === box.title.toLowerCase()
+  )
+
+  const handleAdd = async () => {
+    if (adding) return
+    setAdding(true)
+
+    const variant = shopifyProduct?.variants?.[0]
+
+    if (variant) {
+      const customAttributes = []
+      if (box.personalization && customText) {
+        customAttributes.push({ key: 'Custom Message', value: customText })
+      }
+      await addToCart(variant.id, qty, customAttributes)
+    } else {
+      addLocalItem({
+        id: `box-${slugify(box.title)}`,
+        title: `Charcuterie Box - ${box.title}`,
+        price: 10,
+        quantity: qty,
+        customization: box.personalization ? customText || null : null,
+      })
+    }
+
+    setAdding(false)
   }
 
   return (
@@ -139,13 +170,30 @@ function BoxCard({ box, index, isVisible }) {
       </p>
       <div className="flex items-center gap-3 text-sm mb-4">
         <span className="font-serif text-lg text-gold">$10/box</span>
-        <span className="text-charcoal-light font-light">· 15 minimum</span>
+        <span className="text-charcoal-light font-light">&middot; 6 minimum</span>
       </div>
+
+      {/* Custom message input for personalized boxes */}
+      {box.personalization && (
+        <div className="mb-4">
+          <label className="block text-xs tracking-[0.15em] uppercase text-charcoal-light mb-2">
+            Custom Message
+          </label>
+          <input
+            type="text"
+            value={customText}
+            onChange={(e) => setCustomText(e.target.value)}
+            placeholder={box.personalizationPlaceholder || ''}
+            className="w-full border border-taupe/30 bg-white px-4 py-3 text-sm font-light text-charcoal placeholder:text-charcoal-light/50 focus:outline-none focus:border-gold transition-colors"
+          />
+        </div>
+      )}
+
       <div className="flex items-center gap-3 mb-4">
         <label className="text-xs tracking-[0.15em] uppercase text-charcoal-light">Qty</label>
         <div className="flex items-center border border-taupe/30">
           <button
-            onClick={() => setQty((q) => Math.max(15, q - 1))}
+            onClick={() => setQty((q) => Math.max(6, q - 1))}
             className="px-3 py-2 text-charcoal hover:bg-taupe-light transition-colors"
           >
             &minus;
@@ -161,9 +209,10 @@ function BoxCard({ box, index, isVisible }) {
       </div>
       <button
         onClick={handleAdd}
-        className="w-full bg-charcoal text-cream px-6 py-3 text-xs tracking-[0.2em] uppercase hover:bg-gold transition-colors duration-300"
+        disabled={adding}
+        className="w-full bg-charcoal text-cream px-6 py-3 text-xs tracking-[0.2em] uppercase hover:bg-gold transition-colors duration-300 disabled:opacity-50"
       >
-        Add to Cart
+        {adding ? 'Adding...' : 'Add to Cart'}
       </button>
     </div>
   )
@@ -172,8 +221,10 @@ function BoxCard({ box, index, isVisible }) {
 export default function CupsBoxesPage() {
   useEffect(() => {
     window.scrollTo(0, 0)
+    shopifyClient.product.fetchAll().then(setShopifyProducts)
   }, [])
 
+  const [shopifyProducts, setShopifyProducts] = useState([])
   const [heroRef, heroVisible] = useInView()
   const [cupsRef, cupsVisible] = useInView()
   const [cupsImgRef, cupsImgVisible] = useInView()
@@ -211,11 +262,14 @@ export default function CupsBoxesPage() {
             <p className={`text-charcoal-light leading-relaxed font-light fade-in-up fade-in-up-delay-2 ${cupsVisible ? 'visible' : ''}`}>
               Individual charcuterie cups — perfect for grab-and-go elegance.
             </p>
+            <p className={`text-gold font-serif text-base mt-4 fade-in-up fade-in-up-delay-3 ${cupsVisible ? 'visible' : ''}`}>
+              Minimum order of 15 required.
+            </p>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
             {cups.map((cup, i) => (
-              <CupCard key={cup.title} cup={cup} index={i} isVisible={cupsVisible} />
+              <CupCard key={cup.title} cup={cup} index={i} isVisible={cupsVisible} shopifyProducts={shopifyProducts} />
             ))}
           </div>
         </div>
@@ -245,13 +299,13 @@ export default function CupsBoxesPage() {
               Shareable <em className="text-gold">indulgence.</em>
             </h2>
             <p className={`text-charcoal-light leading-relaxed font-light fade-in-up fade-in-up-delay-2 ${boxesVisible ? 'visible' : ''}`}>
-              Curated for 1–6 people — the perfect shareable indulgence.
+              Starting at $10/person with a minimum of 6 — the perfect shareable indulgence.
             </p>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
             {boxes.map((box, i) => (
-              <BoxCard key={box.title} box={box} index={i} isVisible={boxesVisible} />
+              <BoxCard key={box.title} box={box} index={i} isVisible={boxesVisible} shopifyProducts={shopifyProducts} />
             ))}
           </div>
         </div>
@@ -270,8 +324,30 @@ export default function CupsBoxesPage() {
         </div>
       </section>
 
+      {/* Charcuterie Classes CTA */}
+      <section className="py-16 lg:py-20 bg-taupe-light">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 text-center">
+          <p className="text-gold text-xs tracking-[0.3em] uppercase mb-4">
+            Learn the Art
+          </p>
+          <h2 className="font-serif text-3xl md:text-4xl leading-[1.1] mb-4">
+            Want to build your own board?
+          </h2>
+          <p className="text-charcoal-light leading-relaxed font-light max-w-lg mx-auto mb-8">
+            Join one of our hands-on charcuterie classes and learn to create stunning
+            boards for any occasion.
+          </p>
+          <Link
+            to="/charcuterie-classes"
+            className="inline-block bg-charcoal text-cream px-8 py-4 text-xs tracking-[0.2em] uppercase hover:bg-gold transition-colors duration-300"
+          >
+            Book a Class
+          </Link>
+        </div>
+      </section>
+
       {/* Note Section */}
-      <section className="py-24 lg:py-32 bg-taupe-light">
+      <section className="py-24 lg:py-32 bg-cream">
         <div ref={noteRef} className="max-w-7xl mx-auto px-6 lg:px-8 text-center">
           <p className={`text-charcoal-light leading-relaxed font-light max-w-lg mx-auto fade-in-up ${noteVisible ? 'visible' : ''}`}>
             Items added to your cart will be submitted through our booking system.

@@ -41,13 +41,13 @@ const beverageItems = [
     title: 'The Cocoa & Cider Bar',
     description:
       'A warm, seasonal indulgence for fall and winter gatherings. Rich hot cocoa and spiced apple cider served from our cart with artisan toppings \u2014 marshmallows, whipped cream, cinnamon sticks, and caramel drizzle.',
-    startingPrice: '$250',
+    startingPrice: '$350',
   },
   {
     title: 'The Floral & Fizz Bar',
     description:
       'Where mixology meets floral artistry. Our sparkling mocktails are topped with edible flowers and fresh botanical garnishes for a picture-perfect sipping moment that doubles as a stunning visual centerpiece.',
-    startingPrice: '$250',
+    startingPrice: '$350',
   },
 ]
 
@@ -71,19 +71,19 @@ const dessertItems = [
     title: 'The Confectionery Cart',
     description:
       "A sweet lover's dream on wheels. Our dessert cart arrives with an indulgent selection of gourmet treats \u2014 from chocolate truffles and macarons to mini tarts and seasonal confections, all styled to perfection.",
-    startingPrice: '$350',
+    startingPrice: '$400',
   },
   {
     title: 'The Parisian Pastry Cart',
     description:
       "Transport your guests to a Parisian patisserie. Mini croissants, delicate macarons, fruit tarts, and \u00e9clairs \u2014 each piece a work of art, served with the charm and elegance of a French bakery.",
-    startingPrice: '$350',
+    startingPrice: '$400',
   },
   {
     title: 'The Chocolate Fondue Bar',
     description:
       'An interactive, indulgent experience. Rich, melted chocolate paired with fresh strawberries, marshmallows, pretzels, and more \u2014 your guests dip, drizzle, and delight in a truly memorable dessert moment.',
-    startingPrice: '$350',
+    startingPrice: '$400',
   },
 ]
 
@@ -118,12 +118,12 @@ function MenuCard({ item, index, isVisible }) {
           Starting at {item.startingPrice}
         </p>
       )}
-      <a
-        href="#book-cart"
-        className="inline-block mt-4 text-xs tracking-[0.15em] uppercase border border-gold text-gold px-5 py-2 hover:bg-gold hover:text-cream transition-colors duration-300"
+      <button
+        onClick={() => document.getElementById('book-cart')?.scrollIntoView({ behavior: 'smooth' })}
+        className="inline-block mt-4 text-xs tracking-[0.15em] uppercase border border-gold text-gold px-5 py-2 hover:bg-gold hover:text-cream transition-colors duration-300 cursor-pointer"
       >
         Inquire
-      </a>
+      </button>
     </div>
   )
 }
@@ -200,12 +200,12 @@ export default function LuxuryCartPage() {
                 brunch spreads, and indulgent dessert displays — every cart
                 is styled, stocked, and served with intention.
               </p>
-              <a
-                href="#book-cart"
-                className={`inline-block bg-charcoal text-cream px-10 py-4 text-xs tracking-[0.2em] uppercase hover:bg-gold transition-colors duration-300 fade-in-up fade-in-up-delay-3 ${heroVisible ? 'visible' : ''}`}
+              <button
+                onClick={() => document.getElementById('book-cart')?.scrollIntoView({ behavior: 'smooth' })}
+                className={`inline-block bg-charcoal text-cream px-10 py-4 text-xs tracking-[0.2em] uppercase hover:bg-gold transition-colors duration-300 cursor-pointer fade-in-up fade-in-up-delay-3 ${heroVisible ? 'visible' : ''}`}
               >
                 Book Your Cart
-              </a>
+              </button>
             </div>
 
             {/* Image */}

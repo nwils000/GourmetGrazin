@@ -7,8 +7,10 @@ import shopifyClient from '../lib/shopify'
 function ProductCard({ product, index, isVisible }) {
   const { addToCart } = useCart()
   const [adding, setAdding] = useState(false)
+  const [currentImage, setCurrentImage] = useState(0)
 
-  const image = product.images?.[0]?.src
+  const images = product.images || []
+  const image = images[currentImage]?.src
   const price = parseFloat(product.variants?.[0]?.price?.amount || 0).toFixed(2)
   const variantId = product.variants?.[0]?.id
   const available = product.variants?.[0]?.available !== false
@@ -25,7 +27,7 @@ function ProductCard({ product, index, isVisible }) {
       className={`group fade-in-up fade-in-up-delay-${Math.min(index + 1, 4)} ${isVisible ? 'visible' : ''}`}
     >
       {/* Image */}
-      <div className="overflow-hidden mb-5 bg-taupe-light aspect-square flex items-center justify-center border border-taupe/20">
+      <div className="relative overflow-hidden mb-5 bg-taupe-light aspect-square flex items-center justify-center border border-taupe/20">
         {image ? (
           <img
             src={image}
@@ -38,6 +40,33 @@ function ProductCard({ product, index, isVisible }) {
             alt={product.title}
             className="w-full h-full object-cover img-hover"
           />
+        )}
+        {images.length > 1 && (
+          <>
+            <button
+              onClick={() => setCurrentImage((c) => (c - 1 + images.length) % images.length)}
+              className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-cream/80 flex items-center justify-center text-charcoal hover:bg-gold hover:text-cream transition-colors"
+            >
+              &#8249;
+            </button>
+            <button
+              onClick={() => setCurrentImage((c) => (c + 1) % images.length)}
+              className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-cream/80 flex items-center justify-center text-charcoal hover:bg-gold hover:text-cream transition-colors"
+            >
+              &#8250;
+            </button>
+            <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1.5">
+              {images.map((_, i) => (
+                <button
+                  key={i}
+                  onClick={() => setCurrentImage(i)}
+                  className={`w-2 h-2 rounded-full transition-colors ${
+                    i === currentImage ? 'bg-gold' : 'bg-cream/60'
+                  }`}
+                />
+              ))}
+            </div>
+          </>
         )}
       </div>
 

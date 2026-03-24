@@ -19,10 +19,11 @@ const whatWeProvide = [
   'Full setup and breakdown for a stress-free experience',
 ]
 
-const servingSizes = [
-  { label: 'Small', guests: '30\u201350 guests' },
-  { label: 'Medium', guests: '50\u2013100 guests' },
-  { label: 'Large', guests: '100\u2013200+ guests' },
+const eventTypes = [
+  { title: 'Weddings & Receptions', description: 'Make your big day unforgettable with a stunning grazing display that keeps guests mingling and celebrating.' },
+  { title: 'Corporate Events', description: 'Impress clients and colleagues with an elevated catering experience that sparks conversation and connection.' },
+  { title: 'Bridal & Baby Showers', description: 'A beautifully curated spread that serves as both a centerpiece and a crowd-pleaser for your celebration.' },
+  { title: 'Holiday & Private Parties', description: 'From intimate gatherings to large-scale events, our grazing tables bring warmth and sophistication to any occasion.' },
 ]
 
 const whyChooseUs = [
@@ -106,32 +107,37 @@ export default function GrazingTablesPage() {
 
       <SectionDivider />
 
-      {/* Serving Sizes Section */}
+      {/* Events & Serving Section */}
       <section className="py-20 lg:py-28 bg-cream">
         <div ref={sizesRef} className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="max-w-2xl mx-auto text-center mb-14">
             <p
               className={`text-gold text-xs tracking-[0.3em] uppercase mb-4 fade-in-up ${sizesVisible ? 'visible' : ''}`}
             >
-              Serving Sizes
+              20–200+ Guests
             </p>
             <h2
               className={`font-serif text-3xl md:text-4xl lg:text-5xl leading-[1.1] fade-in-up fade-in-up-delay-1 ${sizesVisible ? 'visible' : ''}`}
             >
-              Scaled to your <em className="text-gold">gathering.</em>
+              Perfect for every <em className="text-gold">occasion.</em>
             </h2>
+            <p
+              className={`text-charcoal-light text-base md:text-lg max-w-xl mx-auto font-light leading-relaxed mt-6 fade-in-up fade-in-up-delay-2 ${sizesVisible ? 'visible' : ''}`}
+            >
+              From intimate gatherings of 20 to grand celebrations of 200+, our grazing tables are scaled and styled to fit your event perfectly.
+            </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 max-w-4xl mx-auto">
-            {servingSizes.map((size, i) => (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 max-w-4xl mx-auto">
+            {eventTypes.map((event, i) => (
               <div
-                key={size.label}
-                className={`bg-taupe-light border border-taupe/40 p-8 md:p-10 text-center hover:border-gold/40 transition-colors duration-500 fade-in-up fade-in-up-delay-${Math.min(i + 1, 4)} ${sizesVisible ? 'visible' : ''}`}
+                key={event.title}
+                className={`bg-taupe-light border border-taupe/40 p-8 md:p-10 hover:border-gold/40 transition-colors duration-500 fade-in-up fade-in-up-delay-${Math.min(i + 1, 4)} ${sizesVisible ? 'visible' : ''}`}
               >
-                <h3 className="font-serif text-2xl md:text-3xl text-gold mb-3">
-                  {size.label}
+                <h3 className="font-serif text-xl md:text-2xl text-gold mb-3">
+                  {event.title}
                 </h3>
-                <p className="text-charcoal-light font-light text-sm tracking-wide">
-                  {size.guests}
+                <p className="text-charcoal-light font-light text-sm leading-relaxed">
+                  {event.description}
                 </p>
               </div>
             ))}

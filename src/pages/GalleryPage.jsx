@@ -13,7 +13,6 @@ const defaultGalleryImages = [
   { src: '/gallery/gallery6.jpeg', alt: 'Gallery image 6' },
   { src: '/gallery/gallery7.jpg', alt: 'Gallery image 7' },
   { src: '/gallery/new/disperse3.jpg', alt: 'Colorful charcuterie board with meat roses' },
-  { src: '/gallery/gourmet-cart-1.jpeg', alt: 'Gourmet cart setup' },
   { src: '/gallery/gourmet-cart-2.jpeg', alt: 'Gourmet cart display' },
   { src: '/gallery/new/disperse4.jpg', alt: 'Bunny-shaped brie charcuterie board' },
   { src: '/cart-outdoor.png', alt: 'Outdoor cart event setup' },
@@ -142,7 +141,7 @@ function ManualCarousel({ galleryImages }) {
   )
 }
 
-function InfiniteMarquee() {
+function InfiniteMarquee({ galleryImages }) {
   return (
     <div className="overflow-hidden">
       <div
@@ -215,7 +214,7 @@ export default function GalleryPage() {
           </div>
 
           <div className={`fade-in-up fade-in-up-delay-2 ${carouselVisible ? 'visible' : ''}`}>
-            <InfiniteMarquee />
+            <InfiniteMarquee galleryImages={galleryImages} />
           </div>
         </div>
       </section>

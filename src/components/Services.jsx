@@ -6,7 +6,7 @@ const services = [
     number: '01',
     title: 'Mobile Charcuterie Cart',
     description: 'Our custom-built cart arrives fully stocked and served tableside by our team — an artisan spread of cheeses, cured meats, fruits, and accompaniments with a fully customizable menu. An elevated, budget-friendly centerpiece for any occasion.',
-    image: '/gallery/gallery3.jpg',
+    image: '/cart-umbrella.jpg',
     link: '/luxury-cart-experiences',
   },
   {
