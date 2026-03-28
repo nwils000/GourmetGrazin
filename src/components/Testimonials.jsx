@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { useInView } from './useInView'
 import { Star, Quote } from 'lucide-react'
 
@@ -99,8 +100,38 @@ function TestimonialCard({ testimonial }) {
   )
 }
 
+const REVIEW_SCHEMA = {
+  '@context': 'https://schema.org',
+  '@type': 'CateringService',
+  '@id': 'https://www.gourmetgrazinky.com/#business',
+  name: "Gourmet Grazin'",
+  aggregateRating: {
+    '@type': 'AggregateRating',
+    ratingValue: '5.0',
+    reviewCount: String(testimonials.length),
+    bestRating: '5',
+    worstRating: '1',
+  },
+  review: testimonials.map(t => ({
+    '@type': 'Review',
+    author: { '@type': 'Person', name: t.name },
+    reviewRating: { '@type': 'Rating', ratingValue: '5', bestRating: '5', worstRating: '1' },
+    reviewBody: t.text,
+    itemReviewed: { '@type': 'CateringService', name: "Gourmet Grazin'" },
+  })),
+}
+
 export default function Testimonials() {
   const [ref, isVisible] = useInView()
+
+  useEffect(() => {
+    const el = document.createElement('script')
+    el.type = 'application/ld+json'
+    el.id = 'review-schema'
+    el.textContent = JSON.stringify(REVIEW_SCHEMA)
+    document.head.appendChild(el)
+    return () => { document.getElementById('review-schema')?.remove() }
+  }, [])
 
   return (
     <section id="reviews" className="py-24 lg:py-32 bg-taupe-light overflow-hidden" aria-label="Client testimonials">

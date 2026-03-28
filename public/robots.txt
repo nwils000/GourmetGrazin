@@ -30,5 +30,13 @@ Disallow: /
 User-agent: Google-Extended
 Disallow: /
 
-# Sitemap
+# Allow AI search crawlers (not training)
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+# Sitemap & LLM Context
 Sitemap: https://www.gourmetgrazinky.com/sitemap.xml
+# LLMs-txt: https://www.gourmetgrazinky.com/llms.txt

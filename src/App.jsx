@@ -1,3 +1,4 @@
+import { lazy, Suspense } from 'react'
 import { Routes, Route, Navigate, useNavigate } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
@@ -11,15 +12,27 @@ import CTA from './components/CTA'
 import Footer from './components/Footer'
 import Cart from './components/Cart'
 import ScrollToTop from './components/ScrollToTop'
-import FAQPage from './pages/FAQPage'
-import LuxuryCartPage from './pages/LuxuryCartPage'
-import MeetOwnersPage from './pages/MeetOwnersPage'
-import GalleryPage from './pages/GalleryPage'
-import GrazingTablesPage from './pages/GrazingTablesPage'
-import CharcuterieClassesPage from './pages/CharcuterieClassesPage'
-import ShopPage from './pages/ShopPage'
 import { CartProvider } from './context/CartContext'
 import useSEO from './hooks/useSEO'
+
+// Lazy-loaded route chunks — only downloaded when visited
+const FAQPage = lazy(() => import('./pages/FAQPage'))
+const LuxuryCartPage = lazy(() => import('./pages/LuxuryCartPage'))
+const MeetOwnersPage = lazy(() => import('./pages/MeetOwnersPage'))
+const GalleryPage = lazy(() => import('./pages/GalleryPage'))
+const GrazingTablesPage = lazy(() => import('./pages/GrazingTablesPage'))
+const CharcuterieClassesPage = lazy(() => import('./pages/CharcuterieClassesPage'))
+const ShopPage = lazy(() => import('./pages/ShopPage'))
+
+function PageLoader() {
+  return (
+    <div className="min-h-[60vh] flex items-center justify-center">
+      <div className="flex flex-col items-center gap-4">
+        <div className="w-8 h-8 border-2 border-gold/30 border-t-gold rounded-full animate-spin" />
+      </div>
+    </div>
+  )
+}
 
 function HomePage({ onInquire }) {
   useSEO({
@@ -65,20 +78,22 @@ function App() {
         <Navbar onInquire={handleInquire} />
         <Cart />
         <main id="main-content" role="main">
-          <Routes>
-            <Route path="/" element={<HomePage onInquire={handleInquire} />} />
-            <Route path="/faq" element={<FAQPage />} />
-            <Route path="/luxury-cart-experiences" element={<LuxuryCartPage />} />
-            <Route path="/meet-the-owners" element={<MeetOwnersPage />} />
-            <Route path="/gallery" element={<GalleryPage />} />
-            <Route path="/grazing-tables" element={<GrazingTablesPage />} />
-            <Route path="/charcuterie-classes" element={<CharcuterieClassesPage />} />
-            <Route path="/shop" element={<ShopPage />} />
-            {/* Redirects from old product pages to unified shop */}
-            <Route path="/snack-boards" element={<Navigate to="/shop#boards" replace />} />
-            <Route path="/cups-boxes" element={<Navigate to="/shop#cups" replace />} />
-            <Route path="/personalizations" element={<Navigate to="/shop#personalizations" replace />} />
-          </Routes>
+          <Suspense fallback={<PageLoader />}>
+            <Routes>
+              <Route path="/" element={<HomePage onInquire={handleInquire} />} />
+              <Route path="/faq" element={<FAQPage />} />
+              <Route path="/luxury-cart-experiences" element={<LuxuryCartPage />} />
+              <Route path="/meet-the-owners" element={<MeetOwnersPage />} />
+              <Route path="/gallery" element={<GalleryPage />} />
+              <Route path="/grazing-tables" element={<GrazingTablesPage />} />
+              <Route path="/charcuterie-classes" element={<CharcuterieClassesPage />} />
+              <Route path="/shop" element={<ShopPage />} />
+              {/* Redirects from old product pages to unified shop */}
+              <Route path="/snack-boards" element={<Navigate to="/shop#boards" replace />} />
+              <Route path="/cups-boxes" element={<Navigate to="/shop#cups" replace />} />
+              <Route path="/personalizations" element={<Navigate to="/shop#personalizations" replace />} />
+            </Routes>
+          </Suspense>
         </main>
         <Footer />
       </div>
