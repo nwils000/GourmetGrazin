@@ -62,16 +62,16 @@ export default function Footer() {
             </div>
 
             <address className="mt-8 not-italic">
-              <p className="text-cream/60 text-xs tracking-wide">Kentucky, United States</p>
+              <p className="text-cream/70 text-xs tracking-wide">Kentucky, United States</p>
             </address>
           </div>
         </div>
 
         <div className="border-t border-cream/10 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-cream/60 text-xs">
+          <p className="text-cream/70 text-xs">
             &copy; {new Date().getFullYear()} Gourmet Grazin'. All rights reserved.
           </p>
-          <p className="text-cream/60 text-xs">
+          <p className="text-cream/70 text-xs">
             Charcuterie Catering &middot; Kentucky
           </p>
         </div>

@@ -4,21 +4,14 @@ import { useDriveImages } from '../hooks/useDriveImages'
 import { FOLDER_IDS } from '../lib/googleDrive'
 
 const defaultGalleryImages = [
-  { src: '/gallery/gallery1.jpg', alt: 'Artisan charcuterie board with imported cheeses and cured meats' },
-  { src: '/gallery/gallery2.jpg', alt: 'Elegant charcuterie spread styled for a Kentucky wedding' },
-  { src: '/gallery/new/disperse1.jpg', alt: 'Easter charcuterie board with salami roses and seasonal garnishes' },
   { src: '/gallery/gallery3.jpg', alt: 'Premium grazing table with fresh fruits and artisan crackers' },
-  { src: '/gallery/gallery5.jpeg', alt: 'Beautifully arranged charcuterie display for a corporate event' },
-  { src: '/gallery/new/disperse2.jpg', alt: 'Charcuterie board with chocolate eggs and Lindt bunnies for Easter' },
-  { src: '/gallery/gallery6.jpeg', alt: 'Handcrafted charcuterie board with brie, grapes, and rosemary' },
-  { src: '/gallery/gallery7.jpg', alt: 'Stunning charcuterie presentation for a bridal shower' },
+  { src: '/gallery/new/disperse1.jpg', alt: 'Easter charcuterie board with salami roses and seasonal garnishes' },
+  { src: '/gallery/gallery4.jpg', alt: 'Beautifully arranged charcuterie display for a corporate event' },
   { src: '/gallery/new/disperse3.jpg', alt: 'Colorful charcuterie board with meat roses and seasonal fruits' },
-  { src: '/gallery/gourmet-cart-2.jpeg', alt: 'Gourmet Grazin mobile charcuterie cart setup at an event' },
-  { src: '/gallery/new/disperse4.jpg', alt: 'Bunny-shaped brie cheese charcuterie board for spring celebration' },
-  { src: '/event-photo.jpg', alt: 'Gourmet Grazin charcuterie catering at a live event' },
   { src: '/cart-closeup.jpg', alt: 'Close-up of artisan cheese and charcuterie cart spread' },
-  { src: '/gallery/new/disperse5.jpeg', alt: 'Chocolate and charcuterie board with truffles and berries' },
+  { src: '/gallery/new/disperse4.jpg', alt: 'Bunny-shaped brie cheese charcuterie board for spring celebration' },
   { src: '/cart-setup.jpg', alt: 'Mobile charcuterie cart setup with full grazing spread' },
+  { src: '/gallery/new/disperse2.jpg', alt: 'Charcuterie board with chocolate eggs and Lindt bunnies for Easter' },
 ]
 
 export default function Gallery() {

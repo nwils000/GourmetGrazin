@@ -74,9 +74,10 @@ export default function InquiryForm({ isOpen, onClose }) {
           {/* Close */}
           <button
             onClick={onClose}
+            aria-label="Close inquiry form"
             className="absolute top-6 right-6 text-charcoal hover:text-gold transition-colors"
           >
-            <X size={24} />
+            <X size={24} aria-hidden="true" />
           </button>
 
           {submitted ? (

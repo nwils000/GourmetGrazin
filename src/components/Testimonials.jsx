@@ -82,7 +82,7 @@ function TestimonialCard({ testimonial }) {
     <blockquote className="testimonial-card flex-shrink-0 w-[350px] md:w-[400px] bg-warm-white border border-taupe/30 p-8 mx-3">
       <Quote size={24} className="text-gold/30 mb-4 rotate-180" aria-hidden="true" />
       <Stars />
-      <p className="font-serif text-sm leading-relaxed text-charcoal/85 mb-6 italic">
+      <p className="font-serif text-sm leading-relaxed text-charcoal mb-6 italic">
         "{testimonial.text}"
       </p>
       <footer className="border-t border-taupe/30 pt-4">

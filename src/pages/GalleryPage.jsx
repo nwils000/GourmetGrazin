@@ -143,14 +143,13 @@ function ManualCarousel({ galleryImages }) {
       <CarouselArrow direction="left" onClick={goLeft} />
       <CarouselArrow direction="right" onClick={goRight} />
 
-      <div className="flex justify-center gap-2 mt-6" role="tablist" aria-label="Carousel navigation">
+      <div className="flex justify-center gap-2 mt-6" aria-label="Carousel navigation">
         {galleryImages.map((_, i) => (
           <button
             key={i}
             onClick={() => goTo(i)}
-            role="tab"
-            aria-selected={i === currentIndex}
             aria-label={`Go to slide ${i + 1}`}
+            aria-current={i === currentIndex ? 'true' : undefined}
             className={`w-2 h-2 rounded-full transition-all duration-300 ${
               i === currentIndex
                 ? 'bg-gold w-6'

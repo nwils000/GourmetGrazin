@@ -54,9 +54,10 @@ export default function Cart() {
           </div>
           <button
             onClick={() => setCartOpen(false)}
+            aria-label="Close cart"
             className="text-charcoal-light hover:text-charcoal transition-colors p-1"
           >
-            <X size={20} />
+            <X size={20} aria-hidden="true" />
           </button>
         </div>
 

@@ -93,13 +93,12 @@ export default function Navbar({ onInquire }) {
                       <ChevronDown size={14} className={`transition-transform duration-200 ${servicesOpen ? 'rotate-180' : ''}`} aria-hidden="true" />
                     </button>
                     {servicesOpen && (
-                      <div className="absolute top-full left-0 mt-2 w-64 bg-cream/98 backdrop-blur-md border border-taupe/30 shadow-lg py-2" role="menu">
+                      <div className="absolute top-full left-0 mt-2 w-64 bg-cream/98 backdrop-blur-md border border-taupe/30 shadow-lg py-2">
                         {link.items.map(item => (
                           <Link
                             key={item.label}
                             to={item.href}
-                            role="menuitem"
-                            aria-current={isActive(item.href) ? 'page' : undefined}
+aria-current={isActive(item.href) ? 'page' : undefined}
                             className={`block px-5 py-3 text-sm font-light hover:text-gold hover:bg-taupe-light/50 transition-colors duration-200 ${
                               isActive(item.href) ? 'text-gold' : 'text-charcoal'
                             }`}
@@ -189,7 +188,7 @@ export default function Navbar({ onInquire }) {
 
       {/* Mobile Menu */}
       {mobileOpen && (
-        <div className="lg:hidden bg-cream/98 backdrop-blur-md border-t border-taupe/30 max-h-[calc(100vh-5rem)] overflow-y-auto" role="menu">
+        <div className="lg:hidden bg-cream/98 backdrop-blur-md border-t border-taupe/30 max-h-[calc(100vh-5rem)] overflow-y-auto">
           <div className="px-6 py-6 space-y-1">
             {navLinks.map(link => {
               if (link.type === 'dropdown') {
@@ -210,8 +209,7 @@ export default function Navbar({ onInquire }) {
                             key={item.label}
                             to={item.href}
                             onClick={() => setMobileOpen(false)}
-                            role="menuitem"
-                            aria-current={isActive(item.href) ? 'page' : undefined}
+aria-current={isActive(item.href) ? 'page' : undefined}
                             className={`block py-2 text-sm font-light hover:text-gold transition-colors ${
                               isActive(item.href) ? 'text-gold' : 'text-charcoal-light'
                             }`}
@@ -230,8 +228,7 @@ export default function Navbar({ onInquire }) {
                     key={link.label}
                     href={link.href}
                     onClick={(e) => handleAnchorClick(e, link.href)}
-                    role="menuitem"
-                    className="block py-3 text-charcoal text-sm tracking-[0.12em] uppercase font-light hover:text-gold transition-colors"
+                                        className="block py-3 text-charcoal text-sm tracking-[0.12em] uppercase font-light hover:text-gold transition-colors"
                   >
                     {link.label}
                   </a>
@@ -242,8 +239,7 @@ export default function Navbar({ onInquire }) {
                   key={link.label}
                   to={link.href}
                   onClick={() => setMobileOpen(false)}
-                  role="menuitem"
-                  aria-current={isActive(link.href) ? 'page' : undefined}
+                                    aria-current={isActive(link.href) ? 'page' : undefined}
                   className={`block py-3 text-sm tracking-[0.12em] uppercase font-light hover:text-gold transition-colors ${
                     isActive(link.href) ? 'text-gold' : 'text-charcoal'
                   }`}

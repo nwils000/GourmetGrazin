@@ -53,6 +53,7 @@ export default function FAQ() {
             <div key={i} className="border-t border-charcoal/15">
               <button
                 onClick={() => setOpenIndex(openIndex === i ? null : i)}
+                aria-expanded={openIndex === i}
                 className="w-full flex items-center justify-between py-6 text-left group"
               >
                 <span className="font-serif text-lg md:text-xl pr-4 group-hover:text-gold transition-colors duration-300">
