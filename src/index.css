@@ -29,6 +29,11 @@
     -moz-osx-font-smoothing: grayscale;
     margin: 0;
   }
+
+  button,
+  [role="button"] {
+    cursor: pointer;
+  }
 }
 
 @keyframes marquee {

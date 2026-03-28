@@ -75,15 +75,8 @@ const PRODUCT_SCHEMA = {
   ],
 }
 
-function slugify(str) {
-  return str
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/(^-|-$)/g, '')
-}
-
 function CupCard({ cup, index, isVisible, shopifyProducts }) {
-  const { addToCart, addLocalItem } = useCart()
+  const { addToCart } = useCart()
   const [qty, setQty] = useState(15)
   const [adding, setAdding] = useState(false)
 
@@ -92,27 +85,15 @@ function CupCard({ cup, index, isVisible, shopifyProducts }) {
   )
 
   const imgSrc = shopifyProduct?.images?.[0]?.src
-  const unitPrice = shopifyProduct?.variants?.[0]?.price?.amount
-    ? parseFloat(shopifyProduct.variants[0].price.amount)
+  const variant = shopifyProduct?.variants?.[0]
+  const unitPrice = variant?.price?.amount
+    ? parseFloat(variant.price.amount)
     : 8
 
   const handleAdd = async () => {
-    if (adding) return
+    if (adding || !variant) return
     setAdding(true)
-
-    const variant = shopifyProduct?.variants?.[0]
-
-    if (variant) {
-      await addToCart(variant.id, qty)
-    } else {
-      addLocalItem({
-        id: `cup-${slugify(cup.title)}`,
-        title: `Charcuterie Cup - ${cup.title}`,
-        price: unitPrice,
-        quantity: qty,
-      })
-    }
-
+    await addToCart(variant.id, qty)
     setAdding(false)
   }
 
@@ -158,10 +139,10 @@ function CupCard({ cup, index, isVisible, shopifyProducts }) {
       </div>
       <button
         onClick={handleAdd}
-        disabled={adding}
-        className="w-full bg-charcoal text-cream px-6 py-3 text-xs tracking-[0.2em] uppercase hover:bg-gold transition-colors duration-300 disabled:opacity-50"
+        disabled={adding || !variant}
+        className="w-full bg-charcoal text-cream px-6 py-3 text-xs tracking-[0.2em] uppercase hover:bg-gold transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
       >
-        {adding ? 'Adding...' : 'Add to Cart'}
+        {!variant ? 'Unavailable' : adding ? 'Adding...' : 'Add to Cart'}
       </button>
       </div>
     </article>
@@ -169,7 +150,7 @@ function CupCard({ cup, index, isVisible, shopifyProducts }) {
 }
 
 function BoxCard({ box, index, isVisible, shopifyProducts }) {
-  const { addToCart, addLocalItem } = useCart()
+  const { addToCart } = useCart()
   const [qty, setQty] = useState(6)
   const [customText, setCustomText] = useState('')
   const [adding, setAdding] = useState(false)
@@ -179,31 +160,20 @@ function BoxCard({ box, index, isVisible, shopifyProducts }) {
   )
 
   const imgSrc = shopifyProduct?.images?.[0]?.src
-  const unitPrice = shopifyProduct?.variants?.[0]?.price?.amount
-    ? parseFloat(shopifyProduct.variants[0].price.amount)
+  const variant = shopifyProduct?.variants?.[0]
+  const unitPrice = variant?.price?.amount
+    ? parseFloat(variant.price.amount)
     : 10
 
   const handleAdd = async () => {
-    if (adding) return
+    if (adding || !variant) return
     setAdding(true)
 
-    const variant = shopifyProduct?.variants?.[0]
-
-    if (variant) {
-      const customAttributes = []
-      if (box.personalization && customText) {
-        customAttributes.push({ key: 'Custom Message', value: customText })
-      }
-      await addToCart(variant.id, qty, customAttributes)
-    } else {
-      addLocalItem({
-        id: `box-${slugify(box.title)}`,
-        title: `Charcuterie Box - ${box.title}`,
-        price: unitPrice,
-        quantity: qty,
-        customization: box.personalization ? customText || null : null,
-      })
+    const customAttributes = []
+    if (box.personalization && customText) {
+      customAttributes.push({ key: 'Custom Message', value: customText })
     }
+    await addToCart(variant.id, qty, customAttributes)
 
     setAdding(false)
   }
@@ -267,10 +237,10 @@ function BoxCard({ box, index, isVisible, shopifyProducts }) {
       </div>
       <button
         onClick={handleAdd}
-        disabled={adding}
-        className="w-full bg-charcoal text-cream px-6 py-3 text-xs tracking-[0.2em] uppercase hover:bg-gold transition-colors duration-300 disabled:opacity-50"
+        disabled={adding || !variant}
+        className="w-full bg-charcoal text-cream px-6 py-3 text-xs tracking-[0.2em] uppercase hover:bg-gold transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
       >
-        {adding ? 'Adding...' : 'Add to Cart'}
+        {!variant ? 'Unavailable' : adding ? 'Adding...' : 'Add to Cart'}
       </button>
       </div>
     </article>

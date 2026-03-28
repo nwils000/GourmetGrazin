@@ -190,7 +190,7 @@ function ImageGallery({ images }) {
 
 /* ── Board configuration modal (shared by classics & specials) ── */
 function BoardModal({ board, onClose, shopifyProducts }) {
-  const { addToCart, addLocalItem } = useCart()
+  const { addToCart } = useCart()
   const [selectedSize, setSelectedSize] = useState(0)
   const [quantity, setQuantity] = useState(1)
   const [personalizationText, setPersonalizationText] = useState('')
@@ -212,42 +212,25 @@ function BoardModal({ board, onClose, shopifyProducts }) {
 
   const chosenPrice = getVariantPrice(chosen)
 
+  // Find the matching Shopify variant for the selected size
+  function getSelectedVariant() {
+    if (!shopifyProduct?.variants) return null
+    const variants = shopifyProduct.variants
+    if (variants.length === 1) return variants[0]
+    return variants.find((v) => v.title === chosen.variantTitle) || null
+  }
+
+  const selectedVariant = getSelectedVariant()
+
   async function handleAddToCart() {
-    if (adding) return
+    if (adding || !selectedVariant) return
     setAdding(true)
 
-    let added = false
-
-    if (shopifyProduct) {
-      const variants = shopifyProduct.variants
-      let variant
-
-      if (variants.length === 1) {
-        variant = variants[0]
-      } else {
-        variant = variants.find((v) => v.title === chosen.variantTitle)
-      }
-
-      if (variant) {
-        const customAttributes = []
-        if (board.personalization && personalizationText) {
-          customAttributes.push({ key: 'Personalization', value: personalizationText })
-        }
-        await addToCart(variant.id, quantity, customAttributes)
-        added = true
-      }
+    const customAttributes = []
+    if (board.personalization && personalizationText) {
+      customAttributes.push({ key: 'Personalization', value: personalizationText })
     }
-
-    if (!added) {
-      addLocalItem({
-        id: `board-${slugify(board.title)}-${chosen.key}`,
-        title: board.title,
-        size: chosen.label,
-        price: chosen.price,
-        quantity,
-        customization: board.personalization ? personalizationText || null : null,
-      })
-    }
+    await addToCart(selectedVariant.id, quantity, customAttributes)
 
     setAdding(false)
     onClose()
@@ -351,10 +334,10 @@ function BoardModal({ board, onClose, shopifyProducts }) {
 
         <button
           onClick={handleAddToCart}
-          disabled={adding}
-          className="w-full bg-charcoal text-cream px-8 py-4 text-xs tracking-[0.2em] uppercase hover:bg-gold transition-colors duration-300 disabled:opacity-50"
+          disabled={adding || !selectedVariant}
+          className="w-full bg-charcoal text-cream px-8 py-4 text-xs tracking-[0.2em] uppercase hover:bg-gold transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          {adding ? 'Adding...' : `Add to Cart — $${chosenPrice * quantity}`}
+          {!selectedVariant ? 'Unavailable' : adding ? 'Adding...' : `Add to Cart — $${chosenPrice * quantity}`}
         </button>
       </div>
     </div>

@@ -37,7 +37,7 @@ export default function PersonalizationsPage() {
     shopifyClient.product.fetchAll().then(setShopifyProducts)
   }, [])
 
-  const { addToCart, addLocalItem } = useCart()
+  const { addToCart } = useCart()
 
   const boardProduct = shopifyProducts.find(
     p => p.title.toLowerCase().includes('mini') && p.title.toLowerCase().includes('board')
@@ -49,11 +49,14 @@ export default function PersonalizationsPage() {
   const boardImg = boardProduct?.images?.[0]?.src || '/personalizations/mini-board-favor.png'
   const stickerImg = stickerProduct?.images?.[0]?.src || '/personalizations/custom-sticker.png'
 
-  const boardPrice = boardProduct?.variants?.[0]?.price?.amount
-    ? parseFloat(boardProduct.variants[0].price.amount)
+  const boardVariant = boardProduct?.variants?.[0]
+  const stickerVariant = stickerProduct?.variants?.[0]
+
+  const boardPrice = boardVariant?.price?.amount
+    ? parseFloat(boardVariant.price.amount)
     : 10
-  const stickerPrice = stickerProduct?.variants?.[0]?.price?.amount
-    ? parseFloat(stickerProduct.variants[0].price.amount)
+  const stickerPrice = stickerVariant?.price?.amount
+    ? parseFloat(stickerVariant.price.amount)
     : 0.25
 
   const [heroRef, heroVisible] = useInView()
@@ -68,40 +71,18 @@ export default function PersonalizationsPage() {
   const [stickerCustomText, setStickerCustomText] = useState('')
 
   const handleAddBoard = async () => {
-    const variant = boardProduct?.variants?.[0]
-    if (variant) {
-      const customAttributes = []
-      if (boardCustomText) customAttributes.push({ key: 'Personalization', value: boardCustomText })
-      if (ribbonChecked) customAttributes.push({ key: 'Ribbon Packaging', value: 'Yes' })
-      await addToCart(variant.id, boardQty, customAttributes)
-    } else {
-      const price = ribbonChecked ? boardPrice + 0.50 : boardPrice
-      addLocalItem({
-        id: 'personalization-mini-board-favor',
-        title: 'Personalized Mini Board Favor',
-        price,
-        quantity: boardQty,
-        customization: boardCustomText,
-        ribbon: ribbonChecked,
-      })
-    }
+    if (!boardVariant) return
+    const customAttributes = []
+    if (boardCustomText) customAttributes.push({ key: 'Personalization', value: boardCustomText })
+    if (ribbonChecked) customAttributes.push({ key: 'Ribbon Packaging', value: 'Yes' })
+    await addToCart(boardVariant.id, boardQty, customAttributes)
   }
 
   const handleAddSticker = async () => {
-    const variant = stickerProduct?.variants?.[0]
-    if (variant) {
-      const customAttributes = []
-      if (stickerCustomText) customAttributes.push({ key: 'Personalization', value: stickerCustomText })
-      await addToCart(variant.id, stickerQty, customAttributes)
-    } else {
-      addLocalItem({
-        id: 'personalization-custom-sticker',
-        title: 'Custom Sticker',
-        price: stickerPrice,
-        quantity: stickerQty,
-        customization: stickerCustomText,
-      })
-    }
+    if (!stickerVariant) return
+    const customAttributes = []
+    if (stickerCustomText) customAttributes.push({ key: 'Personalization', value: stickerCustomText })
+    await addToCart(stickerVariant.id, stickerQty, customAttributes)
   }
 
   return (
@@ -207,9 +188,10 @@ export default function PersonalizationsPage() {
 
               <button
                 onClick={handleAddBoard}
-                className={`bg-charcoal text-cream px-10 py-4 text-xs tracking-[0.2em] uppercase hover:bg-gold transition-colors duration-300 fade-in-up fade-in-up-delay-2 ${miniBoardVisible ? 'visible' : ''}`}
+                disabled={!boardVariant}
+                className={`bg-charcoal text-cream px-10 py-4 text-xs tracking-[0.2em] uppercase hover:bg-gold transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed fade-in-up fade-in-up-delay-2 ${miniBoardVisible ? 'visible' : ''}`}
               >
-                Add to Cart
+                {boardVariant ? 'Add to Cart' : 'Unavailable'}
               </button>
             </div>
           </div>
@@ -273,9 +255,10 @@ export default function PersonalizationsPage() {
 
               <button
                 onClick={handleAddSticker}
-                className={`bg-charcoal text-cream px-10 py-4 text-xs tracking-[0.2em] uppercase hover:bg-gold transition-colors duration-300 fade-in-up fade-in-up-delay-2 ${stickerVisible ? 'visible' : ''}`}
+                disabled={!stickerVariant}
+                className={`bg-charcoal text-cream px-10 py-4 text-xs tracking-[0.2em] uppercase hover:bg-gold transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed fade-in-up fade-in-up-delay-2 ${stickerVisible ? 'visible' : ''}`}
               >
-                Add to Cart
+                {stickerVariant ? 'Add to Cart' : 'Unavailable'}
               </button>
             </div>
             <figure className={`order-1 lg:order-2 overflow-hidden fade-in-up ${stickerVisible ? 'visible' : ''}`}>
