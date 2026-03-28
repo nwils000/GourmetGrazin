@@ -82,6 +82,8 @@ export default function Services() {
                     alt={service.imageAlt}
                     className="w-full h-48 sm:h-56 md:h-64 object-cover img-hover"
                     loading="lazy"
+                    width="400"
+                    height="256"
                   />
                 </figure>
                 <div className="flex gap-4 items-start">

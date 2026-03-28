@@ -63,8 +63,8 @@ function ComingSoon() {
         <div className="h-1.5 w-1.5 rotate-45 bg-gold/60" />
         <div className="h-px w-16 bg-gold/40" />
       </div>
-      <p className="font-serif text-2xl text-charcoal/40 italic mb-2">Coming Soon</p>
-      <p className="text-charcoal-light/40 text-sm font-light">We're curating this collection. Check back soon!</p>
+      <p className="font-serif text-2xl text-charcoal/60 italic mb-2">Coming Soon</p>
+      <p className="text-charcoal-light text-sm font-light">We're curating this collection. Check back soon!</p>
       <div className="flex items-center gap-2 mt-4">
         <div className="h-px w-16 bg-gold/40" />
         <div className="h-1.5 w-1.5 rotate-45 bg-gold/60" />
@@ -129,9 +129,9 @@ function BoardModal({ product, onClose }) {
         {variants.length > 1 && variants[0].title !== 'Default Title' ? (
           <>
             <p className="text-xs tracking-[0.2em] uppercase text-gold mb-3">Select a Size</p>
-            <div className="grid grid-cols-2 gap-3 mb-8" role="radiogroup" aria-label="Board size">
+            <div className="grid grid-cols-2 gap-3 mb-8" aria-label="Board size">
               {variants.map((v, idx) => (
-                <button key={v.id} onClick={() => setSelectedSize(idx)} role="radio" aria-checked={selectedSize === idx}
+                <button key={v.id} onClick={() => setSelectedSize(idx)} aria-pressed={selectedSize === idx}
                   className={`border py-3 px-4 text-left transition-all duration-200 ${selectedSize === idx ? 'border-gold bg-gold/10' : 'border-gold/20 hover:border-gold/40'}`}>
                   <span className="block font-serif text-sm">{v.title}</span>
                   <span className="block text-gold font-serif text-lg mt-1">${parseFloat(v.price?.amount || 0)}</span>

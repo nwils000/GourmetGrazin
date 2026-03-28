@@ -85,6 +85,9 @@ export default function Cart() {
                         src={item.variant.image.src}
                         alt={item.title}
                         className="w-20 h-20 object-cover flex-shrink-0"
+                        width="80"
+                        height="80"
+                        loading="lazy"
                       />
                     )}
                     <div className="flex-1 min-w-0">
@@ -108,26 +111,29 @@ export default function Cart() {
                               ? removeFromCart(item.id)
                               : updateQuantity(item.id, item.quantity - 1)
                           }
+                          aria-label="Decrease quantity"
                           className="w-7 h-7 flex items-center justify-center border border-taupe/50 hover:border-gold text-charcoal-light hover:text-gold transition-colors"
                         >
-                          <Minus size={12} />
+                          <Minus size={12} aria-hidden="true" />
                         </button>
-                        <span className="text-sm w-4 text-center">
+                        <span className="text-sm w-4 text-center" aria-live="polite">
                           {item.quantity}
                         </span>
                         <button
                           onClick={() =>
                             updateQuantity(item.id, item.quantity + 1)
                           }
+                          aria-label="Increase quantity"
                           className="w-7 h-7 flex items-center justify-center border border-taupe/50 hover:border-gold text-charcoal-light hover:text-gold transition-colors"
                         >
-                          <Plus size={12} />
+                          <Plus size={12} aria-hidden="true" />
                         </button>
                         <button
                           onClick={() => removeFromCart(item.id)}
-                          className="ml-auto text-charcoal-light/50 hover:text-red-400 transition-colors"
+                          aria-label={`Remove ${item.title} from cart`}
+                          className="ml-auto text-charcoal-light/70 hover:text-red-400 transition-colors"
                         >
-                          <X size={14} />
+                          <X size={14} aria-hidden="true" />
                         </button>
                       </div>
                     </div>
@@ -185,26 +191,29 @@ export default function Cart() {
                                     item.quantity - 1
                                   )
                             }
+                            aria-label="Decrease quantity"
                             className="w-7 h-7 flex items-center justify-center border border-taupe/50 hover:border-gold text-charcoal-light hover:text-gold transition-colors"
                           >
-                            <Minus size={12} />
+                            <Minus size={12} aria-hidden="true" />
                           </button>
-                          <span className="text-sm w-4 text-center">
+                          <span className="text-sm w-4 text-center" aria-live="polite">
                             {item.quantity}
                           </span>
                           <button
                             onClick={() =>
                               updateLocalQuantity(item._key, item.quantity + 1)
                             }
+                            aria-label="Increase quantity"
                             className="w-7 h-7 flex items-center justify-center border border-taupe/50 hover:border-gold text-charcoal-light hover:text-gold transition-colors"
                           >
-                            <Plus size={12} />
+                            <Plus size={12} aria-hidden="true" />
                           </button>
                           <button
                             onClick={() => removeLocalItem(item._key)}
-                            className="ml-auto text-charcoal-light/50 hover:text-red-400 transition-colors"
+                            aria-label={`Remove ${item.title} from cart`}
+                            className="ml-auto text-charcoal-light/70 hover:text-red-400 transition-colors"
                           >
-                            <X size={14} />
+                            <X size={14} aria-hidden="true" />
                           </button>
                         </div>
                       </div>
@@ -223,7 +232,7 @@ export default function Cart() {
                     ${cartTotal.toFixed(2)}
                   </span>
                 </div>
-                <p className="text-charcoal-light/60 text-xs mb-4 font-light">
+                <p className="text-charcoal-light text-xs mb-4 font-light">
                   Shipping & taxes calculated at checkout.
                 </p>
 
