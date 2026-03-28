@@ -298,6 +298,43 @@ export default function ShopPage() {
     })
   }, [])
 
+  // Inject dynamic Product schemas from Shopify data for Google Shopping
+  useEffect(() => {
+    if (shopifyProducts.length === 0) return
+    const schemas = shopifyProducts.map(product => ({
+      '@context': 'https://schema.org',
+      '@type': 'Product',
+      name: product.title,
+      image: product.images?.map(img => img.src) || [],
+      description: product.description || '',
+      brand: { '@type': 'Brand', name: "Gourmet Grazin'" },
+      offers: product.variants?.length > 1 && product.variants[0].title !== 'Default Title'
+        ? {
+            '@type': 'AggregateOffer',
+            lowPrice: Math.min(...product.variants.map(v => parseFloat(v.price?.amount || 0))),
+            highPrice: Math.max(...product.variants.map(v => parseFloat(v.price?.amount || 0))),
+            priceCurrency: 'USD',
+            offerCount: product.variants.length,
+            availability: 'https://schema.org/InStock',
+          }
+        : {
+            '@type': 'Offer',
+            price: parseFloat(product.variants?.[0]?.price?.amount || 0),
+            priceCurrency: 'USD',
+            availability: product.variants?.[0]?.available !== false
+              ? 'https://schema.org/InStock'
+              : 'https://schema.org/OutOfStock',
+            itemCondition: 'https://schema.org/NewCondition',
+          },
+    }))
+    const el = document.createElement('script')
+    el.type = 'application/ld+json'
+    el.id = 'shopify-product-schemas'
+    el.textContent = JSON.stringify(schemas)
+    document.head.appendChild(el)
+    return () => { document.getElementById('shopify-product-schemas')?.remove() }
+  }, [shopifyProducts])
+
   useEffect(() => {
     if (activeBoard) {
       document.body.style.overflow = 'hidden'
