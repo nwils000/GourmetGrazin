@@ -379,9 +379,34 @@ export default function ShopPage() {
 
   useSEO({
     title: 'Shop Charcuterie Boards Online',
-    description: 'Order handcrafted charcuterie boards, cups, boxes & custom favors online — delivered fresh across Kentucky. All Shopify checkout.',
+    description: 'Order handcrafted charcuterie boards, cups, boxes & personalized favors online. Fresh artisan ingredients, delivered across Kentucky. Shop now!',
     path: '/shop',
     ogType: 'product',
+    jsonLd: {
+      '@context': 'https://schema.org',
+      '@type': 'ItemList',
+      name: "Gourmet Grazin' Shop",
+      description: 'Handcrafted charcuterie boards, cups, boxes, and personalized favors available for order online in Kentucky.',
+      url: 'https://www.gourmetgrazinky.com/shop',
+      numberOfItems: classicBoards.length + specialBoards.length + cups.length + boxes.length + 2,
+      itemListElement: [
+        ...classicBoards.map((b, i) => ({
+          '@type': 'ListItem', position: i + 1,
+          item: { '@type': 'Product', name: b.title, description: b.description,
+            offers: { '@type': 'AggregateOffer', lowPrice: '65', highPrice: '210', priceCurrency: 'USD', availability: 'https://schema.org/InStock' } },
+        })),
+        ...cups.map((c, i) => ({
+          '@type': 'ListItem', position: classicBoards.length + i + 1,
+          item: { '@type': 'Product', name: c.title, description: c.description,
+            offers: { '@type': 'Offer', price: '8', priceCurrency: 'USD', availability: 'https://schema.org/InStock' } },
+        })),
+        ...boxes.map((b, i) => ({
+          '@type': 'ListItem', position: classicBoards.length + cups.length + i + 1,
+          item: { '@type': 'Product', name: b.title, description: b.description,
+            offers: { '@type': 'Offer', price: '10', priceCurrency: 'USD', availability: 'https://schema.org/InStock' } },
+        })),
+      ],
+    },
   })
 
   useEffect(() => {
