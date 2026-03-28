@@ -4,6 +4,7 @@ import { useInView } from '../components/useInView'
 import { useCart } from '../context/CartContext'
 import shopifyClient from '../lib/shopify'
 import useSEO from '../hooks/useSEO'
+import ImagePlaceholder from '../components/ImagePlaceholder'
 
 function ProductCard({ product, index, isVisible }) {
   const { addToCart } = useCart()
@@ -37,12 +38,7 @@ function ProductCard({ product, index, isVisible }) {
             className="w-full h-full object-cover img-hover"
           />
         ) : (
-          <img
-            src="/charcuterie-board.png"
-            alt={`${product.title} - handcrafted charcuterie product`}
-            loading="lazy"
-            className="w-full h-full object-cover img-hover"
-          />
+          <ImagePlaceholder className="w-full h-full" />
         )}
         {images.length > 1 && (
           <>

@@ -4,6 +4,7 @@ import { useInView } from '../components/useInView'
 import { useCart } from '../context/CartContext'
 import shopifyClient from '../lib/shopify'
 import useSEO from '../hooks/useSEO'
+import ImagePlaceholder from '../components/ImagePlaceholder'
 
 /* ── Sizing & pricing (shared by ALL boards) ── */
 const sizes = [
@@ -442,11 +443,13 @@ export default function SnackBoardsPage() {
                   onClick={() => setActiveBoard(board)}
                   className={`group bg-cream border border-gold/15 hover:border-gold/40 transition-all duration-300 cursor-pointer overflow-hidden fade-in-up fade-in-up-delay-${Math.min(i + 1, 4)} ${classicsVisible ? 'visible' : ''}`}
                 >
-                  {imgSrc && (
-                    <figure className="overflow-hidden">
+                  <figure className="overflow-hidden">
+                    {imgSrc ? (
                       <img src={imgSrc} alt={`${board.title} - handcrafted charcuterie board`} className="w-full h-48 object-cover img-hover" loading="lazy" />
-                    </figure>
-                  )}
+                    ) : (
+                      <ImagePlaceholder />
+                    )}
+                  </figure>
                   <div className="p-8">
                     <span className="font-serif text-3xl text-gold/30 group-hover:text-gold transition-colors duration-300" aria-hidden="true">
                       {board.number}
@@ -503,12 +506,16 @@ export default function SnackBoardsPage() {
                   className={`group cursor-pointer fade-in-up fade-in-up-delay-${Math.min(i + 1, 4)} ${specialVisible ? 'visible' : ''}`}
                 >
                   <figure className="overflow-hidden mb-4">
-                    <img
-                      src={imgSrc}
-                      alt={`${board.title} - themed charcuterie board for celebrations`}
-                      className="w-full h-56 md:h-64 object-cover img-hover"
-                      loading="lazy"
-                    />
+                    {imgSrc ? (
+                      <img
+                        src={imgSrc}
+                        alt={`${board.title} - themed charcuterie board for celebrations`}
+                        className="w-full h-56 md:h-64 object-cover img-hover"
+                        loading="lazy"
+                      />
+                    ) : (
+                      <ImagePlaceholder className="h-56 md:h-64" />
+                    )}
                   </figure>
                   <h3 className="font-serif text-xl md:text-2xl mb-2 group-hover:text-gold transition-colors duration-300">
                     {board.title}

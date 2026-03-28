@@ -4,6 +4,7 @@ import { useInView } from '../components/useInView'
 import { useCart } from '../context/CartContext'
 import shopifyClient from '../lib/shopify'
 import useSEO from '../hooks/useSEO'
+import ImagePlaceholder from '../components/ImagePlaceholder'
 
 const cups = [
   {
@@ -101,11 +102,13 @@ function CupCard({ cup, index, isVisible, shopifyProducts }) {
     <article
       className={`bg-cream overflow-hidden fade-in-up fade-in-up-delay-${Math.min(index + 1, 4)} ${isVisible ? 'visible' : ''}`}
     >
-      {imgSrc && (
-        <figure className="overflow-hidden">
+      <figure className="overflow-hidden">
+        {imgSrc ? (
           <img src={imgSrc} alt={`${cup.title} - individual charcuterie cup`} className="w-full h-48 object-cover" loading="lazy" />
-        </figure>
-      )}
+        ) : (
+          <ImagePlaceholder />
+        )}
+      </figure>
       <div className="p-8">
       <h3 className="font-serif text-xl md:text-2xl mb-3 text-charcoal">
         {cup.title}
@@ -182,11 +185,13 @@ function BoxCard({ box, index, isVisible, shopifyProducts }) {
     <article
       className={`bg-cream overflow-hidden fade-in-up fade-in-up-delay-${Math.min(index + 1, 4)} ${isVisible ? 'visible' : ''}`}
     >
-      {imgSrc && (
-        <figure className="overflow-hidden">
+      <figure className="overflow-hidden">
+        {imgSrc ? (
           <img src={imgSrc} alt={`${box.title} - curated charcuterie box`} className="w-full h-48 object-cover" loading="lazy" />
-        </figure>
-      )}
+        ) : (
+          <ImagePlaceholder />
+        )}
+      </figure>
       <div className="p-8">
       <h3 className="font-serif text-xl md:text-2xl mb-3 text-charcoal">
         {box.title}
