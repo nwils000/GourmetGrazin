@@ -9,14 +9,17 @@ export default function About() {
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           {/* Image */}
           <figure className={`overflow-hidden fade-in-up ${isVisible ? 'visible' : ''}`}>
-            <img
-              src="/cart-outdoor.jpg"
-              alt="Gourmet Grazin' mobile charcuterie cart styled with artisan cheeses and cured meats at an outdoor Kentucky event"
-              className="w-full h-[500px] lg:h-[600px] object-cover img-hover"
-              width="600"
-              height="600"
-              loading="lazy"
-            />
+            <picture>
+              <source srcSet="/cart-outdoor.webp" type="image/webp" />
+              <img
+                src="/cart-outdoor.jpg"
+                alt="Gourmet Grazin' mobile charcuterie cart styled with artisan cheeses and cured meats at an outdoor Kentucky event"
+                className="w-full h-[500px] lg:h-[600px] object-cover img-hover"
+                width="768"
+                height="1055"
+                fetchpriority="high"
+              />
+            </picture>
           </figure>
 
           {/* Content */}

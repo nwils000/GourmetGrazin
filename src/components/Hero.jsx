@@ -40,14 +40,17 @@ export default function Hero({ onInquire }) {
           {/* Right side - Image */}
           <figure className={`fade-in-up fade-in-up-delay-2 ${isVisible ? 'visible' : ''}`}>
             <div className="relative">
-              <img
-                src="/gallery/new/disperse5.jpeg"
-                alt="Beautifully arranged artisan charcuterie board with imported cheeses, cured meats, and fresh fruits by Gourmet Grazin'"
-                className="w-full h-[500px] lg:h-[600px] object-cover shadow-lg"
-                width="600"
-                height="600"
-                fetchpriority="high"
-              />
+              <picture>
+                <source srcSet="/gallery/new/disperse5.webp" type="image/webp" />
+                <img
+                  src="/gallery/new/disperse5.jpeg"
+                  alt="Beautifully arranged artisan charcuterie board with imported cheeses, cured meats, and fresh fruits by Gourmet Grazin'"
+                  className="w-full h-[500px] lg:h-[600px] object-cover shadow-lg"
+                  width="768"
+                  height="1055"
+                  fetchpriority="high"
+                />
+              </picture>
               <div className="absolute inset-0 ring-1 ring-gold/20 ring-inset" aria-hidden="true" />
             </div>
           </figure>
