@@ -60,6 +60,11 @@ function CupCard({ cup, index, isVisible, shopifyProducts }) {
     (p) => p.title.toLowerCase() === cup.title.toLowerCase()
   )
 
+  const imgSrc = shopifyProduct?.images?.[0]?.src
+  const unitPrice = shopifyProduct?.variants?.[0]?.price?.amount
+    ? parseFloat(shopifyProduct.variants[0].price.amount)
+    : 8
+
   const handleAdd = async () => {
     if (adding) return
     setAdding(true)
@@ -72,7 +77,7 @@ function CupCard({ cup, index, isVisible, shopifyProducts }) {
       addLocalItem({
         id: `cup-${slugify(cup.title)}`,
         title: `Charcuterie Cup - ${cup.title}`,
-        price: 8,
+        price: unitPrice,
         quantity: qty,
       })
     }
@@ -82,8 +87,14 @@ function CupCard({ cup, index, isVisible, shopifyProducts }) {
 
   return (
     <div
-      className={`bg-cream p-8 fade-in-up fade-in-up-delay-${Math.min(index + 1, 4)} ${isVisible ? 'visible' : ''}`}
+      className={`bg-cream overflow-hidden fade-in-up fade-in-up-delay-${Math.min(index + 1, 4)} ${isVisible ? 'visible' : ''}`}
     >
+      {imgSrc && (
+        <div className="overflow-hidden">
+          <img src={imgSrc} alt={cup.title} className="w-full h-48 object-cover" />
+        </div>
+      )}
+      <div className="p-8">
       <h3 className="font-serif text-xl md:text-2xl mb-3 text-charcoal">
         {cup.title}
       </h3>
@@ -91,7 +102,7 @@ function CupCard({ cup, index, isVisible, shopifyProducts }) {
         {cup.description}
       </p>
       <div className="flex items-center gap-3 text-sm mb-4">
-        <span className="font-serif text-lg text-gold">$8/cup</span>
+        <span className="font-serif text-lg text-gold">${unitPrice}/cup</span>
         <span className="text-charcoal-light font-light">&middot; 15 minimum</span>
       </div>
       <div className="flex items-center gap-3 mb-4">
@@ -119,6 +130,7 @@ function CupCard({ cup, index, isVisible, shopifyProducts }) {
       >
         {adding ? 'Adding...' : 'Add to Cart'}
       </button>
+      </div>
     </div>
   )
 }
@@ -132,6 +144,11 @@ function BoxCard({ box, index, isVisible, shopifyProducts }) {
   const shopifyProduct = shopifyProducts.find(
     (p) => p.title.toLowerCase() === box.title.toLowerCase()
   )
+
+  const imgSrc = shopifyProduct?.images?.[0]?.src
+  const unitPrice = shopifyProduct?.variants?.[0]?.price?.amount
+    ? parseFloat(shopifyProduct.variants[0].price.amount)
+    : 10
 
   const handleAdd = async () => {
     if (adding) return
@@ -149,7 +166,7 @@ function BoxCard({ box, index, isVisible, shopifyProducts }) {
       addLocalItem({
         id: `box-${slugify(box.title)}`,
         title: `Charcuterie Box - ${box.title}`,
-        price: 10,
+        price: unitPrice,
         quantity: qty,
         customization: box.personalization ? customText || null : null,
       })
@@ -160,8 +177,14 @@ function BoxCard({ box, index, isVisible, shopifyProducts }) {
 
   return (
     <div
-      className={`bg-cream p-8 fade-in-up fade-in-up-delay-${Math.min(index + 1, 4)} ${isVisible ? 'visible' : ''}`}
+      className={`bg-cream overflow-hidden fade-in-up fade-in-up-delay-${Math.min(index + 1, 4)} ${isVisible ? 'visible' : ''}`}
     >
+      {imgSrc && (
+        <div className="overflow-hidden">
+          <img src={imgSrc} alt={box.title} className="w-full h-48 object-cover" />
+        </div>
+      )}
+      <div className="p-8">
       <h3 className="font-serif text-xl md:text-2xl mb-3 text-charcoal">
         {box.title}
       </h3>
@@ -169,7 +192,7 @@ function BoxCard({ box, index, isVisible, shopifyProducts }) {
         {box.description}
       </p>
       <div className="flex items-center gap-3 text-sm mb-4">
-        <span className="font-serif text-lg text-gold">$10/box</span>
+        <span className="font-serif text-lg text-gold">${unitPrice}/box</span>
         <span className="text-charcoal-light font-light">&middot; 6 minimum</span>
       </div>
 
@@ -214,6 +237,7 @@ function BoxCard({ box, index, isVisible, shopifyProducts }) {
       >
         {adding ? 'Adding...' : 'Add to Cart'}
       </button>
+      </div>
     </div>
   )
 }

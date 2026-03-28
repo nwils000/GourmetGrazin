@@ -1,13 +1,35 @@
 import { useEffect, useState } from 'react'
 import { useInView } from '../components/useInView'
 import { useCart } from '../context/CartContext'
+import shopifyClient from '../lib/shopify'
 
 export default function PersonalizationsPage() {
+  const [shopifyProducts, setShopifyProducts] = useState([])
+
   useEffect(() => {
     window.scrollTo(0, 0)
+    shopifyClient.product.fetchAll().then(setShopifyProducts)
   }, [])
 
-  const { addLocalItem } = useCart()
+  const { addToCart, addLocalItem } = useCart()
+
+  // Match Shopify products by title
+  const boardProduct = shopifyProducts.find(
+    p => p.title.toLowerCase().includes('mini') && p.title.toLowerCase().includes('board')
+  )
+  const stickerProduct = shopifyProducts.find(
+    p => p.title.toLowerCase().includes('sticker')
+  )
+
+  const boardImg = boardProduct?.images?.[0]?.src || '/personalizations/mini-board-favor.png'
+  const stickerImg = stickerProduct?.images?.[0]?.src || '/personalizations/custom-sticker.png'
+
+  const boardPrice = boardProduct?.variants?.[0]?.price?.amount
+    ? parseFloat(boardProduct.variants[0].price.amount)
+    : 10
+  const stickerPrice = stickerProduct?.variants?.[0]?.price?.amount
+    ? parseFloat(stickerProduct.variants[0].price.amount)
+    : 0.25
 
   const [heroRef, heroVisible] = useInView()
   const [miniBoardRef, miniBoardVisible] = useInView()
@@ -22,26 +44,41 @@ export default function PersonalizationsPage() {
   const [stickerQty, setStickerQty] = useState(1)
   const [stickerCustomText, setStickerCustomText] = useState('')
 
-  const handleAddBoard = () => {
-    const price = ribbonChecked ? 10.50 : 10
-    addLocalItem({
-      id: 'personalization-mini-board-favor',
-      title: 'Personalized Mini Board Favor',
-      price,
-      quantity: boardQty,
-      customization: boardCustomText,
-      ribbon: ribbonChecked,
-    })
+  const handleAddBoard = async () => {
+    const variant = boardProduct?.variants?.[0]
+    if (variant) {
+      const customAttributes = []
+      if (boardCustomText) customAttributes.push({ key: 'Personalization', value: boardCustomText })
+      if (ribbonChecked) customAttributes.push({ key: 'Ribbon Packaging', value: 'Yes' })
+      await addToCart(variant.id, boardQty, customAttributes)
+    } else {
+      const price = ribbonChecked ? boardPrice + 0.50 : boardPrice
+      addLocalItem({
+        id: 'personalization-mini-board-favor',
+        title: 'Personalized Mini Board Favor',
+        price,
+        quantity: boardQty,
+        customization: boardCustomText,
+        ribbon: ribbonChecked,
+      })
+    }
   }
 
-  const handleAddSticker = () => {
-    addLocalItem({
-      id: 'personalization-custom-sticker',
-      title: 'Custom Sticker',
-      price: 0.25,
-      quantity: stickerQty,
-      customization: stickerCustomText,
-    })
+  const handleAddSticker = async () => {
+    const variant = stickerProduct?.variants?.[0]
+    if (variant) {
+      const customAttributes = []
+      if (stickerCustomText) customAttributes.push({ key: 'Personalization', value: stickerCustomText })
+      await addToCart(variant.id, stickerQty, customAttributes)
+    } else {
+      addLocalItem({
+        id: 'personalization-custom-sticker',
+        title: 'Custom Sticker',
+        price: stickerPrice,
+        quantity: stickerQty,
+        customization: stickerCustomText,
+      })
+    }
   }
 
   return (
@@ -67,7 +104,7 @@ export default function PersonalizationsPage() {
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div className={`overflow-hidden fade-in-up ${miniBoardVisible ? 'visible' : ''}`}>
               <img
-                src="/personalizations/mini-board-favor.png"
+                src={boardImg}
                 alt="Personalized mini charcuterie board favor"
                 className="w-full h-[400px] lg:h-[500px] object-cover"
               />
@@ -91,7 +128,7 @@ export default function PersonalizationsPage() {
               {/* Price & Minimum */}
               <div className={`flex items-center gap-3 text-sm mb-6 fade-in-up fade-in-up-delay-2 ${miniBoardVisible ? 'visible' : ''}`}>
                 <span className="font-serif text-lg text-gold">
-                  ${ribbonChecked ? '10.50' : '10.00'}/board
+                  ${ribbonChecked ? (boardPrice + 0.50).toFixed(2) : boardPrice.toFixed(2)}/board
                 </span>
                 <span className="text-charcoal-light font-light">· 10 minimum</span>
               </div>
@@ -173,7 +210,7 @@ export default function PersonalizationsPage() {
 
               {/* Price */}
               <div className={`flex items-center gap-3 text-sm mb-6 fade-in-up fade-in-up-delay-2 ${stickerVisible ? 'visible' : ''}`}>
-                <span className="font-serif text-lg text-gold">$0.25/sticker</span>
+                <span className="font-serif text-lg text-gold">${stickerPrice}/sticker</span>
               </div>
 
               {/* Quantity Selector */}
@@ -220,7 +257,7 @@ export default function PersonalizationsPage() {
             </div>
             <div className={`order-1 lg:order-2 overflow-hidden fade-in-up ${stickerVisible ? 'visible' : ''}`}>
               <img
-                src="/personalizations/custom-sticker.png"
+                src={stickerImg}
                 alt="Custom sticker on a charcuterie cup"
                 className="w-full h-[400px] lg:h-[500px] object-cover"
               />

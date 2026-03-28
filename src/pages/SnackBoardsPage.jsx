@@ -96,7 +96,17 @@ const specialOccasionBoards = [
   },
 ]
 
-/* ── Helper: slugify a title for use in IDs ── */
+/* ── Helpers ── */
+function getStartingPrice(shopifyProduct, fallback = 65) {
+  if (!shopifyProduct?.variants?.length) return fallback
+  const prices = shopifyProduct.variants.map(v => parseFloat(v.price?.amount || 0))
+  return Math.min(...prices) || fallback
+}
+
+function getProductImage(shopifyProduct) {
+  return shopifyProduct?.images?.[0]?.src || null
+}
+
 function slugify(str) {
   return str
     .toLowerCase()
@@ -163,6 +173,15 @@ function BoardModal({ board, onClose, shopifyProducts }) {
   )
 
   const shopifyImages = shopifyProduct?.images || []
+
+  // Get price from Shopify variant if available, otherwise use hardcoded
+  function getVariantPrice(sizeObj) {
+    if (!shopifyProduct?.variants) return sizeObj.price
+    const variant = shopifyProduct.variants.find(v => v.title === sizeObj.variantTitle)
+    return variant ? parseFloat(variant.price?.amount || sizeObj.price) : sizeObj.price
+  }
+
+  const chosenPrice = getVariantPrice(chosen)
 
   async function handleAddToCart() {
     if (adding) return
@@ -241,23 +260,26 @@ function BoardModal({ board, onClose, shopifyProducts }) {
           Select a Size
         </p>
         <div className="grid grid-cols-2 gap-3 mb-8">
-          {sizes.map((s, idx) => (
-            <button
-              key={s.key}
-              onClick={() => setSelectedSize(idx)}
-              className={`border py-3 px-4 text-left transition-all duration-200 ${
-                selectedSize === idx
-                  ? 'border-gold bg-gold/10'
-                  : 'border-gold/20 hover:border-gold/40'
-              }`}
-            >
-              <span className="block font-serif text-sm">{s.key === 'xlarge' ? 'X-Large' : s.key.charAt(0).toUpperCase() + s.key.slice(1)}</span>
-              <span className="block text-charcoal-light text-xs mt-0.5">
-                {s.label.match(/\(.*\)/)?.[0]}
-              </span>
-              <span className="block text-gold font-serif text-lg mt-1">${s.price}</span>
-            </button>
-          ))}
+          {sizes.map((s, idx) => {
+            const variantPrice = getVariantPrice(s)
+            return (
+              <button
+                key={s.key}
+                onClick={() => setSelectedSize(idx)}
+                className={`border py-3 px-4 text-left transition-all duration-200 ${
+                  selectedSize === idx
+                    ? 'border-gold bg-gold/10'
+                    : 'border-gold/20 hover:border-gold/40'
+                }`}
+              >
+                <span className="block font-serif text-sm">{s.key === 'xlarge' ? 'X-Large' : s.key.charAt(0).toUpperCase() + s.key.slice(1)}</span>
+                <span className="block text-charcoal-light text-xs mt-0.5">
+                  {s.label.match(/\(.*\)/)?.[0]}
+                </span>
+                <span className="block text-gold font-serif text-lg mt-1">${variantPrice}</span>
+              </button>
+            )
+          })}
         </div>
 
         {/* Personalization (conditional) */}
@@ -304,7 +326,7 @@ function BoardModal({ board, onClose, shopifyProducts }) {
           disabled={adding}
           className="w-full bg-charcoal text-cream px-8 py-4 text-xs tracking-[0.2em] uppercase hover:bg-gold transition-colors duration-300 disabled:opacity-50"
         >
-          {adding ? 'Adding...' : `Add to Cart \u2014 $${chosen.price * quantity}`}
+          {adding ? 'Adding...' : `Add to Cart \u2014 $${chosenPrice * quantity}`}
         </button>
       </div>
     </div>
@@ -394,24 +416,38 @@ export default function SnackBoardsPage() {
 
           {/* Classics Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-            {classics.map((board, i) => (
-              <div
-                key={board.number}
-                onClick={() => setActiveBoard(board)}
-                className={`group bg-cream p-8 border border-gold/15 hover:border-gold/40 transition-all duration-300 cursor-pointer fade-in-up fade-in-up-delay-${Math.min(i + 1, 4)} ${classicsVisible ? 'visible' : ''}`}
-              >
-                <span className="font-serif text-3xl text-gold/30 group-hover:text-gold transition-colors duration-300">
-                  {board.number}
-                </span>
-                <h3 className="font-serif text-xl md:text-2xl mt-4 mb-3 group-hover:text-gold transition-colors duration-300">
-                  {board.title}
-                </h3>
-                <p className="text-charcoal-light font-light text-sm leading-relaxed mb-4">
-                  {board.description}
-                </p>
-                <p className="text-gold font-serif text-sm">starting at $65</p>
-              </div>
-            ))}
+            {classics.map((board, i) => {
+              const matched = shopifyProducts.find(
+                p => p.title.toLowerCase() === board.title.toLowerCase()
+              )
+              const imgSrc = getProductImage(matched)
+              const startPrice = getStartingPrice(matched, 65)
+              return (
+                <div
+                  key={board.number}
+                  onClick={() => setActiveBoard(board)}
+                  className={`group bg-cream border border-gold/15 hover:border-gold/40 transition-all duration-300 cursor-pointer overflow-hidden fade-in-up fade-in-up-delay-${Math.min(i + 1, 4)} ${classicsVisible ? 'visible' : ''}`}
+                >
+                  {imgSrc && (
+                    <div className="overflow-hidden">
+                      <img src={imgSrc} alt={board.title} className="w-full h-48 object-cover img-hover" />
+                    </div>
+                  )}
+                  <div className="p-8">
+                    <span className="font-serif text-3xl text-gold/30 group-hover:text-gold transition-colors duration-300">
+                      {board.number}
+                    </span>
+                    <h3 className="font-serif text-xl md:text-2xl mt-4 mb-3 group-hover:text-gold transition-colors duration-300">
+                      {board.title}
+                    </h3>
+                    <p className="text-charcoal-light font-light text-sm leading-relaxed mb-4">
+                      {board.description}
+                    </p>
+                    <p className="text-gold font-serif text-sm">starting at ${startPrice}</p>
+                  </div>
+                </div>
+              )
+            })}
           </div>
         </div>
       </section>
@@ -442,28 +478,35 @@ export default function SnackBoardsPage() {
 
           {/* Special Occasion Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-            {specialOccasionBoards.map((board, i) => (
-              <div
-                key={board.title}
-                onClick={() => setActiveBoard(board)}
-                className={`group cursor-pointer fade-in-up fade-in-up-delay-${Math.min(i + 1, 4)} ${specialVisible ? 'visible' : ''}`}
-              >
-                <div className="overflow-hidden mb-4">
-                  <img
-                    src={board.image}
-                    alt={board.title}
-                    className="w-full h-56 md:h-64 object-cover img-hover"
-                  />
+            {specialOccasionBoards.map((board, i) => {
+              const matched = shopifyProducts.find(
+                p => p.title.toLowerCase() === board.title.toLowerCase()
+              )
+              const imgSrc = getProductImage(matched) || board.image
+              const startPrice = getStartingPrice(matched, 65)
+              return (
+                <div
+                  key={board.title}
+                  onClick={() => setActiveBoard(board)}
+                  className={`group cursor-pointer fade-in-up fade-in-up-delay-${Math.min(i + 1, 4)} ${specialVisible ? 'visible' : ''}`}
+                >
+                  <div className="overflow-hidden mb-4">
+                    <img
+                      src={imgSrc}
+                      alt={board.title}
+                      className="w-full h-56 md:h-64 object-cover img-hover"
+                    />
+                  </div>
+                  <h3 className="font-serif text-xl md:text-2xl mb-2 group-hover:text-gold transition-colors duration-300">
+                    {board.title}
+                  </h3>
+                  <p className="text-charcoal-light font-light text-sm leading-relaxed mb-2">
+                    {board.description}
+                  </p>
+                  <p className="text-gold font-serif text-sm">starting at ${startPrice}</p>
                 </div>
-                <h3 className="font-serif text-xl md:text-2xl mb-2 group-hover:text-gold transition-colors duration-300">
-                  {board.title}
-                </h3>
-                <p className="text-charcoal-light font-light text-sm leading-relaxed mb-2">
-                  {board.description}
-                </p>
-                <p className="text-gold font-serif text-sm">starting at $65</p>
-              </div>
-            ))}
+              )
+            })}
           </div>
         </div>
       </section>
