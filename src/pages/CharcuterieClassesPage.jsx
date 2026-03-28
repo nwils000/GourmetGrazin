@@ -101,7 +101,7 @@ export default function CharcuterieClassesPage() {
       <section className="relative flex items-center justify-center bg-cream pt-24 pb-16 lg:pb-24" aria-label="Charcuterie Classes overview">
         <div ref={heroRef} className="max-w-7xl mx-auto px-6 lg:px-8 text-center">
           <p
-            className={`text-gold text-xs tracking-[0.3em] uppercase mb-6 fade-in-up ${heroVisible ? 'visible' : ''}`}
+            className={`text-gold-accessible text-xs tracking-[0.3em] uppercase mb-6 fade-in-up ${heroVisible ? 'visible' : ''}`}
           >
             Charcuterie Classes
           </p>
@@ -130,7 +130,7 @@ export default function CharcuterieClassesPage() {
         <div ref={provideRef} className="max-w-7xl mx-auto px-6 lg:px-8">
           <header className="max-w-2xl mx-auto text-center mb-14">
             <p
-              className={`text-gold text-xs tracking-[0.3em] uppercase mb-4 fade-in-up ${provideVisible ? 'visible' : ''}`}
+              className={`text-gold-accessible text-xs tracking-[0.3em] uppercase mb-4 fade-in-up ${provideVisible ? 'visible' : ''}`}
             >
               The Experience
             </p>
@@ -165,7 +165,7 @@ export default function CharcuterieClassesPage() {
         <div ref={pricingRef} className="max-w-7xl mx-auto px-6 lg:px-8">
           <header className="max-w-2xl mx-auto text-center mb-14">
             <p
-              className={`text-gold text-xs tracking-[0.3em] uppercase mb-4 fade-in-up ${pricingVisible ? 'visible' : ''}`}
+              className={`text-gold-accessible text-xs tracking-[0.3em] uppercase mb-4 fade-in-up ${pricingVisible ? 'visible' : ''}`}
             >
               Class Size & Pricing
             </p>
@@ -206,7 +206,7 @@ export default function CharcuterieClassesPage() {
         <div ref={highlightsRef} className="max-w-7xl mx-auto px-6 lg:px-8">
           <header className="max-w-2xl mx-auto text-center mb-14">
             <p
-              className={`text-gold text-xs tracking-[0.3em] uppercase mb-4 fade-in-up ${highlightsVisible ? 'visible' : ''}`}
+              className={`text-gold-accessible text-xs tracking-[0.3em] uppercase mb-4 fade-in-up ${highlightsVisible ? 'visible' : ''}`}
             >
               Experience Highlights
             </p>
@@ -242,7 +242,7 @@ export default function CharcuterieClassesPage() {
           <div
             className={`fade-in-up ${durationVisible ? 'visible' : ''}`}
           >
-            <p className="text-gold text-xs tracking-[0.3em] uppercase mb-4">
+            <p className="text-gold-accessible text-xs tracking-[0.3em] uppercase mb-4">
               Duration
             </p>
             <p className="font-serif text-2xl md:text-3xl leading-relaxed">
@@ -262,7 +262,7 @@ export default function CharcuterieClassesPage() {
         <div ref={formRef} className="max-w-3xl mx-auto px-6 lg:px-8">
           <header className="text-center mb-12">
             <p
-              className={`text-gold text-xs tracking-[0.3em] uppercase mb-4 fade-in-up ${formVisible ? 'visible' : ''}`}
+              className={`text-gold-accessible text-xs tracking-[0.3em] uppercase mb-4 fade-in-up ${formVisible ? 'visible' : ''}`}
             >
               Book a Class
             </p>

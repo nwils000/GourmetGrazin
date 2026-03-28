@@ -14,7 +14,7 @@ const services = [
     number: '02',
     title: 'Grazing Tables',
     description: 'Stunning tablescapes overflowing with carefully curated bites. Perfect for larger gatherings where you want a dramatic, Instagram-worthy display that keeps guests mingling.',
-    image: '/grazing-table.png',
+    image: '/grazing-table.jpg',
     imageAlt: 'Stunning grazing table display with artisan cheeses, fruits, and charcuterie',
     link: '/grazing-tables',
   },
@@ -22,7 +22,7 @@ const services = [
     number: '03',
     title: 'Charcuterie Boards',
     description: 'From intimate dinner parties to gift-worthy arrangements, our handcrafted boards feature premium ingredients arranged with artful precision. Available in classic, sweet & savory, fruit, veggie, and fully customizable styles.',
-    image: '/charcuterie-board.png',
+    image: '/charcuterie-board.jpg',
     imageAlt: 'Handcrafted charcuterie board with premium cheeses, meats, and fresh fruits',
     link: '/shop#boards',
   },
@@ -30,7 +30,7 @@ const services = [
     number: '04',
     title: 'Charcuterie Classes',
     description: 'Learn the art of the board! Our hands-on classes are perfect for team building, girls\' night, bridal parties, or anyone who wants to master the art of a beautiful spread.',
-    image: '/charcuterie-class.png',
+    image: '/charcuterie-class.jpg',
     imageAlt: 'Hands-on charcuterie board-building class in progress',
     link: '/charcuterie-classes',
   },
@@ -38,7 +38,7 @@ const services = [
     number: '05',
     title: 'Cups, Boxes & More',
     description: 'Elegant individual charcuterie cups and curated boxes — a stunning, budget-friendly option that delivers the elevated look and feel of a full spread in a perfectly portioned package.',
-    image: '/cups-boxes/cups.png',
+    image: '/cups-boxes/cups.jpg',
     imageAlt: 'Individual charcuterie cups with artisan cheeses, crackers, and fresh fruit',
     link: '/shop#cups',
   },
@@ -52,7 +52,7 @@ export default function Services() {
       <div ref={ref} className="max-w-7xl mx-auto px-6 lg:px-8">
         {/* Section Header */}
         <header className="mb-16 max-w-2xl">
-          <p className={`text-gold text-xs tracking-[0.3em] uppercase mb-4 fade-in-up ${isVisible ? 'visible' : ''}`}>
+          <p className={`text-gold-accessible text-xs tracking-[0.3em] uppercase mb-4 fade-in-up ${isVisible ? 'visible' : ''}`}>
             What We Offer
           </p>
           <h2 className={`font-serif text-4xl md:text-5xl leading-[1.1] mb-6 fade-in-up fade-in-up-delay-1 ${isVisible ? 'visible' : ''}`}>

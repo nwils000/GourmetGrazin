@@ -95,7 +95,7 @@ export default function InquiryForm({ isOpen, onClose }) {
             </div>
           ) : (
             <>
-              <p className="text-gold text-xs tracking-[0.3em] uppercase mb-3">Inquire</p>
+              <p className="text-gold-accessible text-xs tracking-[0.3em] uppercase mb-3">Inquire</p>
               <h3 className="font-serif text-3xl md:text-4xl mb-2">
                 Let's plan your <em className="text-gold">graze.</em>
               </h3>

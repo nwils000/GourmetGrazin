@@ -66,7 +66,7 @@ export default function GrazingTablesPage() {
       <section className="relative flex items-center justify-center bg-cream pt-24 pb-16 lg:pb-24" aria-label="Grazing Tables overview">
         <div ref={heroRef} className="max-w-7xl mx-auto px-6 lg:px-8 text-center">
           <p
-            className={`text-gold text-xs tracking-[0.3em] uppercase mb-6 fade-in-up ${heroVisible ? 'visible' : ''}`}
+            className={`text-gold-accessible text-xs tracking-[0.3em] uppercase mb-6 fade-in-up ${heroVisible ? 'visible' : ''}`}
           >
             Grazing Tables
           </p>
@@ -94,7 +94,7 @@ export default function GrazingTablesPage() {
         <div ref={provideRef} className="max-w-7xl mx-auto px-6 lg:px-8">
           <header className="max-w-2xl mx-auto text-center mb-14">
             <p
-              className={`text-gold text-xs tracking-[0.3em] uppercase mb-4 fade-in-up ${provideVisible ? 'visible' : ''}`}
+              className={`text-gold-accessible text-xs tracking-[0.3em] uppercase mb-4 fade-in-up ${provideVisible ? 'visible' : ''}`}
             >
               The Experience
             </p>
@@ -129,7 +129,7 @@ export default function GrazingTablesPage() {
         <div ref={sizesRef} className="max-w-7xl mx-auto px-6 lg:px-8">
           <header className="max-w-2xl mx-auto text-center mb-14">
             <p
-              className={`text-gold text-xs tracking-[0.3em] uppercase mb-4 fade-in-up ${sizesVisible ? 'visible' : ''}`}
+              className={`text-gold-accessible text-xs tracking-[0.3em] uppercase mb-4 fade-in-up ${sizesVisible ? 'visible' : ''}`}
             >
               20–200+ Guests
             </p>
@@ -169,7 +169,7 @@ export default function GrazingTablesPage() {
         <div ref={whyRef} className="max-w-7xl mx-auto px-6 lg:px-8">
           <header className="max-w-2xl mx-auto text-center mb-14">
             <p
-              className={`text-gold text-xs tracking-[0.3em] uppercase mb-4 fade-in-up ${whyVisible ? 'visible' : ''}`}
+              className={`text-gold-accessible text-xs tracking-[0.3em] uppercase mb-4 fade-in-up ${whyVisible ? 'visible' : ''}`}
             >
               Why Choose Us
             </p>
@@ -204,7 +204,7 @@ export default function GrazingTablesPage() {
         <div ref={formRef} className="max-w-3xl mx-auto px-6 lg:px-8">
           <header className="text-center mb-12">
             <p
-              className={`text-gold text-xs tracking-[0.3em] uppercase mb-4 fade-in-up ${formVisible ? 'visible' : ''}`}
+              className={`text-gold-accessible text-xs tracking-[0.3em] uppercase mb-4 fade-in-up ${formVisible ? 'visible' : ''}`}
             >
               Book Your Table
             </p>

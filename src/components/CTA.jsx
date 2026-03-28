@@ -9,7 +9,7 @@ export default function CTA({ onInquire }) {
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           {/* Content */}
           <div>
-            <p className={`text-gold text-xs tracking-[0.3em] uppercase mb-4 fade-in-up ${isVisible ? 'visible' : ''}`}>
+            <p className={`text-gold-accessible text-xs tracking-[0.3em] uppercase mb-4 fade-in-up ${isVisible ? 'visible' : ''}`}>
               Ready to Graze?
             </p>
             <h2 className={`font-serif text-4xl md:text-5xl leading-[1.1] mb-6 fade-in-up fade-in-up-delay-1 ${isVisible ? 'visible' : ''}`}>
@@ -33,7 +33,7 @@ export default function CTA({ onInquire }) {
           {/* Image */}
           <figure className={`overflow-hidden fade-in-up fade-in-up-delay-2 ${isVisible ? 'visible' : ''}`}>
             <img
-              src="/charcuterie-board.png"
+              src="/charcuterie-board.jpg"
               alt="Premium charcuterie board by Gourmet Grazin' with artisan cheeses and seasonal fruits"
               className="w-full h-[500px] object-cover"
               loading="lazy"

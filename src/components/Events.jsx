@@ -24,7 +24,7 @@ export default function Events({ onInquire }) {
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           {/* Left - Content */}
           <div>
-            <p className={`text-gold text-xs tracking-[0.3em] uppercase mb-4 fade-in-up ${isVisible ? 'visible' : ''}`}>
+            <p className={`text-gold-accessible text-xs tracking-[0.3em] uppercase mb-4 fade-in-up ${isVisible ? 'visible' : ''}`}>
               Perfect For Your Event
             </p>
             <h2 className={`font-serif text-4xl md:text-5xl leading-[1.1] mb-8 text-cream fade-in-up fade-in-up-delay-1 ${isVisible ? 'visible' : ''}`}>
@@ -50,7 +50,7 @@ export default function Events({ onInquire }) {
           {/* Right - Image */}
           <div className={`overflow-hidden fade-in-up fade-in-up-delay-2 ${isVisible ? 'visible' : ''}`}>
             <img
-              src="/charcuterie-class.png"
+              src="/charcuterie-class.jpg"
               alt="Gourmet Grazin' cart at an elegant event"
               className="w-full h-[500px] lg:h-[600px] object-cover"
             />

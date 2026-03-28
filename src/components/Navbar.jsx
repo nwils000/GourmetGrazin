@@ -87,7 +87,6 @@ export default function Navbar({ onInquire }) {
                     <button
                       className="flex items-center gap-1 text-charcoal text-sm tracking-[0.12em] uppercase font-light hover:text-gold transition-colors duration-300"
                       aria-expanded={servicesOpen}
-                      aria-haspopup="true"
                     >
                       {link.label}
                       <ChevronDown size={14} className={`transition-transform duration-200 ${servicesOpen ? 'rotate-180' : ''}`} aria-hidden="true" />

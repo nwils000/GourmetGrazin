@@ -16,7 +16,7 @@ const defaultGalleryImages = [
   { src: '/gallery/new/disperse3.jpg', alt: 'Colorful charcuterie board with meat roses and seasonal fruits' },
   { src: '/gallery/gourmet-cart-2.jpeg', alt: 'Gourmet Grazin mobile charcuterie cart setup at an event' },
   { src: '/gallery/new/disperse4.jpg', alt: 'Bunny-shaped brie cheese charcuterie board for spring celebration' },
-  { src: '/cart-outdoor.png', alt: 'Outdoor charcuterie cart experience at a Kentucky venue' },
+  { src: '/cart-outdoor.jpg', alt: 'Outdoor charcuterie cart experience at a Kentucky venue' },
   { src: '/cart-closeup.jpg', alt: 'Close-up of artisan cheese and charcuterie cart spread' },
   { src: '/gallery/new/disperse5.jpeg', alt: 'Chocolate and charcuterie board with truffles and berries' },
   { src: '/cart-setup.jpg', alt: 'Mobile charcuterie cart setup with full grazing spread' },
@@ -205,7 +205,7 @@ export default function GalleryPage() {
       <section className="pt-24 pb-16 lg:pt-32 lg:pb-20 bg-cream" aria-label="Gallery overview">
         <div ref={heroRef} className="max-w-7xl mx-auto px-6 lg:px-8 text-center">
           <p
-            className={`text-gold text-xs tracking-[0.3em] uppercase mb-4 fade-in-up ${heroVisible ? 'visible' : ''}`}
+            className={`text-gold-accessible text-xs tracking-[0.3em] uppercase mb-4 fade-in-up ${heroVisible ? 'visible' : ''}`}
           >
             Portfolio
           </p>
@@ -227,7 +227,7 @@ export default function GalleryPage() {
         <div ref={carouselRef} className="max-w-[100vw] overflow-hidden">
           <header className="mb-10 max-w-7xl mx-auto px-6 lg:px-8">
             <p
-              className={`text-gold text-xs tracking-[0.3em] uppercase mb-4 fade-in-up ${carouselVisible ? 'visible' : ''}`}
+              className={`text-gold-accessible text-xs tracking-[0.3em] uppercase mb-4 fade-in-up ${carouselVisible ? 'visible' : ''}`}
             >
               Featured
             </p>
@@ -263,7 +263,7 @@ export default function GalleryPage() {
         <div ref={gridRef} className="max-w-7xl mx-auto px-6 lg:px-8">
           <header className="text-center mb-14">
             <p
-              className={`text-gold text-xs tracking-[0.3em] uppercase mb-4 fade-in-up ${gridVisible ? 'visible' : ''}`}
+              className={`text-gold-accessible text-xs tracking-[0.3em] uppercase mb-4 fade-in-up ${gridVisible ? 'visible' : ''}`}
             >
               Full Collection
             </p>

@@ -157,7 +157,7 @@ function MenuSection({ label, title, titleAccent, items, bgClass = 'bg-cream' })
       <div ref={ref} className="max-w-7xl mx-auto px-6 lg:px-8">
         <header className="mb-14 max-w-2xl">
           <p
-            className={`text-gold text-xs tracking-[0.3em] uppercase mb-4 fade-in-up ${isVisible ? 'visible' : ''}`}
+            className={`text-gold-accessible text-xs tracking-[0.3em] uppercase mb-4 fade-in-up ${isVisible ? 'visible' : ''}`}
           >
             {label}
           </p>
@@ -203,7 +203,7 @@ export default function LuxuryCartPage() {
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
             <header>
               <p
-                className={`text-gold text-xs tracking-[0.3em] uppercase mb-6 fade-in-up ${heroVisible ? 'visible' : ''}`}
+                className={`text-gold-accessible text-xs tracking-[0.3em] uppercase mb-6 fade-in-up ${heroVisible ? 'visible' : ''}`}
               >
                 White-Glove Mobile Cart Service
               </p>
@@ -233,7 +233,7 @@ export default function LuxuryCartPage() {
               className={`overflow-hidden fade-in-up fade-in-up-delay-2 ${heroVisible ? 'visible' : ''}`}
             >
               <img
-                src="/cart-outdoor.png"
+                src="/cart-outdoor.jpg"
                 alt="Gourmet Grazin' luxury mobile charcuterie cart styled for an outdoor Kentucky event with artisan cheeses and cured meats"
                 className="w-full h-[400px] lg:h-[550px] object-cover"
                 width="600"
@@ -292,7 +292,7 @@ export default function LuxuryCartPage() {
         <div ref={ctaRef} className="max-w-3xl mx-auto px-6 lg:px-8">
           <header className="text-center mb-12">
             <p
-              className={`text-gold text-xs tracking-[0.3em] uppercase mb-4 fade-in-up ${ctaVisible ? 'visible' : ''}`}
+              className={`text-gold-accessible text-xs tracking-[0.3em] uppercase mb-4 fade-in-up ${ctaVisible ? 'visible' : ''}`}
             >
               Book Your Cart
             </p>

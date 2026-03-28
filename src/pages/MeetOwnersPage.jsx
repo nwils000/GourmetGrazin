@@ -35,7 +35,7 @@ export default function MeetOwnersPage() {
       {/* Hero Section */}
       <section className="py-24 lg:py-32 bg-cream" aria-label="Meet the owners">
         <div ref={heroRef} className="max-w-7xl mx-auto px-6 lg:px-8 text-center">
-          <p className={`text-gold text-xs tracking-[0.3em] uppercase mb-6 fade-in-up ${heroVisible ? 'visible' : ''}`}>
+          <p className={`text-gold-accessible text-xs tracking-[0.3em] uppercase mb-6 fade-in-up ${heroVisible ? 'visible' : ''}`}>
             Our Story
           </p>
           <h1 className={`font-serif text-5xl sm:text-6xl md:text-7xl leading-[1.05] mb-8 fade-in-up fade-in-up-delay-1 ${heroVisible ? 'visible' : ''}`}>

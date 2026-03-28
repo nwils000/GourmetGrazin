@@ -10,7 +10,7 @@ export default function About() {
           {/* Image */}
           <figure className={`overflow-hidden fade-in-up ${isVisible ? 'visible' : ''}`}>
             <img
-              src="/cart-outdoor.png"
+              src="/cart-outdoor.jpg"
               alt="Gourmet Grazin' mobile charcuterie cart styled with artisan cheeses and cured meats at an outdoor Kentucky event"
               className="w-full h-[500px] lg:h-[600px] object-cover img-hover"
               width="600"
@@ -21,7 +21,7 @@ export default function About() {
 
           {/* Content */}
           <div>
-            <p className={`text-gold text-xs tracking-[0.3em] uppercase mb-4 fade-in-up ${isVisible ? 'visible' : ''}`}>
+            <p className={`text-gold-accessible text-xs tracking-[0.3em] uppercase mb-4 fade-in-up ${isVisible ? 'visible' : ''}`}>
               Meet the Cart
             </p>
             <h2 className={`font-serif text-4xl md:text-5xl leading-[1.1] mb-6 fade-in-up fade-in-up-delay-1 ${isVisible ? 'visible' : ''}`}>

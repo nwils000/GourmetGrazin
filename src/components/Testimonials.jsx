@@ -90,7 +90,7 @@ function TestimonialCard({ testimonial }) {
           <p className="text-charcoal text-sm font-medium tracking-wide">
             {testimonial.name}
           </p>
-          <p className="text-gold text-xs tracking-[0.15em] uppercase mt-1">
+          <p className="text-gold-accessible text-xs tracking-[0.15em] uppercase mt-1">
             {testimonial.event}
           </p>
         </cite>
@@ -107,7 +107,7 @@ export default function Testimonials() {
       <div ref={ref} className="max-w-7xl mx-auto px-6 lg:px-8">
         {/* Header */}
         <header className="text-center mb-6">
-          <p className={`text-gold text-xs tracking-[0.3em] uppercase mb-4 fade-in-up ${isVisible ? 'visible' : ''}`}>
+          <p className={`text-gold-accessible text-xs tracking-[0.3em] uppercase mb-4 fade-in-up ${isVisible ? 'visible' : ''}`}>
             What Our Clients Say
           </p>
           <h2 className={`font-serif text-4xl md:text-5xl leading-[1.1] mb-6 fade-in-up fade-in-up-delay-1 ${isVisible ? 'visible' : ''}`}>

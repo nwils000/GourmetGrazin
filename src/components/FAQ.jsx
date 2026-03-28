@@ -37,7 +37,7 @@ export default function FAQ() {
     <section id="faq" className="py-24 lg:py-32 bg-taupe-light">
       <div ref={ref} className="max-w-3xl mx-auto px-6 lg:px-8">
         <div className="text-center mb-16">
-          <p className={`text-gold text-xs tracking-[0.3em] uppercase mb-4 fade-in-up ${isVisible ? 'visible' : ''}`}>
+          <p className={`text-gold-accessible text-xs tracking-[0.3em] uppercase mb-4 fade-in-up ${isVisible ? 'visible' : ''}`}>
             FAQ
           </p>
           <h2 className={`font-serif text-4xl md:text-5xl leading-[1.1] fade-in-up fade-in-up-delay-1 ${isVisible ? 'visible' : ''}`}>

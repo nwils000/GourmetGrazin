@@ -25,7 +25,7 @@ export default function HowItWorks() {
     <section className="py-24 lg:py-32 bg-cream" aria-label="How it works">
       <div ref={ref} className="max-w-7xl mx-auto px-6 lg:px-8">
         <header className="text-center mb-16">
-          <p className={`text-gold text-xs tracking-[0.3em] uppercase mb-4 fade-in-up ${isVisible ? 'visible' : ''}`}>
+          <p className={`text-gold-accessible text-xs tracking-[0.3em] uppercase mb-4 fade-in-up ${isVisible ? 'visible' : ''}`}>
             How It Works
           </p>
           <h2 className={`font-serif text-4xl md:text-5xl leading-[1.1] fade-in-up fade-in-up-delay-1 ${isVisible ? 'visible' : ''}`}>
