@@ -2,25 +2,38 @@ import { useEffect, useState, useRef, useCallback } from 'react'
 import { useInView } from '../components/useInView'
 import { useDriveImages } from '../hooks/useDriveImages'
 import { FOLDER_IDS } from '../lib/googleDrive'
+import useSEO from '../hooks/useSEO'
 
 const defaultGalleryImages = [
-  { src: '/gallery/gallery1.jpg', alt: 'Gallery image 1' },
-  { src: '/gallery/gallery2.jpg', alt: 'Gallery image 2' },
-  { src: '/gallery/new/disperse1.jpg', alt: 'Easter charcuterie board with salami roses' },
-  { src: '/gallery/gallery3.jpg', alt: 'Gallery image 3' },
-  { src: '/gallery/gallery5.jpeg', alt: 'Gallery image 5' },
-  { src: '/gallery/new/disperse2.jpg', alt: 'Charcuterie board with peeps and Lindt bunnies' },
-  { src: '/gallery/gallery6.jpeg', alt: 'Gallery image 6' },
-  { src: '/gallery/gallery7.jpg', alt: 'Gallery image 7' },
-  { src: '/gallery/new/disperse3.jpg', alt: 'Colorful charcuterie board with meat roses' },
-  { src: '/gallery/gourmet-cart-2.jpeg', alt: 'Gourmet cart display' },
-  { src: '/gallery/new/disperse4.jpg', alt: 'Bunny-shaped brie charcuterie board' },
-  { src: '/cart-outdoor.png', alt: 'Outdoor cart event setup' },
-  { src: '/cart-closeup.jpg', alt: 'Close-up of charcuterie cart spread' },
-  { src: '/gallery/new/disperse5.jpeg', alt: 'Chocolate and charcuterie board' },
-  { src: '/cart-setup.jpg', alt: 'Mobile charcuterie cart setup' },
-  { src: '/event-photo.jpg', alt: 'Gourmet Grazin event' },
+  { src: '/gallery/gallery1.jpg', alt: 'Artisan charcuterie board with imported cheeses and cured meats' },
+  { src: '/gallery/gallery2.jpg', alt: 'Elegant charcuterie spread styled for a Kentucky wedding' },
+  { src: '/gallery/new/disperse1.jpg', alt: 'Easter charcuterie board with salami roses and seasonal garnishes' },
+  { src: '/gallery/gallery3.jpg', alt: 'Premium grazing table with fresh fruits and artisan crackers' },
+  { src: '/gallery/gallery5.jpeg', alt: 'Beautifully arranged charcuterie display for a corporate event' },
+  { src: '/gallery/new/disperse2.jpg', alt: 'Charcuterie board with chocolate eggs and Lindt bunnies for Easter' },
+  { src: '/gallery/gallery6.jpeg', alt: 'Handcrafted charcuterie board with brie, grapes, and rosemary' },
+  { src: '/gallery/gallery7.jpg', alt: 'Stunning charcuterie presentation for a bridal shower' },
+  { src: '/gallery/new/disperse3.jpg', alt: 'Colorful charcuterie board with meat roses and seasonal fruits' },
+  { src: '/gallery/gourmet-cart-2.jpeg', alt: 'Gourmet Grazin mobile charcuterie cart setup at an event' },
+  { src: '/gallery/new/disperse4.jpg', alt: 'Bunny-shaped brie cheese charcuterie board for spring celebration' },
+  { src: '/cart-outdoor.png', alt: 'Outdoor charcuterie cart experience at a Kentucky venue' },
+  { src: '/cart-closeup.jpg', alt: 'Close-up of artisan cheese and charcuterie cart spread' },
+  { src: '/gallery/new/disperse5.jpeg', alt: 'Chocolate and charcuterie board with truffles and berries' },
+  { src: '/cart-setup.jpg', alt: 'Mobile charcuterie cart setup with full grazing spread' },
+  { src: '/event-photo.jpg', alt: 'Gourmet Grazin charcuterie catering at a live event' },
 ]
+
+const GALLERY_SCHEMA = {
+  '@context': 'https://schema.org',
+  '@type': 'ImageGallery',
+  name: "Gourmet Grazin' Portfolio",
+  description: 'Browse our portfolio of stunning charcuterie boards, grazing tables, and mobile cart setups from Kentucky weddings, corporate events, and private celebrations.',
+  url: 'https://www.gourmetgrazinky.com/gallery',
+  about: {
+    '@type': 'CateringService',
+    name: "Gourmet Grazin'",
+  },
+}
 
 function CarouselArrow({ direction, onClick }) {
   return (
@@ -40,6 +53,7 @@ function CarouselArrow({ direction, onClick }) {
         strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
+        aria-hidden="true"
       >
         {direction === 'left' ? (
           <polyline points="15 18 9 12 15 6" />
@@ -92,6 +106,9 @@ function ManualCarousel({ galleryImages }) {
   return (
     <div
       className="relative"
+      role="region"
+      aria-label="Photo carousel"
+      aria-roledescription="carousel"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >
@@ -106,11 +123,15 @@ function ManualCarousel({ galleryImages }) {
             <div
               key={i}
               className="flex-shrink-0 w-full sm:w-1/2 lg:w-1/3 px-2"
+              role="group"
+              aria-roledescription="slide"
+              aria-label={`Slide ${i + 1} of ${totalSlides}`}
             >
               <div className="h-[300px] md:h-[380px] overflow-hidden">
                 <img
                   src={img.src}
                   alt={img.alt}
+                  loading="lazy"
                   className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
                 />
               </div>
@@ -122,12 +143,13 @@ function ManualCarousel({ galleryImages }) {
       <CarouselArrow direction="left" onClick={goLeft} />
       <CarouselArrow direction="right" onClick={goRight} />
 
-      {/* Navigation Dots */}
-      <div className="flex justify-center gap-2 mt-6">
+      <div className="flex justify-center gap-2 mt-6" role="tablist" aria-label="Carousel navigation">
         {galleryImages.map((_, i) => (
           <button
             key={i}
             onClick={() => goTo(i)}
+            role="tab"
+            aria-selected={i === currentIndex}
             aria-label={`Go to slide ${i + 1}`}
             className={`w-2 h-2 rounded-full transition-all duration-300 ${
               i === currentIndex
@@ -143,7 +165,7 @@ function ManualCarousel({ galleryImages }) {
 
 function InfiniteMarquee({ galleryImages }) {
   return (
-    <div className="overflow-hidden">
+    <div className="overflow-hidden" aria-hidden="true">
       <div
         className="flex animate-marquee hover:[animation-play-state:paused]"
         style={{ width: 'max-content' }}
@@ -154,6 +176,7 @@ function InfiniteMarquee({ galleryImages }) {
               <img
                 src={img.src}
                 alt={img.alt}
+                loading="lazy"
                 className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
               />
             </div>
@@ -170,14 +193,17 @@ export default function GalleryPage() {
   const [gridRef, gridVisible] = useInView()
   const { images: galleryImages } = useDriveImages(FOLDER_IDS.gallery, defaultGalleryImages)
 
-  useEffect(() => {
-    window.scrollTo(0, 0)
-  }, [])
+  useSEO({
+    title: 'Charcuterie & Cart Photo Gallery',
+    description: 'Browse stunning charcuterie boards, grazing tables & mobile cart setups from real Kentucky events — weddings, corporate gatherings & celebrations.',
+    path: '/gallery',
+    jsonLd: GALLERY_SCHEMA,
+  })
 
   return (
-    <>
+    <article>
       {/* Hero */}
-      <section className="pt-24 pb-16 lg:pt-32 lg:pb-20 bg-cream">
+      <section className="pt-24 pb-16 lg:pt-32 lg:pb-20 bg-cream" aria-label="Gallery overview">
         <div ref={heroRef} className="max-w-7xl mx-auto px-6 lg:px-8 text-center">
           <p
             className={`text-gold text-xs tracking-[0.3em] uppercase mb-4 fade-in-up ${heroVisible ? 'visible' : ''}`}
@@ -198,9 +224,9 @@ export default function GalleryPage() {
       </section>
 
       {/* Infinite Marquee Carousel */}
-      <section className="py-12 lg:py-16 bg-taupe-light">
+      <section className="py-12 lg:py-16 bg-taupe-light" aria-label="Featured photos">
         <div ref={carouselRef} className="max-w-[100vw] overflow-hidden">
-          <div className="mb-10 max-w-7xl mx-auto px-6 lg:px-8">
+          <header className="mb-10 max-w-7xl mx-auto px-6 lg:px-8">
             <p
               className={`text-gold text-xs tracking-[0.3em] uppercase mb-4 fade-in-up ${carouselVisible ? 'visible' : ''}`}
             >
@@ -211,7 +237,7 @@ export default function GalleryPage() {
             >
               Browse our <em className="text-gold">highlights.</em>
             </h2>
-          </div>
+          </header>
 
           <div className={`fade-in-up fade-in-up-delay-2 ${carouselVisible ? 'visible' : ''}`}>
             <InfiniteMarquee galleryImages={galleryImages} />
@@ -220,23 +246,23 @@ export default function GalleryPage() {
       </section>
 
       {/* Manual Carousel with Arrows & Dots */}
-      <section className="py-16 lg:py-24 bg-cream">
+      <section className="py-16 lg:py-24 bg-cream" aria-label="Photo slideshow">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <ManualCarousel galleryImages={galleryImages} />
         </div>
       </section>
 
       {/* Divider */}
-      <div className="flex items-center justify-center py-4">
+      <div className="flex items-center justify-center py-4" aria-hidden="true">
         <div className="h-px w-16 bg-gold/30" />
         <div className="mx-4 h-1.5 w-1.5 rotate-45 bg-gold/50" />
         <div className="h-px w-16 bg-gold/30" />
       </div>
 
       {/* Static Grid */}
-      <section className="py-16 lg:py-24 bg-taupe-light">
+      <section className="py-16 lg:py-24 bg-taupe-light" aria-label="Full collection">
         <div ref={gridRef} className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="text-center mb-14">
+          <header className="text-center mb-14">
             <p
               className={`text-gold text-xs tracking-[0.3em] uppercase mb-4 fade-in-up ${gridVisible ? 'visible' : ''}`}
             >
@@ -247,26 +273,27 @@ export default function GalleryPage() {
             >
               Every detail, <em className="text-gold">beautifully crafted.</em>
             </h2>
-          </div>
+          </header>
 
           <div
             className={`columns-1 sm:columns-2 lg:columns-3 gap-4 space-y-4 fade-in-up fade-in-up-delay-2 ${gridVisible ? 'visible' : ''}`}
           >
             {galleryImages.map((img, i) => (
-              <div key={i} className="break-inside-avoid overflow-hidden group">
+              <figure key={i} className="break-inside-avoid overflow-hidden group">
                 <img
                   src={img.src}
                   alt={img.alt}
+                  loading="lazy"
                   className="w-full object-cover group-hover:scale-105 transition-transform duration-700"
                   style={{
                     height: i % 3 === 0 ? '380px' : i % 3 === 1 ? '300px' : '340px',
                   }}
                 />
-              </div>
+              </figure>
             ))}
           </div>
         </div>
       </section>
-    </>
+    </article>
   )
 }

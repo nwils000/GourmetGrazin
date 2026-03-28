@@ -3,6 +3,7 @@ import { ShoppingBag } from 'lucide-react'
 import { useInView } from '../components/useInView'
 import { useCart } from '../context/CartContext'
 import shopifyClient from '../lib/shopify'
+import useSEO from '../hooks/useSEO'
 
 function ProductCard({ product, index, isVisible }) {
   const { addToCart } = useCart()
@@ -23,21 +24,23 @@ function ProductCard({ product, index, isVisible }) {
   }
 
   return (
-    <div
+    <article
       className={`group fade-in-up fade-in-up-delay-${Math.min(index + 1, 4)} ${isVisible ? 'visible' : ''}`}
     >
       {/* Image */}
-      <div className="relative overflow-hidden mb-5 bg-taupe-light aspect-square flex items-center justify-center border border-taupe/20">
+      <figure className="relative overflow-hidden mb-5 bg-taupe-light aspect-square flex items-center justify-center border border-taupe/20">
         {image ? (
           <img
             src={image}
-            alt={product.title}
+            alt={`${product.title} - handcrafted charcuterie product by Gourmet Grazin'`}
+            loading="lazy"
             className="w-full h-full object-cover img-hover"
           />
         ) : (
           <img
             src="/charcuterie-board.png"
-            alt={product.title}
+            alt={`${product.title} - handcrafted charcuterie product`}
+            loading="lazy"
             className="w-full h-full object-cover img-hover"
           />
         )}
@@ -45,12 +48,14 @@ function ProductCard({ product, index, isVisible }) {
           <>
             <button
               onClick={() => setCurrentImage((c) => (c - 1 + images.length) % images.length)}
+              aria-label="Previous product image"
               className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-cream/80 flex items-center justify-center text-charcoal hover:bg-gold hover:text-cream transition-colors"
             >
               &#8249;
             </button>
             <button
               onClick={() => setCurrentImage((c) => (c + 1) % images.length)}
+              aria-label="Next product image"
               className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-cream/80 flex items-center justify-center text-charcoal hover:bg-gold hover:text-cream transition-colors"
             >
               &#8250;
@@ -60,6 +65,7 @@ function ProductCard({ product, index, isVisible }) {
                 <button
                   key={i}
                   onClick={() => setCurrentImage(i)}
+                  aria-label={`View image ${i + 1}`}
                   className={`w-2 h-2 rounded-full transition-colors ${
                     i === currentImage ? 'bg-gold' : 'bg-cream/60'
                   }`}
@@ -68,7 +74,7 @@ function ProductCard({ product, index, isVisible }) {
             </div>
           </>
         )}
-      </div>
+      </figure>
 
       {/* Details */}
       <div className="px-1">
@@ -95,7 +101,7 @@ function ProductCard({ product, index, isVisible }) {
           </button>
         </div>
       </div>
-    </div>
+    </article>
   )
 }
 
@@ -105,8 +111,14 @@ export default function ShopPage() {
   const [products, setProducts] = useState([])
   const [loading, setLoading] = useState(true)
 
+  useSEO({
+    title: 'Shop Charcuterie Boards Online',
+    description: 'Order premium handcrafted charcuterie boards online — delivered fresh across Kentucky with artisan ingredients. Perfect for gifting or hosting.',
+    path: '/shop',
+    ogType: 'product',
+  })
+
   useEffect(() => {
-    window.scrollTo(0, 0)
     shopifyClient.product.fetchAll().then((fetched) => {
       setProducts(fetched)
       setLoading(false)
@@ -114,9 +126,9 @@ export default function ShopPage() {
   }, [])
 
   return (
-    <main>
+    <article>
       {/* Hero */}
-      <section className="relative flex items-center justify-center bg-cream pt-24 pb-16 lg:pb-24">
+      <section className="relative flex items-center justify-center bg-cream pt-24 pb-16 lg:pb-24" aria-label="Shop overview">
         <div ref={heroRef} className="max-w-7xl mx-auto px-6 lg:px-8 text-center">
           <p
             className={`text-gold text-xs tracking-[0.3em] uppercase mb-6 fade-in-up ${heroVisible ? 'visible' : ''}`}
@@ -140,12 +152,12 @@ export default function ShopPage() {
       </section>
 
       {/* Products */}
-      <section className="py-24 lg:py-32 bg-taupe-light">
+      <section className="py-24 lg:py-32 bg-taupe-light" aria-label="Products">
         <div ref={productsRef} className="max-w-7xl mx-auto px-6 lg:px-8">
           {loading ? (
-            <div className="flex items-center justify-center py-20">
+            <div className="flex items-center justify-center py-20" role="status">
               <div className="flex flex-col items-center gap-4">
-                <div className="w-8 h-8 border-2 border-gold/30 border-t-gold rounded-full animate-spin" />
+                <div className="w-8 h-8 border-2 border-gold/30 border-t-gold rounded-full animate-spin" aria-hidden="true" />
                 <p className="text-charcoal-light text-sm tracking-wider uppercase">
                   Loading products...
                 </p>
@@ -153,7 +165,7 @@ export default function ShopPage() {
             </div>
           ) : products.length === 0 ? (
             <div className="text-center py-20">
-              <ShoppingBag size={48} className="text-taupe mx-auto mb-4" />
+              <ShoppingBag size={48} className="text-taupe mx-auto mb-4" aria-hidden="true" />
               <p className="font-serif text-2xl mb-2">Coming soon</p>
               <p className="text-charcoal-light font-light">
                 Our shop is being curated. Check back soon!
@@ -177,6 +189,6 @@ export default function ShopPage() {
           )}
         </div>
       </section>
-    </main>
+    </article>
   )
 }

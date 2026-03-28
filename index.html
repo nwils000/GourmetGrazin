@@ -1,17 +1,252 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
   <head>
     <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+
+    <!-- Favicon & App Icons -->
     <link rel="icon" type="image/png" href="/logo.png" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Gourmet Grazin' | Elevated Charcuterie & Custom Mobile Carts | Kentucky</title>
-    <meta name="description" content="Elevated charcuterie and custom mobile carts for weddings, showers, parties, and more. Serving Kentucky." />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="apple-touch-icon" href="/logo.png" />
+    <meta name="theme-color" content="#C4A265" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="format-detection" content="telephone=no" />
+
+    <!-- Primary Meta Tags -->
+    <title>Gourmet Grazin' — Kentucky Charcuterie & Mobile Carts</title>
+    <meta name="description" content="Kentucky's premier charcuterie catering — mobile carts, grazing tables, boards & classes for weddings, corporate events and parties. Book today!" />
+    <meta name="author" content="Gourmet Grazin'" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <meta name="googlebot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://www.gourmetgrazinky.com/" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.gourmetgrazinky.com/" />
+    <meta property="og:title" content="Gourmet Grazin' — Kentucky Charcuterie & Mobile Carts" />
+    <meta property="og:description" content="Kentucky's premier charcuterie catering — mobile carts, grazing tables, boards & classes for weddings, corporate events and parties. Book today!" />
+    <meta property="og:image" content="https://www.gourmetgrazinky.com/og-image.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Gourmet Grazin' charcuterie cart and boards" />
+    <meta property="og:site_name" content="Gourmet Grazin'" />
+    <meta property="og:locale" content="en_US" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="https://www.gourmetgrazinky.com/" />
+    <meta name="twitter:title" content="Gourmet Grazin' — Kentucky Charcuterie & Mobile Carts" />
+    <meta name="twitter:description" content="Kentucky's premier charcuterie catering — mobile carts, grazing tables, boards & classes for weddings, corporate events and parties. Book today!" />
+    <meta name="twitter:image" content="https://www.gourmetgrazinky.com/og-image.jpg" />
+    <meta name="twitter:image:alt" content="Gourmet Grazin' charcuterie cart and boards" />
+
+    <!-- Geo Tags for Local SEO -->
+    <meta name="geo.region" content="US-KY" />
+    <meta name="geo.placename" content="Kentucky" />
+
+    <!-- DNS Prefetch & Preconnect for External Resources -->
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
+    <link rel="dns-prefetch" href="https://cdn.shopify.com" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- Preload Critical Resources -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Lato:wght@300;400;700&display=swap" as="style" />
+
+    <!-- JSON-LD: WebSite Schema (enables sitelinks search) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Gourmet Grazin'",
+      "alternateName": "Gourmet Grazin Kentucky",
+      "url": "https://www.gourmetgrazinky.com",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Gourmet Grazin'",
+        "url": "https://www.gourmetgrazinky.com",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://www.gourmetgrazinky.com/logo.png"
+        }
+      },
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://www.gourmetgrazinky.com/?q={search_term_string}"
+        },
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
+
+    <!-- JSON-LD: Organization Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Gourmet Grazin'",
+      "url": "https://www.gourmetgrazinky.com",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://www.gourmetgrazinky.com/logo.png",
+        "width": 512,
+        "height": 512
+      },
+      "image": "https://www.gourmetgrazinky.com/og-image.jpg",
+      "description": "Kentucky's premier charcuterie catering service offering custom mobile carts, grazing tables, handcrafted boards, and hands-on charcuterie classes.",
+      "address": {
+        "@type": "PostalAddress",
+        "addressRegion": "KY",
+        "addressCountry": "US"
+      },
+      "areaServed": {
+        "@type": "State",
+        "name": "Kentucky",
+        "sameAs": "https://en.wikipedia.org/wiki/Kentucky"
+      },
+      "sameAs": [
+        "https://www.instagram.com/gourmetgrazingky/",
+        "https://www.facebook.com/profile.php?id=61578270886953"
+      ],
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "customer service",
+        "availableLanguage": "English",
+        "url": "https://www.gourmetgrazinky.com/luxury-cart-experiences#book-cart"
+      }
+    }
+    </script>
+
+    <!-- JSON-LD: CateringService + LocalBusiness Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": ["CateringService", "FoodService"],
+      "@id": "https://www.gourmetgrazinky.com/#business",
+      "name": "Gourmet Grazin'",
+      "description": "Kentucky's premier charcuterie catering service offering custom mobile carts, grazing tables, handcrafted boards, charcuterie cups & boxes, and hands-on charcuterie classes for weddings, corporate events, showers, and private parties.",
+      "url": "https://www.gourmetgrazinky.com",
+      "logo": "https://www.gourmetgrazinky.com/logo.png",
+      "image": [
+        "https://www.gourmetgrazinky.com/og-image.jpg",
+        "https://www.gourmetgrazinky.com/cart-outdoor.png",
+        "https://www.gourmetgrazinky.com/charcuterie-board.png"
+      ],
+      "address": {
+        "@type": "PostalAddress",
+        "addressRegion": "KY",
+        "addressCountry": "US"
+      },
+      "areaServed": [
+        {
+          "@type": "State",
+          "name": "Kentucky",
+          "sameAs": "https://en.wikipedia.org/wiki/Kentucky"
+        }
+      ],
+      "priceRange": "$$",
+      "currenciesAccepted": "USD",
+      "paymentAccepted": "Credit Card, Debit Card",
+      "knowsLanguage": "English",
+      "sameAs": [
+        "https://www.instagram.com/gourmetgrazingky/",
+        "https://www.facebook.com/profile.php?id=61578270886953"
+      ],
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Charcuterie Services",
+        "itemListElement": [
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Luxury Cart Experiences",
+              "description": "White-glove mobile charcuterie cart service for events with grazing, beverages, brunch, and dessert options",
+              "url": "https://www.gourmetgrazinky.com/luxury-cart-experiences"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Grazing Tables",
+              "description": "Stunning tablescapes overflowing with curated bites for larger gatherings of 20-200+ guests",
+              "url": "https://www.gourmetgrazinky.com/grazing-tables"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Product",
+              "name": "Snack Boards",
+              "description": "Handcrafted charcuterie boards from $65, available in classic, sweet-salty, brunch, veggie, and fruit styles",
+              "url": "https://www.gourmetgrazinky.com/snack-boards"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Product",
+              "name": "Charcuterie Cups & Boxes",
+              "description": "Individual charcuterie cups starting at $8 and curated boxes starting at $10 for grab-and-go elegance",
+              "url": "https://www.gourmetgrazinky.com/cups-boxes"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Charcuterie Classes",
+              "description": "Hands-on interactive charcuterie board-building classes for groups of 6-20 people",
+              "url": "https://www.gourmetgrazinky.com/charcuterie-classes"
+            }
+          }
+        ]
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "5.0",
+        "reviewCount": "12",
+        "bestRating": "5",
+        "worstRating": "1"
+      }
+    }
+    </script>
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
   </head>
   <body>
     <div id="root"></div>
+    <noscript>
+      <div style="max-width:800px;margin:0 auto;padding:40px 20px;font-family:Georgia,serif;color:#2C2C2C">
+        <h1>Gourmet Grazin' — Elevated Charcuterie & Custom Mobile Carts | Kentucky</h1>
+        <p>Kentucky's premier charcuterie catering service. Custom mobile carts, stunning grazing tables, handcrafted boards, and charcuterie classes for weddings, corporate events, showers, and private parties.</p>
+        <h2>Our Services</h2>
+        <ul>
+          <li><a href="/luxury-cart-experiences">Luxury Cart Experiences</a> — White-glove mobile charcuterie cart service starting at $250</li>
+          <li><a href="/grazing-tables">Grazing Tables</a> — Stunning charcuterie tablescapes for 20-200+ guests</li>
+          <li><a href="/snack-boards">Snack Boards</a> — Handcrafted charcuterie boards from $65</li>
+          <li><a href="/cups-boxes">Cups & Boxes</a> — Individual charcuterie cups from $8 and boxes from $10</li>
+          <li><a href="/charcuterie-classes">Charcuterie Classes</a> — Hands-on board-building classes from $450</li>
+          <li><a href="/personalizations">Personalizations</a> — Custom mini board favors and branded stickers</li>
+        </ul>
+        <h2>More</h2>
+        <ul>
+          <li><a href="/shop">Shop Online</a></li>
+          <li><a href="/gallery">Gallery</a></li>
+          <li><a href="/meet-the-owners">Meet the Owners</a></li>
+          <li><a href="/faq">FAQ</a></li>
+        </ul>
+        <p>Proudly serving Kentucky. Follow us on <a href="https://www.instagram.com/gourmetgrazingky/">Instagram</a> and <a href="https://www.facebook.com/profile.php?id=61578270886953">Facebook</a>.</p>
+      </div>
+    </noscript>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

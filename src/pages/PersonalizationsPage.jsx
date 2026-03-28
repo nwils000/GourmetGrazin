@@ -2,18 +2,43 @@ import { useEffect, useState } from 'react'
 import { useInView } from '../components/useInView'
 import { useCart } from '../context/CartContext'
 import shopifyClient from '../lib/shopify'
+import useSEO from '../hooks/useSEO'
+
+const PRODUCT_SCHEMA = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: 'Personalized Mini Charcuterie Board Favors',
+    description: 'Personalized mini charcuterie boards as party favors for weddings, showers, and events in Kentucky. Custom engraved with guest names, event dates, or a custom message.',
+    offers: { '@type': 'Offer', price: '10', priceCurrency: 'USD', availability: 'https://schema.org/InStock' },
+    brand: { '@type': 'Brand', name: "Gourmet Grazin'" },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: 'Custom Charcuterie Stickers',
+    description: 'Custom branded stickers for charcuterie cups, boxes, and drinks. Personalized with names, dates, logos, or monograms.',
+    offers: { '@type': 'Offer', price: '0.25', priceCurrency: 'USD', availability: 'https://schema.org/InStock' },
+    brand: { '@type': 'Brand', name: "Gourmet Grazin'" },
+  },
+]
 
 export default function PersonalizationsPage() {
   const [shopifyProducts, setShopifyProducts] = useState([])
 
+  useSEO({
+    title: 'Custom Charcuterie Favors & Stickers',
+    description: 'Personalized mini charcuterie board favors and custom stickers for Kentucky events. Perfect for weddings, showers & corporate gifts. Order now!',
+    path: '/personalizations',
+    jsonLd: PRODUCT_SCHEMA,
+  })
+
   useEffect(() => {
-    window.scrollTo(0, 0)
     shopifyClient.product.fetchAll().then(setShopifyProducts)
   }, [])
 
   const { addToCart, addLocalItem } = useCart()
 
-  // Match Shopify products by title
   const boardProduct = shopifyProducts.find(
     p => p.title.toLowerCase().includes('mini') && p.title.toLowerCase().includes('board')
   )
@@ -35,12 +60,10 @@ export default function PersonalizationsPage() {
   const [miniBoardRef, miniBoardVisible] = useInView()
   const [stickerRef, stickerVisible] = useInView()
 
-  // Mini Board Favors state
   const [boardQty, setBoardQty] = useState(10)
   const [boardCustomText, setBoardCustomText] = useState('')
   const [ribbonChecked, setRibbonChecked] = useState(false)
 
-  // Custom Stickers state
   const [stickerQty, setStickerQty] = useState(1)
   const [stickerCustomText, setStickerCustomText] = useState('')
 
@@ -82,9 +105,9 @@ export default function PersonalizationsPage() {
   }
 
   return (
-    <main className="pt-24">
+    <article className="pt-24">
       {/* Hero Section */}
-      <section className="py-24 lg:py-32 bg-cream">
+      <section className="py-24 lg:py-32 bg-cream" aria-label="Personalizations overview">
         <div ref={heroRef} className="max-w-7xl mx-auto px-6 lg:px-8 text-center">
           <p className={`text-gold text-xs tracking-[0.3em] uppercase mb-6 fade-in-up ${heroVisible ? 'visible' : ''}`}>
             The Details Matter
@@ -99,16 +122,19 @@ export default function PersonalizationsPage() {
       </section>
 
       {/* Personalized Mini Charcuterie Board Favors */}
-      <section className="py-24 lg:py-32 bg-taupe-light">
+      <section className="py-24 lg:py-32 bg-taupe-light" aria-label="Mini board favors">
         <div ref={miniBoardRef} className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
-            <div className={`overflow-hidden fade-in-up ${miniBoardVisible ? 'visible' : ''}`}>
+            <figure className={`overflow-hidden fade-in-up ${miniBoardVisible ? 'visible' : ''}`}>
               <img
                 src={boardImg}
-                alt="Personalized mini charcuterie board favor"
+                alt="Personalized mini charcuterie board favor with custom engraving for weddings and events"
                 className="w-full h-[400px] lg:h-[500px] object-cover"
+                loading="lazy"
+                width="600"
+                height="500"
               />
-            </div>
+            </figure>
             <div>
               <p className={`text-gold text-xs tracking-[0.3em] uppercase mb-4 fade-in-up ${miniBoardVisible ? 'visible' : ''}`}>
                 Party Favors
@@ -125,7 +151,6 @@ export default function PersonalizationsPage() {
                 message, creating a meaningful takeaway your guests will savor long after the event ends.
               </p>
 
-              {/* Price & Minimum */}
               <div className={`flex items-center gap-3 text-sm mb-6 fade-in-up fade-in-up-delay-2 ${miniBoardVisible ? 'visible' : ''}`}>
                 <span className="font-serif text-lg text-gold">
                   ${ribbonChecked ? (boardPrice + 0.50).toFixed(2) : boardPrice.toFixed(2)}/board
@@ -133,19 +158,20 @@ export default function PersonalizationsPage() {
                 <span className="text-charcoal-light font-light">· 10 minimum</span>
               </div>
 
-              {/* Quantity Selector */}
               <div className={`flex items-center gap-3 mb-5 fade-in-up fade-in-up-delay-2 ${miniBoardVisible ? 'visible' : ''}`}>
-                <label className="text-xs tracking-[0.15em] uppercase text-charcoal-light">Qty</label>
+                <label htmlFor="board-qty" className="text-xs tracking-[0.15em] uppercase text-charcoal-light">Qty</label>
                 <div className="flex items-center border border-taupe/30">
                   <button
                     onClick={() => setBoardQty((q) => Math.max(10, q - 1))}
+                    aria-label="Decrease quantity"
                     className="px-3 py-2 text-charcoal hover:bg-cream transition-colors"
                   >
                     &minus;
                   </button>
-                  <span className="px-4 py-2 font-light text-sm min-w-[3rem] text-center">{boardQty}</span>
+                  <span id="board-qty" className="px-4 py-2 font-light text-sm min-w-[3rem] text-center" aria-live="polite">{boardQty}</span>
                   <button
                     onClick={() => setBoardQty((q) => q + 1)}
+                    aria-label="Increase quantity"
                     className="px-3 py-2 text-charcoal hover:bg-cream transition-colors"
                   >
                     +
@@ -153,12 +179,12 @@ export default function PersonalizationsPage() {
                 </div>
               </div>
 
-              {/* Customization Text */}
               <div className={`mb-5 fade-in-up fade-in-up-delay-2 ${miniBoardVisible ? 'visible' : ''}`}>
-                <label className="block text-xs tracking-[0.15em] uppercase text-charcoal-light mb-2">
+                <label htmlFor="board-custom" className="block text-xs tracking-[0.15em] uppercase text-charcoal-light mb-2">
                   Customization
                 </label>
                 <input
+                  id="board-custom"
                   type="text"
                   value={boardCustomText}
                   onChange={(e) => setBoardCustomText(e.target.value)}
@@ -167,7 +193,6 @@ export default function PersonalizationsPage() {
                 />
               </div>
 
-              {/* Ribbon Upgrade */}
               <label className={`flex items-center gap-3 mb-6 cursor-pointer fade-in-up fade-in-up-delay-2 ${miniBoardVisible ? 'visible' : ''}`}>
                 <input
                   type="checkbox"
@@ -180,7 +205,6 @@ export default function PersonalizationsPage() {
                 </span>
               </label>
 
-              {/* Add to Cart */}
               <button
                 onClick={handleAddBoard}
                 className={`bg-charcoal text-cream px-10 py-4 text-xs tracking-[0.2em] uppercase hover:bg-gold transition-colors duration-300 fade-in-up fade-in-up-delay-2 ${miniBoardVisible ? 'visible' : ''}`}
@@ -193,7 +217,7 @@ export default function PersonalizationsPage() {
       </section>
 
       {/* Custom Stickers */}
-      <section className="py-24 lg:py-32 bg-cream">
+      <section className="py-24 lg:py-32 bg-cream" aria-label="Custom stickers">
         <div ref={stickerRef} className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div className="order-2 lg:order-1">
@@ -208,24 +232,24 @@ export default function PersonalizationsPage() {
                 From names and dates to logos and monograms — a small detail that makes a lasting impression.
               </p>
 
-              {/* Price */}
               <div className={`flex items-center gap-3 text-sm mb-6 fade-in-up fade-in-up-delay-2 ${stickerVisible ? 'visible' : ''}`}>
                 <span className="font-serif text-lg text-gold">${stickerPrice}/sticker</span>
               </div>
 
-              {/* Quantity Selector */}
               <div className={`flex items-center gap-3 mb-5 fade-in-up fade-in-up-delay-2 ${stickerVisible ? 'visible' : ''}`}>
-                <label className="text-xs tracking-[0.15em] uppercase text-charcoal-light">Qty</label>
+                <label htmlFor="sticker-qty" className="text-xs tracking-[0.15em] uppercase text-charcoal-light">Qty</label>
                 <div className="flex items-center border border-taupe/30">
                   <button
                     onClick={() => setStickerQty((q) => Math.max(1, q - 1))}
+                    aria-label="Decrease quantity"
                     className="px-3 py-2 text-charcoal hover:bg-taupe-light transition-colors"
                   >
                     &minus;
                   </button>
-                  <span className="px-4 py-2 font-light text-sm min-w-[3rem] text-center">{stickerQty}</span>
+                  <span id="sticker-qty" className="px-4 py-2 font-light text-sm min-w-[3rem] text-center" aria-live="polite">{stickerQty}</span>
                   <button
                     onClick={() => setStickerQty((q) => q + 1)}
+                    aria-label="Increase quantity"
                     className="px-3 py-2 text-charcoal hover:bg-taupe-light transition-colors"
                   >
                     +
@@ -233,12 +257,12 @@ export default function PersonalizationsPage() {
                 </div>
               </div>
 
-              {/* Customization Text */}
               <div className={`mb-6 fade-in-up fade-in-up-delay-2 ${stickerVisible ? 'visible' : ''}`}>
-                <label className="block text-xs tracking-[0.15em] uppercase text-charcoal-light mb-2">
+                <label htmlFor="sticker-custom" className="block text-xs tracking-[0.15em] uppercase text-charcoal-light mb-2">
                   Customization
                 </label>
                 <input
+                  id="sticker-custom"
                   type="text"
                   value={stickerCustomText}
                   onChange={(e) => setStickerCustomText(e.target.value)}
@@ -247,7 +271,6 @@ export default function PersonalizationsPage() {
                 />
               </div>
 
-              {/* Add to Cart */}
               <button
                 onClick={handleAddSticker}
                 className={`bg-charcoal text-cream px-10 py-4 text-xs tracking-[0.2em] uppercase hover:bg-gold transition-colors duration-300 fade-in-up fade-in-up-delay-2 ${stickerVisible ? 'visible' : ''}`}
@@ -255,16 +278,19 @@ export default function PersonalizationsPage() {
                 Add to Cart
               </button>
             </div>
-            <div className={`order-1 lg:order-2 overflow-hidden fade-in-up ${stickerVisible ? 'visible' : ''}`}>
+            <figure className={`order-1 lg:order-2 overflow-hidden fade-in-up ${stickerVisible ? 'visible' : ''}`}>
               <img
                 src={stickerImg}
-                alt="Custom sticker on a charcuterie cup"
+                alt="Custom branded sticker on a charcuterie cup for personalized event favors"
                 className="w-full h-[400px] lg:h-[500px] object-cover"
+                loading="lazy"
+                width="600"
+                height="500"
               />
-            </div>
+            </figure>
           </div>
         </div>
       </section>
-    </main>
+    </article>
   )
 }

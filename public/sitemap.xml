@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <url>
+    <loc>https://www.gourmetgrazinky.com/</loc>
+    <lastmod>2026-03-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://www.gourmetgrazinky.com/og-image.jpg</image:loc>
+      <image:title>Gourmet Grazin' - Elevated Charcuterie &amp; Custom Mobile Carts</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.gourmetgrazinky.com/luxury-cart-experiences</loc>
+    <lastmod>2026-03-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://www.gourmetgrazinky.com/cart-outdoor.png</image:loc>
+      <image:title>Luxury Mobile Charcuterie Cart Experience</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.gourmetgrazinky.com/grazing-tables</loc>
+    <lastmod>2026-03-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://www.gourmetgrazinky.com/grazing-table.png</image:loc>
+      <image:title>Stunning Grazing Table for Events</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.gourmetgrazinky.com/snack-boards</loc>
+    <lastmod>2026-03-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://www.gourmetgrazinky.com/charcuterie-board.png</image:loc>
+      <image:title>Handcrafted Charcuterie Boards from $65</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.gourmetgrazinky.com/cups-boxes</loc>
+    <lastmod>2026-03-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://www.gourmetgrazinky.com/cups-boxes/cups.png</image:loc>
+      <image:title>Individual Charcuterie Cups and Boxes</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.gourmetgrazinky.com/charcuterie-classes</loc>
+    <lastmod>2026-03-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://www.gourmetgrazinky.com/charcuterie-class.png</image:loc>
+      <image:title>Hands-On Charcuterie Board-Building Class</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.gourmetgrazinky.com/personalizations</loc>
+    <lastmod>2026-03-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.gourmetgrazinky.com/shop</loc>
+    <lastmod>2026-03-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.gourmetgrazinky.com/gallery</loc>
+    <lastmod>2026-03-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.gourmetgrazinky.com/meet-the-owners</loc>
+    <lastmod>2026-03-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://www.gourmetgrazinky.com/owners/meettheowners.jpeg</image:loc>
+      <image:title>The Owners of Gourmet Grazin'</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.gourmetgrazinky.com/faq</loc>
+    <lastmod>2026-03-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+</urlset>

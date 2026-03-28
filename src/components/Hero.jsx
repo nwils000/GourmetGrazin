@@ -4,11 +4,11 @@ export default function Hero({ onInquire }) {
   const [ref, isVisible] = useInView()
 
   return (
-    <section className="relative min-h-screen flex items-center bg-cream pt-20">
+    <section className="relative min-h-screen flex items-center bg-cream pt-20" aria-label="Welcome to Gourmet Grazin'">
       <div ref={ref} className="max-w-7xl mx-auto px-6 lg:px-8 w-full">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           {/* Left side - Text content */}
-          <div>
+          <header>
             <p className={`text-gold text-xs tracking-[0.3em] uppercase mb-6 fade-in-up ${isVisible ? 'visible' : ''}`}>
               Elevated Charcuterie & Custom Mobile Carts
             </p>
@@ -35,19 +35,22 @@ export default function Hero({ onInquire }) {
                 View Services
               </a>
             </div>
-          </div>
+          </header>
 
           {/* Right side - Image */}
-          <div className={`fade-in-up fade-in-up-delay-2 ${isVisible ? 'visible' : ''}`}>
+          <figure className={`fade-in-up fade-in-up-delay-2 ${isVisible ? 'visible' : ''}`}>
             <div className="relative">
               <img
                 src="/gallery/new/disperse5.jpeg"
-                alt="Beautifully arranged charcuterie board"
+                alt="Beautifully arranged artisan charcuterie board with imported cheeses, cured meats, and fresh fruits by Gourmet Grazin'"
                 className="w-full h-[500px] lg:h-[600px] object-cover shadow-lg"
+                width="600"
+                height="600"
+                fetchpriority="high"
               />
-              <div className="absolute inset-0 ring-1 ring-gold/20 ring-inset" />
+              <div className="absolute inset-0 ring-1 ring-gold/20 ring-inset" aria-hidden="true" />
             </div>
-          </div>
+          </figure>
         </div>
       </div>
     </section>

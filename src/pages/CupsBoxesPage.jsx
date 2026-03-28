@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { useInView } from '../components/useInView'
 import { useCart } from '../context/CartContext'
 import shopifyClient from '../lib/shopify'
+import useSEO from '../hooks/useSEO'
 
 const cups = [
   {
@@ -43,6 +44,36 @@ const boxes = [
     personalizationPlaceholder: 'e.g. Happy Birthday!',
   },
 ]
+
+const PRODUCT_SCHEMA = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: 'Charcuterie Cups & Boxes',
+  description: 'Elegant individual charcuterie cups starting at $8 and curated boxes starting at $10 for grab-and-go elegance at Kentucky events.',
+  url: 'https://www.gourmetgrazinky.com/cups-boxes',
+  itemListElement: [
+    ...cups.map((cup, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      item: {
+        '@type': 'Product',
+        name: `Charcuterie ${cup.title}`,
+        description: cup.description,
+        offers: { '@type': 'Offer', price: '8', priceCurrency: 'USD', availability: 'https://schema.org/InStock' },
+      },
+    })),
+    ...boxes.map((box, i) => ({
+      '@type': 'ListItem',
+      position: cups.length + i + 1,
+      item: {
+        '@type': 'Product',
+        name: `Charcuterie ${box.title}`,
+        description: box.description,
+        offers: { '@type': 'Offer', price: '10', priceCurrency: 'USD', availability: 'https://schema.org/InStock' },
+      },
+    })),
+  ],
+}
 
 function slugify(str) {
   return str
@@ -86,13 +117,13 @@ function CupCard({ cup, index, isVisible, shopifyProducts }) {
   }
 
   return (
-    <div
+    <article
       className={`bg-cream overflow-hidden fade-in-up fade-in-up-delay-${Math.min(index + 1, 4)} ${isVisible ? 'visible' : ''}`}
     >
       {imgSrc && (
-        <div className="overflow-hidden">
-          <img src={imgSrc} alt={cup.title} className="w-full h-48 object-cover" />
-        </div>
+        <figure className="overflow-hidden">
+          <img src={imgSrc} alt={`${cup.title} - individual charcuterie cup`} className="w-full h-48 object-cover" loading="lazy" />
+        </figure>
       )}
       <div className="p-8">
       <h3 className="font-serif text-xl md:text-2xl mb-3 text-charcoal">
@@ -106,17 +137,19 @@ function CupCard({ cup, index, isVisible, shopifyProducts }) {
         <span className="text-charcoal-light font-light">&middot; 15 minimum</span>
       </div>
       <div className="flex items-center gap-3 mb-4">
-        <label className="text-xs tracking-[0.15em] uppercase text-charcoal-light">Qty</label>
+        <label htmlFor={`cup-qty-${index}`} className="text-xs tracking-[0.15em] uppercase text-charcoal-light">Qty</label>
         <div className="flex items-center border border-taupe/30">
           <button
             onClick={() => setQty((q) => Math.max(15, q - 1))}
+            aria-label="Decrease quantity"
             className="px-3 py-2 text-charcoal hover:bg-taupe-light transition-colors"
           >
             &minus;
           </button>
-          <span className="px-4 py-2 font-light text-sm min-w-[3rem] text-center">{qty}</span>
+          <span id={`cup-qty-${index}`} className="px-4 py-2 font-light text-sm min-w-[3rem] text-center" aria-live="polite">{qty}</span>
           <button
             onClick={() => setQty((q) => q + 1)}
+            aria-label="Increase quantity"
             className="px-3 py-2 text-charcoal hover:bg-taupe-light transition-colors"
           >
             +
@@ -131,7 +164,7 @@ function CupCard({ cup, index, isVisible, shopifyProducts }) {
         {adding ? 'Adding...' : 'Add to Cart'}
       </button>
       </div>
-    </div>
+    </article>
   )
 }
 
@@ -176,13 +209,13 @@ function BoxCard({ box, index, isVisible, shopifyProducts }) {
   }
 
   return (
-    <div
+    <article
       className={`bg-cream overflow-hidden fade-in-up fade-in-up-delay-${Math.min(index + 1, 4)} ${isVisible ? 'visible' : ''}`}
     >
       {imgSrc && (
-        <div className="overflow-hidden">
-          <img src={imgSrc} alt={box.title} className="w-full h-48 object-cover" />
-        </div>
+        <figure className="overflow-hidden">
+          <img src={imgSrc} alt={`${box.title} - curated charcuterie box`} className="w-full h-48 object-cover" loading="lazy" />
+        </figure>
       )}
       <div className="p-8">
       <h3 className="font-serif text-xl md:text-2xl mb-3 text-charcoal">
@@ -196,13 +229,13 @@ function BoxCard({ box, index, isVisible, shopifyProducts }) {
         <span className="text-charcoal-light font-light">&middot; 6 minimum</span>
       </div>
 
-      {/* Custom message input for personalized boxes */}
       {box.personalization && (
         <div className="mb-4">
-          <label className="block text-xs tracking-[0.15em] uppercase text-charcoal-light mb-2">
+          <label htmlFor={`box-msg-${index}`} className="block text-xs tracking-[0.15em] uppercase text-charcoal-light mb-2">
             Custom Message
           </label>
           <input
+            id={`box-msg-${index}`}
             type="text"
             value={customText}
             onChange={(e) => setCustomText(e.target.value)}
@@ -213,17 +246,19 @@ function BoxCard({ box, index, isVisible, shopifyProducts }) {
       )}
 
       <div className="flex items-center gap-3 mb-4">
-        <label className="text-xs tracking-[0.15em] uppercase text-charcoal-light">Qty</label>
+        <label htmlFor={`box-qty-${index}`} className="text-xs tracking-[0.15em] uppercase text-charcoal-light">Qty</label>
         <div className="flex items-center border border-taupe/30">
           <button
             onClick={() => setQty((q) => Math.max(6, q - 1))}
+            aria-label="Decrease quantity"
             className="px-3 py-2 text-charcoal hover:bg-taupe-light transition-colors"
           >
             &minus;
           </button>
-          <span className="px-4 py-2 font-light text-sm min-w-[3rem] text-center">{qty}</span>
+          <span id={`box-qty-${index}`} className="px-4 py-2 font-light text-sm min-w-[3rem] text-center" aria-live="polite">{qty}</span>
           <button
             onClick={() => setQty((q) => q + 1)}
+            aria-label="Increase quantity"
             className="px-3 py-2 text-charcoal hover:bg-taupe-light transition-colors"
           >
             +
@@ -238,13 +273,19 @@ function BoxCard({ box, index, isVisible, shopifyProducts }) {
         {adding ? 'Adding...' : 'Add to Cart'}
       </button>
       </div>
-    </div>
+    </article>
   )
 }
 
 export default function CupsBoxesPage() {
+  useSEO({
+    title: 'Charcuterie Cups & Boxes',
+    description: 'Individual charcuterie cups from $8 and curated boxes from $10 — budget-friendly grab-and-go elegance for Kentucky weddings, showers & events.',
+    path: '/cups-boxes',
+    jsonLd: PRODUCT_SCHEMA,
+  })
+
   useEffect(() => {
-    window.scrollTo(0, 0)
     shopifyClient.product.fetchAll().then(setShopifyProducts)
   }, [])
 
@@ -257,9 +298,9 @@ export default function CupsBoxesPage() {
   const [noteRef, noteVisible] = useInView()
 
   return (
-    <main className="pt-24">
+    <article className="pt-24">
       {/* Hero Section */}
-      <section className="py-24 lg:py-32 bg-cream">
+      <section className="py-24 lg:py-32 bg-cream" aria-label="Cups & Boxes overview">
         <div ref={heroRef} className="max-w-7xl mx-auto px-6 lg:px-8 text-center">
           <p className={`text-gold text-xs tracking-[0.3em] uppercase mb-6 fade-in-up ${heroVisible ? 'visible' : ''}`}>
             Curated Bites
@@ -274,9 +315,9 @@ export default function CupsBoxesPage() {
       </section>
 
       {/* Cups Section */}
-      <section className="py-24 lg:py-32 bg-taupe-light">
+      <section className="py-24 lg:py-32 bg-taupe-light" aria-label="Charcuterie cups">
         <div ref={cupsRef} className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="mb-16 max-w-2xl">
+          <header className="mb-16 max-w-2xl">
             <p className={`text-gold text-xs tracking-[0.3em] uppercase mb-4 fade-in-up ${cupsVisible ? 'visible' : ''}`}>
               Charcuterie Cups
             </p>
@@ -289,7 +330,7 @@ export default function CupsBoxesPage() {
             <p className={`text-gold font-serif text-base mt-4 fade-in-up fade-in-up-delay-3 ${cupsVisible ? 'visible' : ''}`}>
               Minimum order of 15 required.
             </p>
-          </div>
+          </header>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
             {cups.map((cup, i) => (
@@ -300,22 +341,25 @@ export default function CupsBoxesPage() {
       </section>
 
       {/* Cups Feature Image */}
-      <section className="py-24 lg:py-32 bg-cream">
+      <section className="py-24 lg:py-32 bg-cream" aria-label="Cups showcase">
         <div ref={cupsImgRef} className="max-w-5xl mx-auto px-6 lg:px-8">
-          <div className={`overflow-hidden fade-in-up ${cupsImgVisible ? 'visible' : ''}`}>
+          <figure className={`overflow-hidden fade-in-up ${cupsImgVisible ? 'visible' : ''}`}>
             <img
               src="/cups-boxes/cups.png"
-              alt="Beautifully arranged charcuterie cups"
+              alt="Beautifully arranged charcuterie cups with artisan cheeses, meats, crackers, and fresh fruit"
               className="w-full h-[400px] md:h-[500px] object-cover"
+              loading="lazy"
+              width="1000"
+              height="500"
             />
-          </div>
+          </figure>
         </div>
       </section>
 
       {/* Boxes Section */}
-      <section className="py-24 lg:py-32 bg-taupe-light">
+      <section className="py-24 lg:py-32 bg-taupe-light" aria-label="Charcuterie boxes">
         <div ref={boxesRef} className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="mb-16 max-w-2xl">
+          <header className="mb-16 max-w-2xl">
             <p className={`text-gold text-xs tracking-[0.3em] uppercase mb-4 fade-in-up ${boxesVisible ? 'visible' : ''}`}>
               Charcuterie Boxes
             </p>
@@ -325,7 +369,7 @@ export default function CupsBoxesPage() {
             <p className={`text-charcoal-light leading-relaxed font-light fade-in-up fade-in-up-delay-2 ${boxesVisible ? 'visible' : ''}`}>
               Starting at $10/person with a minimum of 6 — the perfect shareable indulgence.
             </p>
-          </div>
+          </header>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
             {boxes.map((box, i) => (
@@ -336,20 +380,23 @@ export default function CupsBoxesPage() {
       </section>
 
       {/* Boxes Feature Image */}
-      <section className="py-24 lg:py-32 bg-cream">
+      <section className="py-24 lg:py-32 bg-cream" aria-label="Boxes showcase">
         <div ref={boxesImgRef} className="max-w-5xl mx-auto px-6 lg:px-8">
-          <div className={`overflow-hidden fade-in-up ${boxesImgVisible ? 'visible' : ''}`}>
+          <figure className={`overflow-hidden fade-in-up ${boxesImgVisible ? 'visible' : ''}`}>
             <img
               src="/cups-boxes/boxes.png"
-              alt="Curated charcuterie boxes for sharing"
+              alt="Curated charcuterie boxes with cured meats, brie, manchego, berries, and chocolate covered pretzels"
               className="w-full h-[400px] md:h-[500px] object-cover"
+              loading="lazy"
+              width="1000"
+              height="500"
             />
-          </div>
+          </figure>
         </div>
       </section>
 
       {/* Charcuterie Classes CTA */}
-      <section className="py-16 lg:py-20 bg-taupe-light">
+      <section className="py-16 lg:py-20 bg-taupe-light" aria-label="Learn the art of charcuterie">
         <div className="max-w-7xl mx-auto px-6 lg:px-8 text-center">
           <p className="text-gold text-xs tracking-[0.3em] uppercase mb-4">
             Learn the Art
@@ -378,6 +425,6 @@ export default function CupsBoxesPage() {
           </p>
         </div>
       </section>
-    </main>
+    </article>
   )
 }

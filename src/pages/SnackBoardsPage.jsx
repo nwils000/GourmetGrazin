@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { useInView } from '../components/useInView'
 import { useCart } from '../context/CartContext'
 import shopifyClient from '../lib/shopify'
+import useSEO from '../hooks/useSEO'
 
 /* ── Sizing & pricing (shared by ALL boards) ── */
 const sizes = [
@@ -96,6 +97,32 @@ const specialOccasionBoards = [
   },
 ]
 
+const PRODUCT_SCHEMA = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: 'Handcrafted Charcuterie Boards',
+  description: 'Premium handcrafted charcuterie boards available in multiple sizes and styles, starting at $65. Classic, sweet-salty, brunch, veggie, fruit, and themed boards for any occasion.',
+  url: 'https://www.gourmetgrazinky.com/snack-boards',
+  numberOfItems: classics.length + specialOccasionBoards.length,
+  itemListElement: classics.map((board, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    item: {
+      '@type': 'Product',
+      name: board.title,
+      description: board.description,
+      offers: {
+        '@type': 'AggregateOffer',
+        lowPrice: '65',
+        highPrice: '210',
+        priceCurrency: 'USD',
+        offerCount: sizes.length,
+        availability: 'https://schema.org/InStock',
+      },
+    },
+  })),
+}
+
 /* ── Helpers ── */
 function getStartingPrice(shopifyProduct, fallback = 65) {
   if (!shopifyProduct?.variants?.length) return fallback
@@ -125,17 +152,20 @@ function ImageGallery({ images }) {
         src={images[current].src}
         alt=""
         className="w-full h-56 md:h-72 object-cover"
+        loading="lazy"
       />
       {images.length > 1 && (
         <>
           <button
             onClick={() => setCurrent((c) => (c - 1 + images.length) % images.length)}
+            aria-label="Previous image"
             className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-cream/80 flex items-center justify-center text-charcoal hover:bg-gold hover:text-cream transition-colors"
           >
             &#8249;
           </button>
           <button
             onClick={() => setCurrent((c) => (c + 1) % images.length)}
+            aria-label="Next image"
             className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-cream/80 flex items-center justify-center text-charcoal hover:bg-gold hover:text-cream transition-colors"
           >
             &#8250;
@@ -145,6 +175,7 @@ function ImageGallery({ images }) {
               <button
                 key={i}
                 onClick={() => setCurrent(i)}
+                aria-label={`View image ${i + 1}`}
                 className={`w-2 h-2 rounded-full transition-colors ${
                   i === current ? 'bg-gold' : 'bg-cream/60'
                 }`}
@@ -167,14 +198,12 @@ function BoardModal({ board, onClose, shopifyProducts }) {
 
   const chosen = sizes[selectedSize]
 
-  // Find matching Shopify product by title
   const shopifyProduct = shopifyProducts.find(
     (p) => p.title.toLowerCase() === board.title.toLowerCase()
   )
 
   const shopifyImages = shopifyProduct?.images || []
 
-  // Get price from Shopify variant if available, otherwise use hardcoded
   function getVariantPrice(sizeObj) {
     if (!shopifyProduct?.variants) return sizeObj.price
     const variant = shopifyProduct.variants.find(v => v.title === sizeObj.variantTitle)
@@ -227,45 +256,44 @@ function BoardModal({ board, onClose, shopifyProducts }) {
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center px-4"
+      role="dialog"
+      aria-modal="true"
+      aria-label={`Configure ${board.title}`}
       onClick={onClose}
     >
-      {/* Backdrop */}
       <div className="absolute inset-0 bg-charcoal/60 backdrop-blur-sm" />
 
-      {/* Panel */}
       <div
         className="relative bg-cream border border-gold/20 w-full max-w-lg p-8 md:p-10 shadow-xl animate-fade-in max-h-[90vh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Close button */}
         <button
           onClick={onClose}
           className="absolute top-4 right-4 text-charcoal-light hover:text-gold transition-colors text-2xl leading-none z-10"
-          aria-label="Close"
+          aria-label="Close configuration"
         >
           &times;
         </button>
 
-        {/* Product images from Shopify */}
         <ImageGallery images={shopifyImages} />
 
-        {/* Title & description */}
         <h3 className="font-serif text-2xl md:text-3xl mb-2">{board.title}</h3>
         <p className="text-charcoal-light font-light text-sm leading-relaxed mb-8">
           {board.description}
         </p>
 
-        {/* Size selector */}
         <p className="text-xs tracking-[0.2em] uppercase text-gold mb-3">
           Select a Size
         </p>
-        <div className="grid grid-cols-2 gap-3 mb-8">
+        <div className="grid grid-cols-2 gap-3 mb-8" role="radiogroup" aria-label="Board size">
           {sizes.map((s, idx) => {
             const variantPrice = getVariantPrice(s)
             return (
               <button
                 key={s.key}
                 onClick={() => setSelectedSize(idx)}
+                role="radio"
+                aria-checked={selectedSize === idx}
                 className={`border py-3 px-4 text-left transition-all duration-200 ${
                   selectedSize === idx
                     ? 'border-gold bg-gold/10'
@@ -282,13 +310,13 @@ function BoardModal({ board, onClose, shopifyProducts }) {
           })}
         </div>
 
-        {/* Personalization (conditional) */}
         {board.personalization && (
           <div className="mb-8">
-            <p className="text-xs tracking-[0.2em] uppercase text-gold mb-3">
+            <label htmlFor="personalization-input" className="text-xs tracking-[0.2em] uppercase text-gold mb-3 block">
               Personalization
-            </p>
+            </label>
             <input
+              id="personalization-input"
               type="text"
               value={personalizationText}
               onChange={(e) => setPersonalizationText(e.target.value)}
@@ -298,7 +326,6 @@ function BoardModal({ board, onClose, shopifyProducts }) {
           </div>
         )}
 
-        {/* Quantity selector */}
         <div className="mb-8">
           <p className="text-xs tracking-[0.2em] uppercase text-gold mb-3">
             Quantity
@@ -306,13 +333,15 @@ function BoardModal({ board, onClose, shopifyProducts }) {
           <div className="flex items-center gap-4">
             <button
               onClick={() => setQuantity((q) => Math.max(1, q - 1))}
+              aria-label="Decrease quantity"
               className="w-10 h-10 border border-gold/20 flex items-center justify-center text-lg hover:border-gold transition-colors"
             >
               &minus;
             </button>
-            <span className="font-serif text-xl w-8 text-center">{quantity}</span>
+            <span className="font-serif text-xl w-8 text-center" aria-live="polite">{quantity}</span>
             <button
               onClick={() => setQuantity((q) => q + 1)}
+              aria-label="Increase quantity"
               className="w-10 h-10 border border-gold/20 flex items-center justify-center text-lg hover:border-gold transition-colors"
             >
               +
@@ -320,13 +349,12 @@ function BoardModal({ board, onClose, shopifyProducts }) {
           </div>
         </div>
 
-        {/* Add to Cart */}
         <button
           onClick={handleAddToCart}
           disabled={adding}
           className="w-full bg-charcoal text-cream px-8 py-4 text-xs tracking-[0.2em] uppercase hover:bg-gold transition-colors duration-300 disabled:opacity-50"
         >
-          {adding ? 'Adding...' : `Add to Cart \u2014 $${chosenPrice * quantity}`}
+          {adding ? 'Adding...' : `Add to Cart — $${chosenPrice * quantity}`}
         </button>
       </div>
     </div>
@@ -343,12 +371,17 @@ export default function SnackBoardsPage() {
   const [activeBoard, setActiveBoard] = useState(null)
   const [shopifyProducts, setShopifyProducts] = useState([])
 
+  useSEO({
+    title: 'Charcuterie Boards from $65',
+    description: 'Handcrafted charcuterie boards in Kentucky — classic, sweet-salty, brunch, veggie & themed styles for any celebration. Fresh to order from $65.',
+    path: '/snack-boards',
+    jsonLd: PRODUCT_SCHEMA,
+  })
+
   useEffect(() => {
-    window.scrollTo(0, 0)
     shopifyClient.product.fetchAll().then(setShopifyProducts)
   }, [])
 
-  // Lock body scroll when modal is open
   useEffect(() => {
     if (activeBoard) {
       document.body.style.overflow = 'hidden'
@@ -361,9 +394,9 @@ export default function SnackBoardsPage() {
   }, [activeBoard])
 
   return (
-    <main>
+    <article>
       {/* Hero Section */}
-      <section className="relative flex items-center justify-center bg-cream pt-24 pb-16 lg:pb-24">
+      <section className="relative flex items-center justify-center bg-cream pt-24 pb-16 lg:pb-24" aria-label="Snack Boards overview">
         <div ref={heroRef} className="max-w-7xl mx-auto px-6 lg:px-8 text-center">
           <p
             className={`text-gold text-xs tracking-[0.3em] uppercase mb-6 fade-in-up ${heroVisible ? 'visible' : ''}`}
@@ -392,10 +425,9 @@ export default function SnackBoardsPage() {
       </section>
 
       {/* Classics Section */}
-      <section className="py-24 lg:py-32 bg-taupe-light">
+      <section className="py-24 lg:py-32 bg-taupe-light" aria-label="Classic boards">
         <div ref={classicsRef} className="max-w-7xl mx-auto px-6 lg:px-8">
-          {/* Section Header */}
-          <div className="mb-16 max-w-2xl">
+          <header className="mb-16 max-w-2xl">
             <p
               className={`text-gold text-xs tracking-[0.3em] uppercase mb-4 fade-in-up ${classicsVisible ? 'visible' : ''}`}
             >
@@ -412,9 +444,8 @@ export default function SnackBoardsPage() {
               Signature boards crafted with care — each one a curated experience
               designed to delight your guests.
             </p>
-          </div>
+          </header>
 
-          {/* Classics Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
             {classics.map((board, i) => {
               const matched = shopifyProducts.find(
@@ -423,18 +454,18 @@ export default function SnackBoardsPage() {
               const imgSrc = getProductImage(matched)
               const startPrice = getStartingPrice(matched, 65)
               return (
-                <div
+                <article
                   key={board.number}
                   onClick={() => setActiveBoard(board)}
                   className={`group bg-cream border border-gold/15 hover:border-gold/40 transition-all duration-300 cursor-pointer overflow-hidden fade-in-up fade-in-up-delay-${Math.min(i + 1, 4)} ${classicsVisible ? 'visible' : ''}`}
                 >
                   {imgSrc && (
-                    <div className="overflow-hidden">
-                      <img src={imgSrc} alt={board.title} className="w-full h-48 object-cover img-hover" />
-                    </div>
+                    <figure className="overflow-hidden">
+                      <img src={imgSrc} alt={`${board.title} - handcrafted charcuterie board`} className="w-full h-48 object-cover img-hover" loading="lazy" />
+                    </figure>
                   )}
                   <div className="p-8">
-                    <span className="font-serif text-3xl text-gold/30 group-hover:text-gold transition-colors duration-300">
+                    <span className="font-serif text-3xl text-gold/30 group-hover:text-gold transition-colors duration-300" aria-hidden="true">
                       {board.number}
                     </span>
                     <h3 className="font-serif text-xl md:text-2xl mt-4 mb-3 group-hover:text-gold transition-colors duration-300">
@@ -445,7 +476,7 @@ export default function SnackBoardsPage() {
                     </p>
                     <p className="text-gold font-serif text-sm">starting at ${startPrice}</p>
                   </div>
-                </div>
+                </article>
               )
             })}
           </div>
@@ -453,10 +484,9 @@ export default function SnackBoardsPage() {
       </section>
 
       {/* Special Occasion Boards Section */}
-      <section className="py-24 lg:py-32 bg-cream">
+      <section className="py-24 lg:py-32 bg-cream" aria-label="Special occasion boards">
         <div ref={specialRef} className="max-w-7xl mx-auto px-6 lg:px-8">
-          {/* Section Header */}
-          <div className="mb-16 max-w-2xl">
+          <header className="mb-16 max-w-2xl">
             <p
               className={`text-gold text-xs tracking-[0.3em] uppercase mb-4 fade-in-up ${specialVisible ? 'visible' : ''}`}
             >
@@ -474,9 +504,8 @@ export default function SnackBoardsPage() {
               Themed boards designed to make your celebrations even more memorable —
               each one crafted with seasonal flair and creative detail.
             </p>
-          </div>
+          </header>
 
-          {/* Special Occasion Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
             {specialOccasionBoards.map((board, i) => {
               const matched = shopifyProducts.find(
@@ -485,18 +514,19 @@ export default function SnackBoardsPage() {
               const imgSrc = getProductImage(matched) || board.image
               const startPrice = getStartingPrice(matched, 65)
               return (
-                <div
+                <article
                   key={board.title}
                   onClick={() => setActiveBoard(board)}
                   className={`group cursor-pointer fade-in-up fade-in-up-delay-${Math.min(i + 1, 4)} ${specialVisible ? 'visible' : ''}`}
                 >
-                  <div className="overflow-hidden mb-4">
+                  <figure className="overflow-hidden mb-4">
                     <img
                       src={imgSrc}
-                      alt={board.title}
+                      alt={`${board.title} - themed charcuterie board for celebrations`}
                       className="w-full h-56 md:h-64 object-cover img-hover"
+                      loading="lazy"
                     />
-                  </div>
+                  </figure>
                   <h3 className="font-serif text-xl md:text-2xl mb-2 group-hover:text-gold transition-colors duration-300">
                     {board.title}
                   </h3>
@@ -504,7 +534,7 @@ export default function SnackBoardsPage() {
                     {board.description}
                   </p>
                   <p className="text-gold font-serif text-sm">starting at ${startPrice}</p>
-                </div>
+                </article>
               )
             })}
           </div>
@@ -512,7 +542,7 @@ export default function SnackBoardsPage() {
       </section>
 
       {/* Charcuterie Classes CTA */}
-      <section className="py-16 lg:py-20 bg-taupe-light">
+      <section className="py-16 lg:py-20 bg-taupe-light" aria-label="Learn the art of charcuterie">
         <div className="max-w-7xl mx-auto px-6 lg:px-8 text-center">
           <p className="text-gold text-xs tracking-[0.3em] uppercase mb-4">
             Learn the Art
@@ -534,7 +564,7 @@ export default function SnackBoardsPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-24 lg:py-32 bg-cream">
+      <section className="py-24 lg:py-32 bg-cream" aria-label="Order your board">
         <div ref={ctaRef} className="max-w-7xl mx-auto px-6 lg:px-8 text-center">
           <p
             className={`text-gold text-xs tracking-[0.3em] uppercase mb-4 fade-in-up ${ctaVisible ? 'visible' : ''}`}
@@ -557,7 +587,6 @@ export default function SnackBoardsPage() {
         </div>
       </section>
 
-      {/* Board configuration modal */}
       {activeBoard && (
         <BoardModal
           board={activeBoard}
@@ -565,6 +594,6 @@ export default function SnackBoardsPage() {
           shopifyProducts={shopifyProducts}
         />
       )}
-    </main>
+    </article>
   )
 }

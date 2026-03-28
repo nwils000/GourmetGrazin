@@ -4,21 +4,21 @@ import { useDriveImages } from '../hooks/useDriveImages'
 import { FOLDER_IDS } from '../lib/googleDrive'
 
 const defaultGalleryImages = [
-  { src: '/gallery/gallery1.jpg', alt: 'Gourmet Grazin cart at outdoor event' },
-  { src: '/gallery/gallery2.jpg', alt: 'Cart being served to guests' },
-  { src: '/gallery/new/disperse1.jpg', alt: 'Easter charcuterie board with salami roses' },
-  { src: '/gallery/gallery3.jpg', alt: 'Close-up cart spread with accompaniments' },
-  { src: '/gallery/gallery5.jpeg', alt: 'Cart food detail shot' },
-  { src: '/gallery/new/disperse2.jpg', alt: 'Charcuterie board with peeps and Lindt bunnies' },
-  { src: '/gallery/gallery6.jpeg', alt: 'Cart serving experience' },
-  { src: '/gallery/gallery7.jpg', alt: 'Gourmet Grazin at formal event' },
-  { src: '/gallery/new/disperse3.jpg', alt: 'Colorful charcuterie board with meat roses' },
-  { src: '/gallery/gourmet-cart-2.jpeg', alt: 'Cart with full spread' },
-  { src: '/gallery/new/disperse4.jpg', alt: 'Bunny-shaped brie charcuterie board' },
-  { src: '/event-photo.jpg', alt: 'Event photo' },
-  { src: '/cart-closeup.jpg', alt: 'Close-up of cart' },
-  { src: '/gallery/new/disperse5.jpeg', alt: 'Chocolate and charcuterie board' },
-  { src: '/cart-setup.jpg', alt: 'Cart outdoor setup' },
+  { src: '/gallery/gallery1.jpg', alt: 'Artisan charcuterie board with imported cheeses and cured meats' },
+  { src: '/gallery/gallery2.jpg', alt: 'Elegant charcuterie spread styled for a Kentucky wedding' },
+  { src: '/gallery/new/disperse1.jpg', alt: 'Easter charcuterie board with salami roses and seasonal garnishes' },
+  { src: '/gallery/gallery3.jpg', alt: 'Premium grazing table with fresh fruits and artisan crackers' },
+  { src: '/gallery/gallery5.jpeg', alt: 'Beautifully arranged charcuterie display for a corporate event' },
+  { src: '/gallery/new/disperse2.jpg', alt: 'Charcuterie board with chocolate eggs and Lindt bunnies for Easter' },
+  { src: '/gallery/gallery6.jpeg', alt: 'Handcrafted charcuterie board with brie, grapes, and rosemary' },
+  { src: '/gallery/gallery7.jpg', alt: 'Stunning charcuterie presentation for a bridal shower' },
+  { src: '/gallery/new/disperse3.jpg', alt: 'Colorful charcuterie board with meat roses and seasonal fruits' },
+  { src: '/gallery/gourmet-cart-2.jpeg', alt: 'Gourmet Grazin mobile charcuterie cart setup at an event' },
+  { src: '/gallery/new/disperse4.jpg', alt: 'Bunny-shaped brie cheese charcuterie board for spring celebration' },
+  { src: '/event-photo.jpg', alt: 'Gourmet Grazin charcuterie catering at a live event' },
+  { src: '/cart-closeup.jpg', alt: 'Close-up of artisan cheese and charcuterie cart spread' },
+  { src: '/gallery/new/disperse5.jpeg', alt: 'Chocolate and charcuterie board with truffles and berries' },
+  { src: '/cart-setup.jpg', alt: 'Mobile charcuterie cart setup with full grazing spread' },
 ]
 
 export default function Gallery() {
@@ -27,20 +27,20 @@ export default function Gallery() {
   const doubled = [...galleryImages, ...galleryImages]
 
   return (
-    <section id="gallery" className="py-24 lg:py-32 bg-cream overflow-hidden">
+    <section id="gallery" className="py-24 lg:py-32 bg-cream overflow-hidden" aria-label="Portfolio preview">
       <div ref={ref} className="max-w-7xl mx-auto px-6 lg:px-8">
-        <div className="text-center mb-16">
+        <header className="text-center mb-16">
           <p className={`text-gold text-xs tracking-[0.3em] uppercase mb-4 fade-in-up ${isVisible ? 'visible' : ''}`}>
             Portfolio
           </p>
           <h2 className={`font-serif text-4xl md:text-5xl leading-[1.1] fade-in-up fade-in-up-delay-1 ${isVisible ? 'visible' : ''}`}>
             A taste of our <em className="text-gold">work.</em>
           </h2>
-        </div>
+        </header>
       </div>
 
       {/* Rotating Carousel */}
-      <div className={`fade-in-up fade-in-up-delay-2 ${isVisible ? 'visible' : ''}`}>
+      <div className={`fade-in-up fade-in-up-delay-2 ${isVisible ? 'visible' : ''}`} aria-hidden="true">
         <div className="overflow-hidden group">
           <div
             className="flex animate-marquee hover:[animation-play-state:paused]"
@@ -52,6 +52,7 @@ export default function Gallery() {
                   <img
                     src={img.src}
                     alt={img.alt}
+                    loading="lazy"
                     className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
                   />
                 </div>

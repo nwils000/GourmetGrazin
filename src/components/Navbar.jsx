@@ -59,14 +59,19 @@ export default function Navbar({ onInquire }) {
     timeoutRef.current = setTimeout(() => setServicesOpen(false), 150)
   }
 
+  const isActive = (href) => location.pathname === href
+
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-      scrolled ? 'bg-cream/95 backdrop-blur-sm shadow-sm' : 'bg-transparent'
-    }`}>
+    <nav
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        scrolled ? 'bg-cream/95 backdrop-blur-sm shadow-sm' : 'bg-transparent'
+      }`}
+      aria-label="Main navigation"
+    >
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          <Link to="/" className="flex items-center">
+          <Link to="/" className="flex items-center" aria-label="Gourmet Grazin' - Home">
             <span className="font-serif text-2xl text-charcoal tracking-wide">Gourmet Grazin'</span>
           </Link>
 
@@ -82,17 +87,25 @@ export default function Navbar({ onInquire }) {
                     onMouseEnter={handleDropdownEnter}
                     onMouseLeave={handleDropdownLeave}
                   >
-                    <button className="flex items-center gap-1 text-charcoal text-sm tracking-[0.12em] uppercase font-light hover:text-gold transition-colors duration-300">
+                    <button
+                      className="flex items-center gap-1 text-charcoal text-sm tracking-[0.12em] uppercase font-light hover:text-gold transition-colors duration-300"
+                      aria-expanded={servicesOpen}
+                      aria-haspopup="true"
+                    >
                       {link.label}
-                      <ChevronDown size={14} className={`transition-transform duration-200 ${servicesOpen ? 'rotate-180' : ''}`} />
+                      <ChevronDown size={14} className={`transition-transform duration-200 ${servicesOpen ? 'rotate-180' : ''}`} aria-hidden="true" />
                     </button>
                     {servicesOpen && (
-                      <div className="absolute top-full left-0 mt-2 w-64 bg-cream/98 backdrop-blur-md border border-taupe/30 shadow-lg py-2">
+                      <div className="absolute top-full left-0 mt-2 w-64 bg-cream/98 backdrop-blur-md border border-taupe/30 shadow-lg py-2" role="menu">
                         {link.items.map(item => (
                           <Link
                             key={item.label}
                             to={item.href}
-                            className="block px-5 py-3 text-charcoal text-sm font-light hover:text-gold hover:bg-taupe-light/50 transition-colors duration-200"
+                            role="menuitem"
+                            aria-current={isActive(item.href) ? 'page' : undefined}
+                            className={`block px-5 py-3 text-sm font-light hover:text-gold hover:bg-taupe-light/50 transition-colors duration-200 ${
+                              isActive(item.href) ? 'text-gold' : 'text-charcoal'
+                            }`}
                           >
                             {item.label}
                           </Link>
@@ -118,7 +131,10 @@ export default function Navbar({ onInquire }) {
                 <Link
                   key={link.label}
                   to={link.href}
-                  className="text-charcoal text-sm tracking-[0.12em] uppercase font-light hover:text-gold transition-colors duration-300"
+                  aria-current={isActive(link.href) ? 'page' : undefined}
+                  className={`text-sm tracking-[0.12em] uppercase font-light hover:text-gold transition-colors duration-300 ${
+                    isActive(link.href) ? 'text-gold' : 'text-charcoal'
+                  }`}
                 >
                   {link.label}
                 </Link>
@@ -137,10 +153,11 @@ export default function Navbar({ onInquire }) {
             <button
               onClick={() => setCartOpen(true)}
               className="relative text-charcoal hover:text-gold transition-colors duration-300 p-2"
+              aria-label={`Shopping cart${itemCount > 0 ? `, ${itemCount} item${itemCount > 1 ? 's' : ''}` : ''}`}
             >
-              <ShoppingBag size={20} />
+              <ShoppingBag size={20} aria-hidden="true" />
               {itemCount > 0 && (
-                <span className="absolute -top-1 -right-1 bg-gold text-cream text-[9px] w-4.5 h-4.5 flex items-center justify-center rounded-full font-sans leading-none">
+                <span className="absolute -top-1 -right-1 bg-gold text-cream text-[9px] w-4.5 h-4.5 flex items-center justify-center rounded-full font-sans leading-none" aria-hidden="true">
                   {itemCount}
                 </span>
               )}
@@ -152,10 +169,11 @@ export default function Navbar({ onInquire }) {
             <button
               onClick={() => setCartOpen(true)}
               className="relative text-charcoal hover:text-gold transition-colors p-2"
+              aria-label={`Shopping cart${itemCount > 0 ? `, ${itemCount} item${itemCount > 1 ? 's' : ''}` : ''}`}
             >
-              <ShoppingBag size={20} />
+              <ShoppingBag size={20} aria-hidden="true" />
               {itemCount > 0 && (
-                <span className="absolute -top-1 -right-1 bg-gold text-cream text-[9px] w-4.5 h-4.5 flex items-center justify-center rounded-full font-sans leading-none">
+                <span className="absolute -top-1 -right-1 bg-gold text-cream text-[9px] w-4.5 h-4.5 flex items-center justify-center rounded-full font-sans leading-none" aria-hidden="true">
                   {itemCount}
                 </span>
               )}
@@ -163,8 +181,10 @@ export default function Navbar({ onInquire }) {
             <button
               className="text-charcoal p-2"
               onClick={() => setMobileOpen(!mobileOpen)}
+              aria-expanded={mobileOpen}
+              aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
             >
-              {mobileOpen ? <X size={24} /> : <Menu size={24} />}
+              {mobileOpen ? <X size={24} aria-hidden="true" /> : <Menu size={24} aria-hidden="true" />}
             </button>
           </div>
         </div>
@@ -172,7 +192,7 @@ export default function Navbar({ onInquire }) {
 
       {/* Mobile Menu */}
       {mobileOpen && (
-        <div className="lg:hidden bg-cream/98 backdrop-blur-md border-t border-taupe/30 max-h-[calc(100vh-5rem)] overflow-y-auto">
+        <div className="lg:hidden bg-cream/98 backdrop-blur-md border-t border-taupe/30 max-h-[calc(100vh-5rem)] overflow-y-auto" role="menu">
           <div className="px-6 py-6 space-y-1">
             {navLinks.map(link => {
               if (link.type === 'dropdown') {
@@ -181,9 +201,10 @@ export default function Navbar({ onInquire }) {
                     <button
                       onClick={() => setMobileServicesOpen(!mobileServicesOpen)}
                       className="flex items-center justify-between w-full py-3 text-charcoal text-sm tracking-[0.12em] uppercase font-light"
+                      aria-expanded={mobileServicesOpen}
                     >
                       {link.label}
-                      <ChevronDown size={16} className={`text-gold transition-transform duration-200 ${mobileServicesOpen ? 'rotate-180' : ''}`} />
+                      <ChevronDown size={16} className={`text-gold transition-transform duration-200 ${mobileServicesOpen ? 'rotate-180' : ''}`} aria-hidden="true" />
                     </button>
                     {mobileServicesOpen && (
                       <div className="pl-4 pb-2 space-y-1 border-l-2 border-gold/30 ml-2">
@@ -192,7 +213,11 @@ export default function Navbar({ onInquire }) {
                             key={item.label}
                             to={item.href}
                             onClick={() => setMobileOpen(false)}
-                            className="block py-2 text-charcoal-light text-sm font-light hover:text-gold transition-colors"
+                            role="menuitem"
+                            aria-current={isActive(item.href) ? 'page' : undefined}
+                            className={`block py-2 text-sm font-light hover:text-gold transition-colors ${
+                              isActive(item.href) ? 'text-gold' : 'text-charcoal-light'
+                            }`}
                           >
                             {item.label}
                           </Link>
@@ -208,6 +233,7 @@ export default function Navbar({ onInquire }) {
                     key={link.label}
                     href={link.href}
                     onClick={(e) => handleAnchorClick(e, link.href)}
+                    role="menuitem"
                     className="block py-3 text-charcoal text-sm tracking-[0.12em] uppercase font-light hover:text-gold transition-colors"
                   >
                     {link.label}
@@ -219,7 +245,11 @@ export default function Navbar({ onInquire }) {
                   key={link.label}
                   to={link.href}
                   onClick={() => setMobileOpen(false)}
-                  className="block py-3 text-charcoal text-sm tracking-[0.12em] uppercase font-light hover:text-gold transition-colors"
+                  role="menuitem"
+                  aria-current={isActive(link.href) ? 'page' : undefined}
+                  className={`block py-3 text-sm tracking-[0.12em] uppercase font-light hover:text-gold transition-colors ${
+                    isActive(link.href) ? 'text-gold' : 'text-charcoal'
+                  }`}
                 >
                   {link.label}
                 </Link>

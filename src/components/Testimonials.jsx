@@ -69,9 +69,9 @@ const row2 = testimonials.slice(6, 12)
 
 function Stars() {
   return (
-    <div className="flex gap-0.5 mb-4">
+    <div className="flex gap-0.5 mb-4" aria-label="5 out of 5 stars">
       {[...Array(5)].map((_, i) => (
-        <Star key={i} size={14} className="fill-gold text-gold" />
+        <Star key={i} size={14} className="fill-gold text-gold" aria-hidden="true" />
       ))}
     </div>
   )
@@ -79,21 +79,23 @@ function Stars() {
 
 function TestimonialCard({ testimonial }) {
   return (
-    <div className="testimonial-card flex-shrink-0 w-[350px] md:w-[400px] bg-warm-white border border-taupe/30 p-8 mx-3">
-      <Quote size={24} className="text-gold/30 mb-4 rotate-180" />
+    <blockquote className="testimonial-card flex-shrink-0 w-[350px] md:w-[400px] bg-warm-white border border-taupe/30 p-8 mx-3">
+      <Quote size={24} className="text-gold/30 mb-4 rotate-180" aria-hidden="true" />
       <Stars />
       <p className="font-serif text-sm leading-relaxed text-charcoal/85 mb-6 italic">
         "{testimonial.text}"
       </p>
-      <div className="border-t border-taupe/30 pt-4">
-        <p className="text-charcoal text-sm font-medium tracking-wide">
-          {testimonial.name}
-        </p>
-        <p className="text-gold text-xs tracking-[0.15em] uppercase mt-1">
-          {testimonial.event}
-        </p>
-      </div>
-    </div>
+      <footer className="border-t border-taupe/30 pt-4">
+        <cite className="not-italic">
+          <p className="text-charcoal text-sm font-medium tracking-wide">
+            {testimonial.name}
+          </p>
+          <p className="text-gold text-xs tracking-[0.15em] uppercase mt-1">
+            {testimonial.event}
+          </p>
+        </cite>
+      </footer>
+    </blockquote>
   )
 }
 
@@ -101,21 +103,21 @@ export default function Testimonials() {
   const [ref, isVisible] = useInView()
 
   return (
-    <section id="reviews" className="py-24 lg:py-32 bg-taupe-light overflow-hidden">
+    <section id="reviews" className="py-24 lg:py-32 bg-taupe-light overflow-hidden" aria-label="Client testimonials">
       <div ref={ref} className="max-w-7xl mx-auto px-6 lg:px-8">
         {/* Header */}
-        <div className="text-center mb-6">
+        <header className="text-center mb-6">
           <p className={`text-gold text-xs tracking-[0.3em] uppercase mb-4 fade-in-up ${isVisible ? 'visible' : ''}`}>
             What Our Clients Say
           </p>
           <h2 className={`font-serif text-4xl md:text-5xl leading-[1.1] mb-6 fade-in-up fade-in-up-delay-1 ${isVisible ? 'visible' : ''}`}>
             Loved by hosts <em className="text-gold">everywhere.</em>
           </h2>
-        </div>
+        </header>
 
-        {/* Google Rating Badge */}
+        {/* Rating Badge */}
         <div className={`flex items-center justify-center gap-3 mb-16 fade-in-up fade-in-up-delay-2 ${isVisible ? 'visible' : ''}`}>
-          <div className="flex gap-0.5">
+          <div className="flex gap-0.5" aria-hidden="true">
             {[...Array(5)].map((_, i) => (
               <Star key={i} size={18} className="fill-gold text-gold" />
             ))}
@@ -127,7 +129,6 @@ export default function Testimonials() {
 
       {/* Scrolling Rows */}
       <div className={`space-y-6 fade-in-up fade-in-up-delay-3 ${isVisible ? 'visible' : ''}`}>
-        {/* Row 1 - scrolls left */}
         <div className="testimonial-scroll-mask">
           <div className="testimonial-scroll-left">
             {[...row1, ...row1].map((t, i) => (
@@ -136,7 +137,6 @@ export default function Testimonials() {
           </div>
         </div>
 
-        {/* Row 2 - scrolls right */}
         <div className="testimonial-scroll-mask">
           <div className="testimonial-scroll-right">
             {[...row2, ...row2].map((t, i) => (

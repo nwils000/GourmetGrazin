@@ -4,17 +4,20 @@ export default function About() {
   const [ref, isVisible] = useInView()
 
   return (
-    <section id="about" className="py-24 lg:py-32 bg-cream">
+    <section id="about" className="py-24 lg:py-32 bg-cream" aria-label="About Gourmet Grazin'">
       <div ref={ref} className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           {/* Image */}
-          <div className={`overflow-hidden fade-in-up ${isVisible ? 'visible' : ''}`}>
+          <figure className={`overflow-hidden fade-in-up ${isVisible ? 'visible' : ''}`}>
             <img
               src="/cart-outdoor.png"
-              alt="Gourmet Grazin' mobile charcuterie cart at an outdoor event"
+              alt="Gourmet Grazin' mobile charcuterie cart styled with artisan cheeses and cured meats at an outdoor Kentucky event"
               className="w-full h-[500px] lg:h-[600px] object-cover img-hover"
+              width="600"
+              height="600"
+              loading="lazy"
             />
-          </div>
+          </figure>
 
           {/* Content */}
           <div>

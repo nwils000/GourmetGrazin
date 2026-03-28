@@ -1,10 +1,29 @@
-import { useEffect } from 'react'
 import { useInView } from '../components/useInView'
+import useSEO from '../hooks/useSEO'
+
+const ABOUT_SCHEMA = {
+  '@context': 'https://schema.org',
+  '@type': 'AboutPage',
+  name: "About Gourmet Grazin' - Meet the Owners",
+  description: "Meet the husband-and-wife team behind Gourmet Grazin', Kentucky's premier charcuterie catering service.",
+  url: 'https://www.gourmetgrazinky.com/meet-the-owners',
+  mainEntity: {
+    '@type': 'Organization',
+    name: "Gourmet Grazin'",
+    description: "A husband-and-wife team creating elevated charcuterie experiences across Kentucky for weddings, corporate events, and celebrations.",
+    url: 'https://www.gourmetgrazinky.com',
+    foundingLocation: { '@type': 'State', name: 'Kentucky' },
+    knowsAbout: ['Charcuterie', 'Event Catering', 'Food Styling', 'Mobile Cart Service'],
+  },
+}
 
 export default function MeetOwnersPage() {
-  useEffect(() => {
-    window.scrollTo(0, 0)
-  }, [])
+  useSEO({
+    title: 'Meet the Owners',
+    description: "The husband-and-wife team behind Kentucky's premier charcuterie catering. Our story of creativity, family & elevated event experiences.",
+    path: '/meet-the-owners',
+    jsonLd: ABOUT_SCHEMA,
+  })
 
   const [heroRef, heroVisible] = useInView()
   const [photoRef, photoVisible] = useInView()
@@ -12,9 +31,9 @@ export default function MeetOwnersPage() {
   const [ctaRef, ctaVisible] = useInView()
 
   return (
-    <main className="pt-24">
+    <article className="pt-24">
       {/* Hero Section */}
-      <section className="py-24 lg:py-32 bg-cream">
+      <section className="py-24 lg:py-32 bg-cream" aria-label="Meet the owners">
         <div ref={heroRef} className="max-w-7xl mx-auto px-6 lg:px-8 text-center">
           <p className={`text-gold text-xs tracking-[0.3em] uppercase mb-6 fade-in-up ${heroVisible ? 'visible' : ''}`}>
             Our Story
@@ -26,20 +45,23 @@ export default function MeetOwnersPage() {
       </section>
 
       {/* Photo Section */}
-      <section className="py-16 lg:py-24 bg-taupe-light">
+      <section className="py-16 lg:py-24 bg-taupe-light" aria-label="Owner photo">
         <div ref={photoRef} className="max-w-4xl mx-auto px-6 lg:px-8">
-          <div className={`overflow-hidden shadow-2xl fade-in-up ${photoVisible ? 'visible' : ''}`}>
+          <figure className={`overflow-hidden shadow-2xl fade-in-up ${photoVisible ? 'visible' : ''}`}>
             <img
               src="/owners/meettheowners.jpeg"
-              alt="The owners of Gourmet Grazin'"
+              alt="The husband-and-wife team behind Gourmet Grazin' charcuterie catering in Kentucky"
               className="w-full object-cover"
+              width="800"
+              height="600"
+              fetchpriority="high"
             />
-          </div>
+          </figure>
         </div>
       </section>
 
       {/* Bio Section */}
-      <section className="py-24 lg:py-32 bg-cream">
+      <section className="py-24 lg:py-32 bg-cream" aria-label="Our story">
         <div ref={bioRef} className="max-w-3xl mx-auto px-6 lg:px-8">
           <p className={`text-charcoal-light text-lg leading-relaxed font-light mb-8 fade-in-up ${bioVisible ? 'visible' : ''}`}>
             We're a husband-and-wife team with a deep love for gathering people around beautiful
@@ -87,7 +109,7 @@ export default function MeetOwnersPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-24 lg:py-32 bg-taupe-light">
+      <section className="py-24 lg:py-32 bg-taupe-light" aria-label="Get in touch">
         <div ref={ctaRef} className="max-w-7xl mx-auto px-6 lg:px-8 text-center">
           <h2 className={`font-serif text-4xl md:text-5xl leading-[1.1] mb-6 fade-in-up ${ctaVisible ? 'visible' : ''}`}>
             Let's create something <em className="text-gold">beautiful.</em>
@@ -103,6 +125,6 @@ export default function MeetOwnersPage() {
           </a>
         </div>
       </section>
-    </main>
+    </article>
   )
 }

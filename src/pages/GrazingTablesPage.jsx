@@ -1,10 +1,10 @@
-import { useEffect } from 'react'
 import { useInView } from '../components/useInView'
 import HoneyBookForm from '../components/HoneyBookForm'
+import useSEO from '../hooks/useSEO'
 
 function SectionDivider() {
   return (
-    <div className="flex items-center justify-center py-4">
+    <div className="flex items-center justify-center py-4" aria-hidden="true">
       <div className="h-px w-16 bg-gold/30" />
       <div className="mx-4 h-1.5 w-1.5 rotate-45 bg-gold/50" />
       <div className="h-px w-16 bg-gold/30" />
@@ -32,6 +32,20 @@ const whyChooseUs = [
   'Custom options available for dietary restrictions, color schemes, and event themes',
 ]
 
+const SERVICE_SCHEMA = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: 'Grazing Tables',
+  description: 'Stunning grazing tablescapes for Kentucky events, serving 20-200+ guests. Perfect for weddings, corporate receptions, and large gatherings with artisan cheeses, cured meats, and fresh accompaniments.',
+  provider: {
+    '@type': 'CateringService',
+    name: "Gourmet Grazin'",
+    url: 'https://www.gourmetgrazinky.com',
+  },
+  areaServed: { '@type': 'State', name: 'Kentucky' },
+  serviceType: 'Grazing Table Catering',
+}
+
 export default function GrazingTablesPage() {
   const [heroRef, heroVisible] = useInView()
   const [provideRef, provideVisible] = useInView()
@@ -39,14 +53,17 @@ export default function GrazingTablesPage() {
   const [whyRef, whyVisible] = useInView()
   const [formRef, formVisible] = useInView()
 
-  useEffect(() => {
-    window.scrollTo(0, 0)
-  }, [])
+  useSEO({
+    title: 'Grazing Tables for Kentucky Events',
+    description: 'Stunning charcuterie grazing tables for 20-200+ guests. Perfect for Kentucky weddings, corporate events & celebrations. Full setup included.',
+    path: '/grazing-tables',
+    jsonLd: SERVICE_SCHEMA,
+  })
 
   return (
-    <main>
+    <article>
       {/* Hero Section */}
-      <section className="relative flex items-center justify-center bg-cream pt-24 pb-16 lg:pb-24">
+      <section className="relative flex items-center justify-center bg-cream pt-24 pb-16 lg:pb-24" aria-label="Grazing Tables overview">
         <div ref={heroRef} className="max-w-7xl mx-auto px-6 lg:px-8 text-center">
           <p
             className={`text-gold text-xs tracking-[0.3em] uppercase mb-6 fade-in-up ${heroVisible ? 'visible' : ''}`}
@@ -73,9 +90,9 @@ export default function GrazingTablesPage() {
       <SectionDivider />
 
       {/* What We Provide Section */}
-      <section className="py-20 lg:py-28 bg-taupe-light">
+      <section className="py-20 lg:py-28 bg-taupe-light" aria-label="What we provide">
         <div ref={provideRef} className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="max-w-2xl mx-auto text-center mb-14">
+          <header className="max-w-2xl mx-auto text-center mb-14">
             <p
               className={`text-gold text-xs tracking-[0.3em] uppercase mb-4 fade-in-up ${provideVisible ? 'visible' : ''}`}
             >
@@ -86,31 +103,31 @@ export default function GrazingTablesPage() {
             >
               What we <em className="text-gold">provide.</em>
             </h2>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 max-w-4xl mx-auto">
+          </header>
+          <ul className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 max-w-4xl mx-auto list-none">
             {whatWeProvide.map((item, i) => (
-              <div
+              <li
                 key={i}
                 className={`bg-cream border border-taupe/40 p-8 md:p-10 hover:border-gold/40 transition-colors duration-500 fade-in-up fade-in-up-delay-${Math.min(i + 1, 4)} ${provideVisible ? 'visible' : ''}`}
               >
                 <div className="flex items-start gap-4">
-                  <span className="text-gold text-lg mt-0.5">&#10047;</span>
+                  <span className="text-gold text-lg mt-0.5" aria-hidden="true">&#10047;</span>
                   <p className="text-charcoal-light font-light text-sm leading-relaxed">
                     {item}
                   </p>
                 </div>
-              </div>
+              </li>
             ))}
-          </div>
+          </ul>
         </div>
       </section>
 
       <SectionDivider />
 
       {/* Events & Serving Section */}
-      <section className="py-20 lg:py-28 bg-cream">
+      <section className="py-20 lg:py-28 bg-cream" aria-label="Event types">
         <div ref={sizesRef} className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="max-w-2xl mx-auto text-center mb-14">
+          <header className="max-w-2xl mx-auto text-center mb-14">
             <p
               className={`text-gold text-xs tracking-[0.3em] uppercase mb-4 fade-in-up ${sizesVisible ? 'visible' : ''}`}
             >
@@ -126,10 +143,10 @@ export default function GrazingTablesPage() {
             >
               From intimate gatherings of 20 to grand celebrations of 200+, our grazing tables are scaled and styled to fit your event perfectly.
             </p>
-          </div>
+          </header>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 max-w-4xl mx-auto">
             {eventTypes.map((event, i) => (
-              <div
+              <article
                 key={event.title}
                 className={`bg-taupe-light border border-taupe/40 p-8 md:p-10 hover:border-gold/40 transition-colors duration-500 fade-in-up fade-in-up-delay-${Math.min(i + 1, 4)} ${sizesVisible ? 'visible' : ''}`}
               >
@@ -139,7 +156,7 @@ export default function GrazingTablesPage() {
                 <p className="text-charcoal-light font-light text-sm leading-relaxed">
                   {event.description}
                 </p>
-              </div>
+              </article>
             ))}
           </div>
         </div>
@@ -148,9 +165,9 @@ export default function GrazingTablesPage() {
       <SectionDivider />
 
       {/* Why Choose Us Section */}
-      <section className="py-20 lg:py-28 bg-taupe-light">
+      <section className="py-20 lg:py-28 bg-taupe-light" aria-label="Why choose us">
         <div ref={whyRef} className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="max-w-2xl mx-auto text-center mb-14">
+          <header className="max-w-2xl mx-auto text-center mb-14">
             <p
               className={`text-gold text-xs tracking-[0.3em] uppercase mb-4 fade-in-up ${whyVisible ? 'visible' : ''}`}
             >
@@ -161,31 +178,31 @@ export default function GrazingTablesPage() {
             >
               More than a table, <em className="text-gold">an experience.</em>
             </h2>
-          </div>
-          <div className="max-w-3xl mx-auto space-y-6">
+          </header>
+          <ul className="max-w-3xl mx-auto space-y-6 list-none">
             {whyChooseUs.map((item, i) => (
-              <div
+              <li
                 key={i}
                 className={`bg-cream border border-taupe/40 p-8 md:p-10 hover:border-gold/40 transition-colors duration-500 fade-in-up fade-in-up-delay-${Math.min(i + 1, 4)} ${whyVisible ? 'visible' : ''}`}
               >
                 <div className="flex items-start gap-4">
-                  <span className="text-gold text-lg mt-0.5">&#10047;</span>
+                  <span className="text-gold text-lg mt-0.5" aria-hidden="true">&#10047;</span>
                   <p className="text-charcoal-light font-light text-sm leading-relaxed">
                     {item}
                   </p>
                 </div>
-              </div>
+              </li>
             ))}
-          </div>
+          </ul>
         </div>
       </section>
 
       <SectionDivider />
 
       {/* Form Section */}
-      <section className="py-24 lg:py-32 bg-charcoal text-cream">
+      <section className="py-24 lg:py-32 bg-charcoal text-cream" aria-label="Book your grazing table">
         <div ref={formRef} className="max-w-3xl mx-auto px-6 lg:px-8">
-          <div className="text-center mb-12">
+          <header className="text-center mb-12">
             <p
               className={`text-gold text-xs tracking-[0.3em] uppercase mb-4 fade-in-up ${formVisible ? 'visible' : ''}`}
             >
@@ -198,7 +215,7 @@ export default function GrazingTablesPage() {
               <br />
               perfect <em className="text-gold">graze.</em>
             </h2>
-          </div>
+          </header>
           <div
             className={`fade-in-up fade-in-up-delay-2 ${formVisible ? 'visible' : ''}`}
           >
@@ -206,6 +223,6 @@ export default function GrazingTablesPage() {
           </div>
         </div>
       </section>
-    </main>
+    </article>
   )
 }

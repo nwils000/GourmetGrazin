@@ -4,7 +4,7 @@ export default function CTA({ onInquire }) {
   const [ref, isVisible] = useInView()
 
   return (
-    <section className="py-24 lg:py-32 bg-cream">
+    <section className="py-24 lg:py-32 bg-cream" aria-label="Ready to book">
       <div ref={ref} className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           {/* Content */}
@@ -31,13 +31,16 @@ export default function CTA({ onInquire }) {
           </div>
 
           {/* Image */}
-          <div className={`overflow-hidden fade-in-up fade-in-up-delay-2 ${isVisible ? 'visible' : ''}`}>
+          <figure className={`overflow-hidden fade-in-up fade-in-up-delay-2 ${isVisible ? 'visible' : ''}`}>
             <img
               src="/charcuterie-board.png"
-              alt="Beautiful charcuterie board by Gourmet Grazin'"
+              alt="Premium charcuterie board by Gourmet Grazin' with artisan cheeses and seasonal fruits"
               className="w-full h-[500px] object-cover"
+              loading="lazy"
+              width="600"
+              height="500"
             />
-          </div>
+          </figure>
         </div>
       </div>
     </section>

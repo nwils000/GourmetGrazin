@@ -1,10 +1,10 @@
-import { useEffect } from 'react'
 import { useInView } from '../components/useInView'
 import HoneyBookForm from '../components/HoneyBookForm'
+import useSEO from '../hooks/useSEO'
 
 function SectionDivider() {
   return (
-    <div className="flex items-center justify-center py-4">
+    <div className="flex items-center justify-center py-4" aria-hidden="true">
       <div className="h-px w-16 bg-gold/30" />
       <div className="mx-4 h-1.5 w-1.5 rotate-45 bg-gold/50" />
       <div className="h-px w-16 bg-gold/30" />
@@ -23,13 +23,13 @@ const whatWeProvide = [
 const classSizes = [
   {
     label: 'Small Group',
-    participants: '6\u201310 participants',
+    participants: '6–10 participants',
     price: '$450',
     detail: 'Each participant creates their own personal board',
   },
   {
     label: 'Large Group',
-    participants: '10\u201320 participants',
+    participants: '10–20 participants',
     price: '$600',
     detail: 'Stations set up so everyone can assemble a board or share a platter',
   },
@@ -42,6 +42,44 @@ const experienceHighlights = [
   'Leave with inspiration to wow at your next gathering!',
 ]
 
+const CLASS_SCHEMA = {
+  '@context': 'https://schema.org',
+  '@type': 'Course',
+  name: 'Charcuterie Board-Building Class',
+  description: 'Hands-on charcuterie board-building class in Kentucky. Learn the art of creating stunning boards with professional guidance. All ingredients and supplies included. Perfect for team building, girls\' night, bridal parties, and family events.',
+  provider: {
+    '@type': 'Organization',
+    name: "Gourmet Grazin'",
+    url: 'https://www.gourmetgrazinky.com',
+  },
+  hasCourseInstance: [
+    {
+      '@type': 'CourseInstance',
+      name: 'Small Group Class (6-10 participants)',
+      courseMode: 'onsite',
+      duration: 'PT90M',
+      offers: {
+        '@type': 'Offer',
+        price: '450',
+        priceCurrency: 'USD',
+        availability: 'https://schema.org/InStock',
+      },
+    },
+    {
+      '@type': 'CourseInstance',
+      name: 'Large Group Class (10-20 participants)',
+      courseMode: 'onsite',
+      duration: 'PT90M',
+      offers: {
+        '@type': 'Offer',
+        price: '600',
+        priceCurrency: 'USD',
+        availability: 'https://schema.org/InStock',
+      },
+    },
+  ],
+}
+
 export default function CharcuterieClassesPage() {
   const [heroRef, heroVisible] = useInView()
   const [provideRef, provideVisible] = useInView()
@@ -50,14 +88,17 @@ export default function CharcuterieClassesPage() {
   const [durationRef, durationVisible] = useInView()
   const [formRef, formVisible] = useInView()
 
-  useEffect(() => {
-    window.scrollTo(0, 0)
-  }, [])
+  useSEO({
+    title: 'Charcuterie Classes in Kentucky',
+    description: 'Hands-on charcuterie board-building classes for 6-20 people. All ingredients included — perfect for team building, bridal parties & more. From $450.',
+    path: '/charcuterie-classes',
+    jsonLd: CLASS_SCHEMA,
+  })
 
   return (
-    <main>
+    <article>
       {/* Hero Section */}
-      <section className="relative flex items-center justify-center bg-cream pt-24 pb-16 lg:pb-24">
+      <section className="relative flex items-center justify-center bg-cream pt-24 pb-16 lg:pb-24" aria-label="Charcuterie Classes overview">
         <div ref={heroRef} className="max-w-7xl mx-auto px-6 lg:px-8 text-center">
           <p
             className={`text-gold text-xs tracking-[0.3em] uppercase mb-6 fade-in-up ${heroVisible ? 'visible' : ''}`}
@@ -85,9 +126,9 @@ export default function CharcuterieClassesPage() {
       <SectionDivider />
 
       {/* What We Provide Section */}
-      <section className="py-20 lg:py-28 bg-taupe-light">
+      <section className="py-20 lg:py-28 bg-taupe-light" aria-label="What's included">
         <div ref={provideRef} className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="max-w-2xl mx-auto text-center mb-14">
+          <header className="max-w-2xl mx-auto text-center mb-14">
             <p
               className={`text-gold text-xs tracking-[0.3em] uppercase mb-4 fade-in-up ${provideVisible ? 'visible' : ''}`}
             >
@@ -98,31 +139,31 @@ export default function CharcuterieClassesPage() {
             >
               What we <em className="text-gold">provide.</em>
             </h2>
-          </div>
-          <div className="max-w-3xl mx-auto space-y-5">
+          </header>
+          <ul className="max-w-3xl mx-auto space-y-5 list-none">
             {whatWeProvide.map((item, i) => (
-              <div
+              <li
                 key={i}
                 className={`bg-cream border border-taupe/40 p-7 md:p-8 hover:border-gold/40 transition-colors duration-500 fade-in-up fade-in-up-delay-${Math.min(i + 1, 4)} ${provideVisible ? 'visible' : ''}`}
               >
                 <div className="flex items-start gap-4">
-                  <span className="text-gold text-lg mt-0.5">&#10047;</span>
+                  <span className="text-gold text-lg mt-0.5" aria-hidden="true">&#10047;</span>
                   <p className="text-charcoal-light font-light text-sm leading-relaxed">
                     {item}
                   </p>
                 </div>
-              </div>
+              </li>
             ))}
-          </div>
+          </ul>
         </div>
       </section>
 
       <SectionDivider />
 
       {/* Class Size & Pricing Section */}
-      <section className="py-20 lg:py-28 bg-cream">
+      <section className="py-20 lg:py-28 bg-cream" aria-label="Pricing">
         <div ref={pricingRef} className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="max-w-2xl mx-auto text-center mb-14">
+          <header className="max-w-2xl mx-auto text-center mb-14">
             <p
               className={`text-gold text-xs tracking-[0.3em] uppercase mb-4 fade-in-up ${pricingVisible ? 'visible' : ''}`}
             >
@@ -133,10 +174,10 @@ export default function CharcuterieClassesPage() {
             >
               Find your <em className="text-gold">fit.</em>
             </h2>
-          </div>
+          </header>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 max-w-4xl mx-auto">
             {classSizes.map((size, i) => (
-              <div
+              <article
                 key={size.label}
                 className={`bg-taupe-light border border-taupe/40 p-8 md:p-10 text-center hover:border-gold/40 transition-colors duration-500 fade-in-up fade-in-up-delay-${Math.min(i + 1, 4)} ${pricingVisible ? 'visible' : ''}`}
               >
@@ -152,7 +193,7 @@ export default function CharcuterieClassesPage() {
                 <p className="text-charcoal-light font-light text-sm leading-relaxed">
                   {size.detail}
                 </p>
-              </div>
+              </article>
             ))}
           </div>
         </div>
@@ -161,9 +202,9 @@ export default function CharcuterieClassesPage() {
       <SectionDivider />
 
       {/* Experience Highlights Section */}
-      <section className="py-20 lg:py-28 bg-taupe-light">
+      <section className="py-20 lg:py-28 bg-taupe-light" aria-label="Experience highlights">
         <div ref={highlightsRef} className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="max-w-2xl mx-auto text-center mb-14">
+          <header className="max-w-2xl mx-auto text-center mb-14">
             <p
               className={`text-gold text-xs tracking-[0.3em] uppercase mb-4 fade-in-up ${highlightsVisible ? 'visible' : ''}`}
             >
@@ -174,29 +215,29 @@ export default function CharcuterieClassesPage() {
             >
               What you'll <em className="text-gold">take away.</em>
             </h2>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 max-w-4xl mx-auto">
+          </header>
+          <ul className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 max-w-4xl mx-auto list-none">
             {experienceHighlights.map((item, i) => (
-              <div
+              <li
                 key={i}
                 className={`bg-cream border border-taupe/40 p-8 md:p-10 hover:border-gold/40 transition-colors duration-500 fade-in-up fade-in-up-delay-${Math.min(i + 1, 4)} ${highlightsVisible ? 'visible' : ''}`}
               >
                 <div className="flex items-start gap-4">
-                  <span className="text-gold text-lg mt-0.5">&#10047;</span>
+                  <span className="text-gold text-lg mt-0.5" aria-hidden="true">&#10047;</span>
                   <p className="text-charcoal-light font-light text-sm leading-relaxed">
                     {item}
                   </p>
                 </div>
-              </div>
+              </li>
             ))}
-          </div>
+          </ul>
         </div>
       </section>
 
       <SectionDivider />
 
       {/* Duration Section */}
-      <section className="py-16 lg:py-20 bg-cream">
+      <section className="py-16 lg:py-20 bg-cream" aria-label="Class duration">
         <div ref={durationRef} className="max-w-7xl mx-auto px-6 lg:px-8 text-center">
           <div
             className={`fade-in-up ${durationVisible ? 'visible' : ''}`}
@@ -205,7 +246,7 @@ export default function CharcuterieClassesPage() {
               Duration
             </p>
             <p className="font-serif text-2xl md:text-3xl leading-relaxed">
-              ~90 minutes
+              <time dateTime="PT90M">~90 minutes</time>
             </p>
             <p className="text-charcoal-light font-light text-sm mt-3">
               Includes setup, instruction, and tasting
@@ -217,9 +258,9 @@ export default function CharcuterieClassesPage() {
       <SectionDivider />
 
       {/* Form Section */}
-      <section className="py-24 lg:py-32 bg-charcoal text-cream">
+      <section className="py-24 lg:py-32 bg-charcoal text-cream" aria-label="Book a class">
         <div ref={formRef} className="max-w-3xl mx-auto px-6 lg:px-8">
-          <div className="text-center mb-12">
+          <header className="text-center mb-12">
             <p
               className={`text-gold text-xs tracking-[0.3em] uppercase mb-4 fade-in-up ${formVisible ? 'visible' : ''}`}
             >
@@ -232,7 +273,7 @@ export default function CharcuterieClassesPage() {
               <br />
               <em className="text-gold">spot.</em>
             </h2>
-          </div>
+          </header>
           <div
             className={`fade-in-up fade-in-up-delay-2 ${formVisible ? 'visible' : ''}`}
           >
@@ -240,6 +281,6 @@ export default function CharcuterieClassesPage() {
           </div>
         </div>
       </section>
-    </main>
+    </article>
   )
 }

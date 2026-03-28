@@ -10,6 +10,7 @@ import HowItWorks from './components/HowItWorks'
 import CTA from './components/CTA'
 import Footer from './components/Footer'
 import Cart from './components/Cart'
+import ScrollToTop from './components/ScrollToTop'
 import FAQPage from './pages/FAQPage'
 import LuxuryCartPage from './pages/LuxuryCartPage'
 import SnackBoardsPage from './pages/SnackBoardsPage'
@@ -21,8 +22,15 @@ import GrazingTablesPage from './pages/GrazingTablesPage'
 import CharcuterieClassesPage from './pages/CharcuterieClassesPage'
 import ShopPage from './pages/ShopPage'
 import { CartProvider } from './context/CartContext'
+import useSEO from './hooks/useSEO'
 
 function HomePage({ onInquire }) {
+  useSEO({
+    title: null,
+    description: "Kentucky's premier charcuterie catering — mobile carts, grazing tables, boards & classes for weddings, corporate events and parties. Book today!",
+    path: '/',
+  })
+
   return (
     <>
       <Hero onInquire={onInquire} />
@@ -42,7 +50,6 @@ function App() {
 
   const handleInquire = () => {
     navigate('/luxury-cart-experiences#book-cart')
-    // Scroll to the form after navigation
     setTimeout(() => {
       document.getElementById('book-cart')?.scrollIntoView({ behavior: 'smooth' })
     }, 100)
@@ -50,22 +57,31 @@ function App() {
 
   return (
     <CartProvider>
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:bg-charcoal focus:text-cream focus:px-6 focus:py-3 focus:text-sm"
+      >
+        Skip to main content
+      </a>
       <div className="min-h-screen bg-cream">
+        <ScrollToTop />
         <Navbar onInquire={handleInquire} />
         <Cart />
-        <Routes>
-          <Route path="/" element={<HomePage onInquire={handleInquire} />} />
-          <Route path="/faq" element={<FAQPage />} />
-          <Route path="/luxury-cart-experiences" element={<LuxuryCartPage />} />
-          <Route path="/snack-boards" element={<SnackBoardsPage />} />
-          <Route path="/cups-boxes" element={<CupsBoxesPage />} />
-          <Route path="/personalizations" element={<PersonalizationsPage />} />
-          <Route path="/meet-the-owners" element={<MeetOwnersPage />} />
-          <Route path="/gallery" element={<GalleryPage />} />
-          <Route path="/grazing-tables" element={<GrazingTablesPage />} />
-          <Route path="/charcuterie-classes" element={<CharcuterieClassesPage />} />
-          <Route path="/shop" element={<ShopPage />} />
-        </Routes>
+        <main id="main-content" role="main">
+          <Routes>
+            <Route path="/" element={<HomePage onInquire={handleInquire} />} />
+            <Route path="/faq" element={<FAQPage />} />
+            <Route path="/luxury-cart-experiences" element={<LuxuryCartPage />} />
+            <Route path="/snack-boards" element={<SnackBoardsPage />} />
+            <Route path="/cups-boxes" element={<CupsBoxesPage />} />
+            <Route path="/personalizations" element={<PersonalizationsPage />} />
+            <Route path="/meet-the-owners" element={<MeetOwnersPage />} />
+            <Route path="/gallery" element={<GalleryPage />} />
+            <Route path="/grazing-tables" element={<GrazingTablesPage />} />
+            <Route path="/charcuterie-classes" element={<CharcuterieClassesPage />} />
+            <Route path="/shop" element={<ShopPage />} />
+          </Routes>
+        </main>
         <Footer />
       </div>
     </CartProvider>

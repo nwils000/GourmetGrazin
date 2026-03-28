@@ -22,28 +22,28 @@ export default function HowItWorks() {
   const [ref, isVisible] = useInView()
 
   return (
-    <section className="py-24 lg:py-32 bg-cream">
+    <section className="py-24 lg:py-32 bg-cream" aria-label="How it works">
       <div ref={ref} className="max-w-7xl mx-auto px-6 lg:px-8">
-        <div className="text-center mb-16">
+        <header className="text-center mb-16">
           <p className={`text-gold text-xs tracking-[0.3em] uppercase mb-4 fade-in-up ${isVisible ? 'visible' : ''}`}>
             How It Works
           </p>
           <h2 className={`font-serif text-4xl md:text-5xl leading-[1.1] fade-in-up fade-in-up-delay-1 ${isVisible ? 'visible' : ''}`}>
             Simple as <em className="text-gold">one, two, graze.</em>
           </h2>
-        </div>
+        </header>
 
-        <div className={`grid md:grid-cols-3 gap-12 fade-in-up fade-in-up-delay-2 ${isVisible ? 'visible' : ''}`}>
+        <ol className={`grid md:grid-cols-3 gap-12 fade-in-up fade-in-up-delay-2 ${isVisible ? 'visible' : ''} list-none`}>
           {steps.map((step) => (
-            <div key={step.number} className="text-center">
-              <span className="font-serif text-5xl text-gold/30 block mb-4">{step.number}</span>
+            <li key={step.number} className="text-center">
+              <span className="font-serif text-5xl text-gold/30 block mb-4" aria-hidden="true">{step.number}</span>
               <h3 className="font-serif text-2xl mb-3">{step.title}</h3>
               <p className="text-charcoal-light font-light leading-relaxed text-sm">
                 {step.description}
               </p>
-            </div>
+            </li>
           ))}
-        </div>
+        </ol>
       </div>
     </section>
   )
