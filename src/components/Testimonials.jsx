@@ -69,11 +69,11 @@ const row2 = testimonials.slice(6, 12)
 
 function Stars() {
   return (
-    <div className="flex gap-0.5 mb-4" aria-label="5 out of 5 stars">
+    <span className="flex gap-0.5 mb-4" role="img" aria-label="5 out of 5 stars">
       {[...Array(5)].map((_, i) => (
         <Star key={i} size={14} className="fill-gold text-gold" aria-hidden="true" />
       ))}
-    </div>
+    </span>
   )
 }
 
@@ -111,7 +111,7 @@ export default function Testimonials() {
             What Our Clients Say
           </p>
           <h2 className={`font-serif text-4xl md:text-5xl leading-[1.1] mb-6 fade-in-up fade-in-up-delay-1 ${isVisible ? 'visible' : ''}`}>
-            Loved by hosts <em className="text-gold">everywhere.</em>
+            Loved by hosts <em className="text-gold-heading">everywhere.</em>
           </h2>
         </header>
 

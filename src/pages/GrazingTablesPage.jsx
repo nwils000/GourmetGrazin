@@ -75,7 +75,7 @@ export default function GrazingTablesPage() {
           >
             Stunning spreads,
             <br />
-            <em className="text-gold">unforgettable impact.</em>
+            <em className="text-gold-heading">unforgettable impact.</em>
           </h1>
           <p
             className={`text-charcoal-light text-lg md:text-xl max-w-2xl mx-auto font-light leading-relaxed fade-in-up fade-in-up-delay-2 ${heroVisible ? 'visible' : ''}`}
@@ -101,7 +101,7 @@ export default function GrazingTablesPage() {
             <h2
               className={`font-serif text-3xl md:text-4xl lg:text-5xl leading-[1.1] fade-in-up fade-in-up-delay-1 ${provideVisible ? 'visible' : ''}`}
             >
-              What we <em className="text-gold">provide.</em>
+              What we <em className="text-gold-heading">provide.</em>
             </h2>
           </header>
           <ul className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 max-w-4xl mx-auto list-none">
@@ -136,7 +136,7 @@ export default function GrazingTablesPage() {
             <h2
               className={`font-serif text-3xl md:text-4xl lg:text-5xl leading-[1.1] fade-in-up fade-in-up-delay-1 ${sizesVisible ? 'visible' : ''}`}
             >
-              Perfect for every <em className="text-gold">occasion.</em>
+              Perfect for every <em className="text-gold-heading">occasion.</em>
             </h2>
             <p
               className={`text-charcoal-light text-base md:text-lg max-w-xl mx-auto font-light leading-relaxed mt-6 fade-in-up fade-in-up-delay-2 ${sizesVisible ? 'visible' : ''}`}
@@ -176,7 +176,7 @@ export default function GrazingTablesPage() {
             <h2
               className={`font-serif text-3xl md:text-4xl lg:text-5xl leading-[1.1] fade-in-up fade-in-up-delay-1 ${whyVisible ? 'visible' : ''}`}
             >
-              More than a table, <em className="text-gold">an experience.</em>
+              More than a table, <em className="text-gold-heading">an experience.</em>
             </h2>
           </header>
           <ul className="max-w-3xl mx-auto space-y-6 list-none">
@@ -213,7 +213,7 @@ export default function GrazingTablesPage() {
             >
               Let's plan your
               <br />
-              perfect <em className="text-gold">graze.</em>
+              perfect <em className="text-gold-heading">graze.</em>
             </h2>
           </header>
           <div

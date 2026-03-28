@@ -165,7 +165,7 @@ function MenuSection({ label, title, titleAccent, items, bgClass = 'bg-cream' })
             className={`font-serif text-3xl md:text-4xl lg:text-5xl leading-[1.1] fade-in-up fade-in-up-delay-1 ${isVisible ? 'visible' : ''}`}
           >
             {title}{' '}
-            {titleAccent && <em className="text-gold">{titleAccent}</em>}
+            {titleAccent && <em className="text-gold-heading">{titleAccent}</em>}
           </h2>
         </header>
 
@@ -212,7 +212,7 @@ export default function LuxuryCartPage() {
               >
                 Luxury Cart
                 <br />
-                <em className="text-gold">Experiences</em>
+                <em className="text-gold-heading">Experiences</em>
               </h1>
               <p
                 className={`text-charcoal-light text-lg md:text-xl leading-relaxed font-light max-w-lg mb-8 fade-in-up fade-in-up-delay-2 ${heroVisible ? 'visible' : ''}`}
@@ -301,7 +301,7 @@ export default function LuxuryCartPage() {
             >
               Ready to elevate
               <br />
-              your <em className="text-gold">event?</em>
+              your <em className="text-gold-heading">event?</em>
             </h2>
           </header>
           <div

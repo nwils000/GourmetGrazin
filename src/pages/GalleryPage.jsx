@@ -234,7 +234,7 @@ export default function GalleryPage() {
             <h2
               className={`font-serif text-3xl md:text-4xl leading-[1.1] fade-in-up fade-in-up-delay-1 ${carouselVisible ? 'visible' : ''}`}
             >
-              Browse our <em className="text-gold">highlights.</em>
+              Browse our <em className="text-gold-heading">highlights.</em>
             </h2>
           </header>
 
@@ -270,7 +270,7 @@ export default function GalleryPage() {
             <h2
               className={`font-serif text-3xl md:text-4xl leading-[1.1] fade-in-up fade-in-up-delay-1 ${gridVisible ? 'visible' : ''}`}
             >
-              Every detail, <em className="text-gold">beautifully crafted.</em>
+              Every detail, <em className="text-gold-heading">beautifully crafted.</em>
             </h2>
           </header>
 

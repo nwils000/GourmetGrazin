@@ -97,7 +97,7 @@ export default function InquiryForm({ isOpen, onClose }) {
             <>
               <p className="text-gold-accessible text-xs tracking-[0.3em] uppercase mb-3">Inquire</p>
               <h3 className="font-serif text-3xl md:text-4xl mb-2">
-                Let's plan your <em className="text-gold">graze.</em>
+                Let's plan your <em className="text-gold-heading">graze.</em>
               </h3>
               <p className="text-charcoal-light font-light mb-8 text-sm">
                 Fill out the form below and we'll reach out within 24 hours to discuss your event.

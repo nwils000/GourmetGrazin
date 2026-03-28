@@ -110,7 +110,7 @@ export default function CharcuterieClassesPage() {
           >
             Learn the art
             <br />
-            <em className="text-gold">of the board.</em>
+            <em className="text-gold-heading">of the board.</em>
           </h1>
           <p
             className={`text-charcoal-light text-lg md:text-xl max-w-2xl mx-auto font-light leading-relaxed fade-in-up fade-in-up-delay-2 ${heroVisible ? 'visible' : ''}`}
@@ -137,7 +137,7 @@ export default function CharcuterieClassesPage() {
             <h2
               className={`font-serif text-3xl md:text-4xl lg:text-5xl leading-[1.1] fade-in-up fade-in-up-delay-1 ${provideVisible ? 'visible' : ''}`}
             >
-              What we <em className="text-gold">provide.</em>
+              What we <em className="text-gold-heading">provide.</em>
             </h2>
           </header>
           <ul className="max-w-3xl mx-auto space-y-5 list-none">
@@ -172,7 +172,7 @@ export default function CharcuterieClassesPage() {
             <h2
               className={`font-serif text-3xl md:text-4xl lg:text-5xl leading-[1.1] fade-in-up fade-in-up-delay-1 ${pricingVisible ? 'visible' : ''}`}
             >
-              Find your <em className="text-gold">fit.</em>
+              Find your <em className="text-gold-heading">fit.</em>
             </h2>
           </header>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 max-w-4xl mx-auto">
@@ -213,7 +213,7 @@ export default function CharcuterieClassesPage() {
             <h2
               className={`font-serif text-3xl md:text-4xl lg:text-5xl leading-[1.1] fade-in-up fade-in-up-delay-1 ${highlightsVisible ? 'visible' : ''}`}
             >
-              What you'll <em className="text-gold">take away.</em>
+              What you'll <em className="text-gold-heading">take away.</em>
             </h2>
           </header>
           <ul className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 max-w-4xl mx-auto list-none">
@@ -271,7 +271,7 @@ export default function CharcuterieClassesPage() {
             >
               Reserve your
               <br />
-              <em className="text-gold">spot.</em>
+              <em className="text-gold-heading">spot.</em>
             </h2>
           </header>
           <div

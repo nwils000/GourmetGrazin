@@ -30,7 +30,7 @@ export default function Events({ onInquire }) {
             <h2 className={`font-serif text-4xl md:text-5xl leading-[1.1] mb-8 text-cream fade-in-up fade-in-up-delay-1 ${isVisible ? 'visible' : ''}`}>
               Whatever the occasion,
               <br />
-              we bring the <em className="text-gold">graze.</em>
+              we bring the <em className="text-gold-heading">graze.</em>
             </h2>
             <div className={`grid grid-cols-2 gap-3 mb-10 fade-in-up fade-in-up-delay-2 ${isVisible ? 'visible' : ''}`}>
               {eventTypes.map(event => (

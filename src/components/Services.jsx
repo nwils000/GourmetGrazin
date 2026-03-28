@@ -59,7 +59,7 @@ export default function Services() {
             Every event
             <br />
             deserves a{' '}
-            <em className="text-gold">graze.</em>
+            <em className="text-gold-heading">graze.</em>
           </h2>
           <p className={`text-charcoal-light leading-relaxed font-light max-w-md fade-in-up fade-in-up-delay-2 ${isVisible ? 'visible' : ''}`}>
             From our signature mobile cart to bespoke grazing tables,

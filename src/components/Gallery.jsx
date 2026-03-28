@@ -27,7 +27,7 @@ export default function Gallery() {
             Portfolio
           </p>
           <h2 className={`font-serif text-4xl md:text-5xl leading-[1.1] fade-in-up fade-in-up-delay-1 ${isVisible ? 'visible' : ''}`}>
-            A taste of our <em className="text-gold">work.</em>
+            A taste of our <em className="text-gold-heading">work.</em>
           </h2>
         </header>
       </div>

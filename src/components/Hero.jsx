@@ -15,7 +15,7 @@ export default function Hero({ onInquire }) {
             <h1 className={`font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl leading-[1.05] mb-8 fade-in-up fade-in-up-delay-1 ${isVisible ? 'visible' : ''}`}>
               Elevated charcuterie
               <br />
-              <em className="text-gold">for every celebration.</em>
+              <em className="text-gold-heading">for every celebration.</em>
             </h1>
             <p className={`text-charcoal-light text-lg md:text-xl max-w-xl mb-10 font-light leading-relaxed fade-in-up fade-in-up-delay-2 ${isVisible ? 'visible' : ''}`}>
               Handcrafted charcuterie boards, stunning grazing tables, and our signature mobile cart —

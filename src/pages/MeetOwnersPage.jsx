@@ -39,7 +39,7 @@ export default function MeetOwnersPage() {
             Our Story
           </p>
           <h1 className={`font-serif text-5xl sm:text-6xl md:text-7xl leading-[1.05] mb-8 fade-in-up fade-in-up-delay-1 ${heroVisible ? 'visible' : ''}`}>
-            Meet the <em className="text-gold">Owners</em>
+            Meet the <em className="text-gold-heading">Owners</em>
           </h1>
         </div>
       </section>
@@ -112,7 +112,7 @@ export default function MeetOwnersPage() {
       <section className="py-24 lg:py-32 bg-taupe-light" aria-label="Get in touch">
         <div ref={ctaRef} className="max-w-7xl mx-auto px-6 lg:px-8 text-center">
           <h2 className={`font-serif text-4xl md:text-5xl leading-[1.1] mb-6 fade-in-up ${ctaVisible ? 'visible' : ''}`}>
-            Let's create something <em className="text-gold">beautiful.</em>
+            Let's create something <em className="text-gold-heading">beautiful.</em>
           </h2>
           <p className={`text-charcoal-light leading-relaxed font-light max-w-lg mx-auto mb-10 fade-in-up fade-in-up-delay-1 ${ctaVisible ? 'visible' : ''}`}>
             We'd love to be part of your next celebration. Reach out and let's bring your vision to life.

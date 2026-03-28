@@ -15,7 +15,7 @@ export default function CTA({ onInquire }) {
             <h2 className={`font-serif text-4xl md:text-5xl leading-[1.1] mb-6 fade-in-up fade-in-up-delay-1 ${isVisible ? 'visible' : ''}`}>
               Let's make your
               <br />
-              next event <em className="text-gold">unforgettable.</em>
+              next event <em className="text-gold-heading">unforgettable.</em>
             </h2>
             <p className={`text-charcoal-light leading-relaxed font-light mb-8 fade-in-up fade-in-up-delay-2 ${isVisible ? 'visible' : ''}`}>
               We book a limited number of events each month to ensure every client receives our

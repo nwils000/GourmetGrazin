@@ -353,7 +353,7 @@ export default function ShopPage() {
         <div ref={heroRef} className="max-w-7xl mx-auto px-6 lg:px-8 text-center">
           <p className={`text-gold-accessible text-xs tracking-[0.3em] uppercase mb-6 fade-in-up ${heroVisible ? 'visible' : ''}`}>Shop</p>
           <h1 className={`font-serif text-5xl sm:text-6xl md:text-7xl leading-[1.05] mb-8 fade-in-up fade-in-up-delay-1 ${heroVisible ? 'visible' : ''}`}>
-            Handcrafted <em className="text-gold">to order.</em>
+            Handcrafted <em className="text-gold-heading">to order.</em>
           </h1>
           <p className={`text-charcoal-light text-lg md:text-xl max-w-2xl mx-auto font-light leading-relaxed mb-10 fade-in-up fade-in-up-delay-2 ${heroVisible ? 'visible' : ''}`}>
             Premium charcuterie boards, cups, boxes, and personalized favors — all crafted with artisan ingredients. Select your items below and checkout through our shop.
@@ -374,7 +374,7 @@ export default function ShopPage() {
         <div ref={boardsRef} className="max-w-7xl mx-auto px-6 lg:px-8">
           <header className="mb-14 max-w-2xl">
             <p className={`text-gold-accessible text-xs tracking-[0.3em] uppercase mb-4 fade-in-up ${boardsVisible ? 'visible' : ''}`}>Our Collection</p>
-            <h2 className={`font-serif text-4xl md:text-5xl leading-[1.1] mb-4 fade-in-up fade-in-up-delay-1 ${boardsVisible ? 'visible' : ''}`}>Charcuterie <em className="text-gold">Boards.</em></h2>
+            <h2 className={`font-serif text-4xl md:text-5xl leading-[1.1] mb-4 fade-in-up fade-in-up-delay-1 ${boardsVisible ? 'visible' : ''}`}>Charcuterie <em className="text-gold-heading">Boards.</em></h2>
             <p className={`text-charcoal-light leading-relaxed font-light fade-in-up fade-in-up-delay-2 ${boardsVisible ? 'visible' : ''}`}>
               Signature boards crafted with care — select your size and quantity, then add to cart.
             </p>
@@ -402,7 +402,7 @@ export default function ShopPage() {
         <div ref={cupsRef} className="max-w-7xl mx-auto px-6 lg:px-8">
           <header className="mb-14 max-w-2xl">
             <p className={`text-gold-accessible text-xs tracking-[0.3em] uppercase mb-4 fade-in-up ${cupsVisible ? 'visible' : ''}`}>Charcuterie Cups</p>
-            <h2 className={`font-serif text-4xl md:text-5xl leading-[1.1] mb-4 fade-in-up fade-in-up-delay-1 ${cupsVisible ? 'visible' : ''}`}>Grab-and-go <em className="text-gold">elegance.</em></h2>
+            <h2 className={`font-serif text-4xl md:text-5xl leading-[1.1] mb-4 fade-in-up fade-in-up-delay-1 ${cupsVisible ? 'visible' : ''}`}>Grab-and-go <em className="text-gold-heading">elegance.</em></h2>
             <p className={`text-charcoal-light leading-relaxed font-light fade-in-up fade-in-up-delay-2 ${cupsVisible ? 'visible' : ''}`}>
               Individual charcuterie cups — perfect for events of any size. Minimum order of 15.
             </p>
@@ -430,7 +430,7 @@ export default function ShopPage() {
         <div ref={boxesRef} className="max-w-7xl mx-auto px-6 lg:px-8">
           <header className="mb-14 max-w-2xl">
             <p className={`text-gold-accessible text-xs tracking-[0.3em] uppercase mb-4 fade-in-up ${boxesVisible ? 'visible' : ''}`}>Charcuterie Boxes</p>
-            <h2 className={`font-serif text-4xl md:text-5xl leading-[1.1] mb-4 fade-in-up fade-in-up-delay-1 ${boxesVisible ? 'visible' : ''}`}>Shareable <em className="text-gold">indulgence.</em></h2>
+            <h2 className={`font-serif text-4xl md:text-5xl leading-[1.1] mb-4 fade-in-up fade-in-up-delay-1 ${boxesVisible ? 'visible' : ''}`}>Shareable <em className="text-gold-heading">indulgence.</em></h2>
             <p className={`text-charcoal-light leading-relaxed font-light fade-in-up fade-in-up-delay-2 ${boxesVisible ? 'visible' : ''}`}>
               Curated charcuterie boxes — perfect for sharing. Minimum order of 6.
             </p>
@@ -458,7 +458,7 @@ export default function ShopPage() {
         <div ref={persRef} className="max-w-7xl mx-auto px-6 lg:px-8">
           <header className="mb-14 max-w-2xl">
             <p className={`text-gold-accessible text-xs tracking-[0.3em] uppercase mb-4 fade-in-up ${persVisible ? 'visible' : ''}`}>The Details Matter</p>
-            <h2 className={`font-serif text-4xl md:text-5xl leading-[1.1] mb-4 fade-in-up fade-in-up-delay-1 ${persVisible ? 'visible' : ''}`}><em className="text-gold">Personalizations.</em></h2>
+            <h2 className={`font-serif text-4xl md:text-5xl leading-[1.1] mb-4 fade-in-up fade-in-up-delay-1 ${persVisible ? 'visible' : ''}`}><em className="text-gold-heading">Personalizations.</em></h2>
             <p className={`text-charcoal-light leading-relaxed font-light fade-in-up fade-in-up-delay-2 ${persVisible ? 'visible' : ''}`}>
               Add a meaningful, personal touch to your event with custom details your guests will treasure.
             </p>
