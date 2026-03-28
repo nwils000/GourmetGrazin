@@ -1,4 +1,4 @@
-import { Routes, Route, useNavigate } from 'react-router-dom'
+import { Routes, Route, Navigate, useNavigate } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 import Marquee from './components/Marquee'
@@ -13,9 +13,6 @@ import Cart from './components/Cart'
 import ScrollToTop from './components/ScrollToTop'
 import FAQPage from './pages/FAQPage'
 import LuxuryCartPage from './pages/LuxuryCartPage'
-import SnackBoardsPage from './pages/SnackBoardsPage'
-import CupsBoxesPage from './pages/CupsBoxesPage'
-import PersonalizationsPage from './pages/PersonalizationsPage'
 import MeetOwnersPage from './pages/MeetOwnersPage'
 import GalleryPage from './pages/GalleryPage'
 import GrazingTablesPage from './pages/GrazingTablesPage'
@@ -72,14 +69,15 @@ function App() {
             <Route path="/" element={<HomePage onInquire={handleInquire} />} />
             <Route path="/faq" element={<FAQPage />} />
             <Route path="/luxury-cart-experiences" element={<LuxuryCartPage />} />
-            <Route path="/snack-boards" element={<SnackBoardsPage />} />
-            <Route path="/cups-boxes" element={<CupsBoxesPage />} />
-            <Route path="/personalizations" element={<PersonalizationsPage />} />
             <Route path="/meet-the-owners" element={<MeetOwnersPage />} />
             <Route path="/gallery" element={<GalleryPage />} />
             <Route path="/grazing-tables" element={<GrazingTablesPage />} />
             <Route path="/charcuterie-classes" element={<CharcuterieClassesPage />} />
             <Route path="/shop" element={<ShopPage />} />
+            {/* Redirects from old product pages to unified shop */}
+            <Route path="/snack-boards" element={<Navigate to="/shop#boards" replace />} />
+            <Route path="/cups-boxes" element={<Navigate to="/shop#cups" replace />} />
+            <Route path="/personalizations" element={<Navigate to="/shop#personalizations" replace />} />
           </Routes>
         </main>
         <Footer />

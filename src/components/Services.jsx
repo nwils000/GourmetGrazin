@@ -24,7 +24,7 @@ const services = [
     description: 'From intimate dinner parties to gift-worthy arrangements, our handcrafted boards feature premium ingredients arranged with artful precision. Available in classic, sweet & savory, fruit, veggie, and fully customizable styles.',
     image: '/charcuterie-board.png',
     imageAlt: 'Handcrafted charcuterie board with premium cheeses, meats, and fresh fruits',
-    link: '/snack-boards',
+    link: '/shop#boards',
   },
   {
     number: '04',
@@ -40,7 +40,7 @@ const services = [
     description: 'Elegant individual charcuterie cups and curated boxes — a stunning, budget-friendly option that delivers the elevated look and feel of a full spread in a perfectly portioned package.',
     image: '/cups-boxes/cups.png',
     imageAlt: 'Individual charcuterie cups with artisan cheeses, crackers, and fresh fruit',
-    link: '/cups-boxes',
+    link: '/shop#cups',
   },
 ]
 

@@ -6,10 +6,7 @@ import { useCart } from '../context/CartContext'
 const servicesDropdown = [
   { label: 'Luxury Cart Experiences', href: '/luxury-cart-experiences' },
   { label: 'Grazing Tables', href: '/grazing-tables' },
-  { label: 'Snack Boards', href: '/snack-boards' },
-  { label: 'Cups & Boxes', href: '/cups-boxes' },
   { label: 'Charcuterie Classes', href: '/charcuterie-classes' },
-  { label: 'Personalizations', href: '/personalizations' },
 ]
 
 const navLinks = [

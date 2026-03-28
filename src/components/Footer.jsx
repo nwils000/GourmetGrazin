@@ -28,13 +28,10 @@ export default function Footer() {
               <Link to="/luxury-cart-experiences" className="block text-cream/60 text-sm font-light hover:text-gold transition-colors duration-300">Luxury Cart Experiences</Link>
               <Link to="/grazing-tables" className="block text-cream/60 text-sm font-light hover:text-gold transition-colors duration-300">Grazing Tables</Link>
               <Link to="/charcuterie-classes" className="block text-cream/60 text-sm font-light hover:text-gold transition-colors duration-300">Charcuterie Classes</Link>
-              <Link to="/snack-boards" className="block text-cream/60 text-sm font-light hover:text-gold transition-colors duration-300">Snack Boards</Link>
-              <Link to="/cups-boxes" className="block text-cream/60 text-sm font-light hover:text-gold transition-colors duration-300">Cups & Boxes</Link>
-              <Link to="/personalizations" className="block text-cream/60 text-sm font-light hover:text-gold transition-colors duration-300">Personalizations</Link>
+              <Link to="/shop" className="block text-cream/60 text-sm font-light hover:text-gold transition-colors duration-300">Shop</Link>
               <Link to="/gallery" className="block text-cream/60 text-sm font-light hover:text-gold transition-colors duration-300">Gallery</Link>
               <Link to="/meet-the-owners" className="block text-cream/60 text-sm font-light hover:text-gold transition-colors duration-300">Meet the Owners</Link>
               <Link to="/faq" className="block text-cream/60 text-sm font-light hover:text-gold transition-colors duration-300">FAQ</Link>
-              <Link to="/shop" className="block text-cream/60 text-sm font-light hover:text-gold transition-colors duration-300">Shop</Link>
             </div>
           </nav>
 
