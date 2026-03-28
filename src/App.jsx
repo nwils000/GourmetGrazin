@@ -21,6 +21,7 @@ import GalleryPage from './pages/GalleryPage'
 import GrazingTablesPage from './pages/GrazingTablesPage'
 import CharcuterieClassesPage from './pages/CharcuterieClassesPage'
 import ShopPage from './pages/ShopPage'
+import PlaceholderPreview from './pages/PlaceholderPreview'
 import { CartProvider } from './context/CartContext'
 import useSEO from './hooks/useSEO'
 
@@ -80,6 +81,7 @@ function App() {
             <Route path="/grazing-tables" element={<GrazingTablesPage />} />
             <Route path="/charcuterie-classes" element={<CharcuterieClassesPage />} />
             <Route path="/shop" element={<ShopPage />} />
+            <Route path="/placeholder-preview" element={<PlaceholderPreview />} />
           </Routes>
         </main>
         <Footer />
