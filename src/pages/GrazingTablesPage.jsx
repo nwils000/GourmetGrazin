@@ -63,27 +63,42 @@ export default function GrazingTablesPage() {
   return (
     <article>
       {/* Hero Section */}
-      <section className="relative flex items-center justify-center bg-cream pt-24 pb-16 lg:pb-24" aria-label="Grazing Tables overview">
-        <div ref={heroRef} className="max-w-7xl mx-auto px-6 lg:px-8 text-center">
-          <p
-            className={`text-gold-accessible text-xs tracking-[0.3em] uppercase mb-6 fade-in-up ${heroVisible ? 'visible' : ''}`}
-          >
-            Grazing Tables
-          </p>
-          <h1
-            className={`font-serif text-5xl sm:text-6xl md:text-7xl leading-[1.05] mb-8 fade-in-up fade-in-up-delay-1 ${heroVisible ? 'visible' : ''}`}
-          >
-            Stunning spreads,
-            <br />
-            <em className="text-gold-heading">unforgettable impact.</em>
-          </h1>
-          <p
-            className={`text-charcoal-light text-lg md:text-xl max-w-2xl mx-auto font-light leading-relaxed fade-in-up fade-in-up-delay-2 ${heroVisible ? 'visible' : ''}`}
-          >
-            Stunning tablescapes overflowing with carefully curated bites. Perfect for
-            larger gatherings where you want a dramatic, Instagram-worthy display that
-            keeps guests mingling.
-          </p>
+      <section className="relative bg-cream pt-24 pb-16 lg:pb-24" aria-label="Grazing Tables overview">
+        <div ref={heroRef} className="max-w-7xl mx-auto px-6 lg:px-8 grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+          <div className="text-center lg:text-left">
+            <p
+              className={`text-gold-accessible text-xs tracking-[0.3em] uppercase mb-6 fade-in-up ${heroVisible ? 'visible' : ''}`}
+            >
+              Grazing Tables
+            </p>
+            <h1
+              className={`font-serif text-5xl sm:text-6xl md:text-7xl leading-[1.05] mb-8 fade-in-up fade-in-up-delay-1 ${heroVisible ? 'visible' : ''}`}
+            >
+              Stunning spreads,
+              <br />
+              <em className="text-gold-heading">unforgettable impact.</em>
+            </h1>
+            <p
+              className={`text-charcoal-light text-lg md:text-xl font-light leading-relaxed fade-in-up fade-in-up-delay-2 ${heroVisible ? 'visible' : ''}`}
+            >
+              Stunning tablescapes overflowing with carefully curated bites. Perfect for
+              larger gatherings where you want a dramatic, Instagram-worthy display that
+              keeps guests mingling.
+            </p>
+          </div>
+          <div className={`fade-in-up fade-in-up-delay-2 ${heroVisible ? 'visible' : ''}`}>
+            <picture>
+              <source srcSet="/grazing-table.webp" type="image/webp" />
+              <img
+                src="/grazing-table.jpg"
+                alt="A lavish Gourmet Grazin' grazing table with cheeses, cured meats, fresh fruit, and seasonal accompaniments"
+                width="1024"
+                height="1536"
+                fetchPriority="high"
+                className="w-full h-auto max-h-[600px] object-cover shadow-lg"
+              />
+            </picture>
+          </div>
         </div>
       </section>
 
@@ -200,7 +215,7 @@ export default function GrazingTablesPage() {
       <SectionDivider />
 
       {/* Form Section */}
-      <section className="py-24 lg:py-32 bg-charcoal text-cream" aria-label="Book your grazing table">
+      <section className="py-20 lg:py-24 bg-cream" aria-label="Book your grazing table">
         <div ref={formRef} className="max-w-3xl mx-auto px-6 lg:px-8">
           <header className="text-center mb-12">
             <p
@@ -209,7 +224,7 @@ export default function GrazingTablesPage() {
               Book Your Table
             </p>
             <h2
-              className={`font-serif text-4xl md:text-5xl leading-[1.1] mb-6 text-cream fade-in-up fade-in-up-delay-1 ${formVisible ? 'visible' : ''}`}
+              className={`font-serif text-4xl md:text-5xl leading-[1.1] mb-6 fade-in-up fade-in-up-delay-1 ${formVisible ? 'visible' : ''}`}
             >
               Let's plan your
               <br />

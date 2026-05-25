@@ -3,6 +3,8 @@ import { useInView } from './useInView'
 import { useDriveImages } from '../hooks/useDriveImages'
 import { FOLDER_IDS } from '../lib/googleDrive'
 
+const toWebp = (src) => src.replace(/\.(jpe?g|png)$/i, '.webp')
+
 const defaultGalleryImages = [
   { src: '/gallery/gallery3.jpg', alt: 'Premium grazing table with fresh fruits and artisan crackers' },
   { src: '/gallery/new/disperse1.jpg', alt: 'Easter charcuterie board with salami roses and seasonal garnishes' },
@@ -10,7 +12,6 @@ const defaultGalleryImages = [
   { src: '/gallery/new/disperse3.jpg', alt: 'Colorful charcuterie board with meat roses and seasonal fruits' },
   { src: '/cart-closeup.jpg', alt: 'Close-up of artisan cheese and charcuterie cart spread' },
   { src: '/gallery/new/disperse4.jpg', alt: 'Bunny-shaped brie cheese charcuterie board for spring celebration' },
-  { src: '/cart-setup.jpg', alt: 'Mobile charcuterie cart setup with full grazing spread' },
   { src: '/gallery/new/disperse2.jpg', alt: 'Charcuterie board with chocolate eggs and Lindt bunnies for Easter' },
 ]
 
@@ -42,14 +43,17 @@ export default function Gallery() {
             {doubled.map((img, i) => (
               <div key={i} className="flex-shrink-0 w-[320px] sm:w-[400px] lg:w-[450px] px-2">
                 <div className="h-[240px] sm:h-[280px] lg:h-[320px] overflow-hidden">
-                  <img
-                    src={img.src}
-                    alt={img.alt}
-                    loading="lazy"
-                    width="450"
-                    height="320"
-                    className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
-                  />
+                  <picture>
+                    <source srcSet={toWebp(img.src)} type="image/webp" />
+                    <img
+                      src={img.src}
+                      alt={img.alt}
+                      loading="lazy"
+                      width="450"
+                      height="320"
+                      className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                    />
+                  </picture>
                 </div>
               </div>
             ))}

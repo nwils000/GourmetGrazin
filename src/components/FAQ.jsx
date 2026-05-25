@@ -21,7 +21,7 @@ const faqs = [
   },
   {
     question: 'What\'s included in the charcuterie classes?',
-    answer: 'Our classes include all supplies, ingredients, a personal cutting board to take home, step-by-step instruction, and of course \u2014 tastings! We come to you for your charcuterie class at your home or venue. Perfect for groups of 6\u201320 people.',
+    answer: 'Every workshop includes all ingredients and supplies, premium cheeses and accompaniments, step-by-step styling instruction, an individual take-home charcuterie board, and full setup and cleanup. We come to your home or venue. Pricing is per guest based on group size (2\u201320 guests). Optional add-ons include a curated mocktail bar, premium acacia wood boards, and custom laser-engraved boards.',
   },
   {
     question: 'Do you provide setup and breakdown?',

@@ -4,6 +4,8 @@ import { useDriveImages } from '../hooks/useDriveImages'
 import { FOLDER_IDS } from '../lib/googleDrive'
 import useSEO from '../hooks/useSEO'
 
+const toWebp = (src) => src.replace(/\.(jpe?g|png)$/i, '.webp')
+
 const defaultGalleryImages = [
   { src: '/gallery/gallery1.jpg', alt: 'Artisan charcuterie board with imported cheeses and cured meats' },
   { src: '/gallery/gallery2.jpg', alt: 'Elegant charcuterie spread styled for a Kentucky wedding' },
@@ -16,10 +18,8 @@ const defaultGalleryImages = [
   { src: '/gallery/new/disperse3.jpg', alt: 'Colorful charcuterie board with meat roses and seasonal fruits' },
   { src: '/gallery/gourmet-cart-2.jpeg', alt: 'Gourmet Grazin mobile charcuterie cart setup at an event' },
   { src: '/gallery/new/disperse4.jpg', alt: 'Bunny-shaped brie cheese charcuterie board for spring celebration' },
-  { src: '/cart-outdoor.jpg', alt: 'Outdoor charcuterie cart experience at a Kentucky venue' },
   { src: '/cart-closeup.jpg', alt: 'Close-up of artisan cheese and charcuterie cart spread' },
   { src: '/gallery/new/disperse5.jpeg', alt: 'Chocolate and charcuterie board with truffles and berries' },
-  { src: '/cart-setup.jpg', alt: 'Mobile charcuterie cart setup with full grazing spread' },
   { src: '/event-photo.jpg', alt: 'Gourmet Grazin charcuterie catering at a live event' },
 ]
 
@@ -128,12 +128,15 @@ function ManualCarousel({ galleryImages }) {
               aria-label={`Slide ${i + 1} of ${totalSlides}`}
             >
               <div className="h-[300px] md:h-[380px] overflow-hidden">
-                <img
-                  src={img.src}
-                  alt={img.alt}
-                  loading="lazy"
-                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
-                />
+                <picture>
+                  <source srcSet={toWebp(img.src)} type="image/webp" />
+                  <img
+                    src={img.src}
+                    alt={img.alt}
+                    loading="lazy"
+                    className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
+                  />
+                </picture>
               </div>
             </div>
           ))}
@@ -172,12 +175,15 @@ function InfiniteMarquee({ galleryImages }) {
         {[...galleryImages, ...galleryImages].map((img, i) => (
           <div key={i} className="flex-shrink-0 w-[320px] sm:w-[400px] lg:w-[450px] px-2">
             <div className="h-[240px] sm:h-[280px] lg:h-[320px] overflow-hidden">
-              <img
-                src={img.src}
-                alt={img.alt}
-                loading="lazy"
-                className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
-              />
+              <picture>
+                <source srcSet={toWebp(img.src)} type="image/webp" />
+                <img
+                  src={img.src}
+                  alt={img.alt}
+                  loading="lazy"
+                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
+                />
+              </picture>
             </div>
           </div>
         ))}
@@ -279,15 +285,18 @@ export default function GalleryPage() {
           >
             {galleryImages.map((img, i) => (
               <figure key={i} className="break-inside-avoid overflow-hidden group">
-                <img
-                  src={img.src}
-                  alt={img.alt}
-                  loading="lazy"
-                  className="w-full object-cover group-hover:scale-105 transition-transform duration-700"
-                  style={{
-                    height: i % 3 === 0 ? '380px' : i % 3 === 1 ? '300px' : '340px',
-                  }}
-                />
+                <picture>
+                  <source srcSet={toWebp(img.src)} type="image/webp" />
+                  <img
+                    src={img.src}
+                    alt={img.alt}
+                    loading="lazy"
+                    className="w-full object-cover group-hover:scale-105 transition-transform duration-700"
+                    style={{
+                      height: i % 3 === 0 ? '380px' : i % 3 === 1 ? '300px' : '340px',
+                    }}
+                  />
+                </picture>
               </figure>
             ))}
           </div>

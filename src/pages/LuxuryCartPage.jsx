@@ -288,7 +288,7 @@ export default function LuxuryCartPage() {
       <SectionDivider />
 
       {/* Booking Form Section */}
-      <section id="book-cart" className="py-24 lg:py-32 bg-charcoal text-cream" aria-label="Book your cart">
+      <section id="book-cart" className="py-20 lg:py-24 bg-cream" aria-label="Book your cart">
         <div ref={ctaRef} className="max-w-3xl mx-auto px-6 lg:px-8">
           <header className="text-center mb-12">
             <p
@@ -297,7 +297,7 @@ export default function LuxuryCartPage() {
               Book Your Cart
             </p>
             <h2
-              className={`font-serif text-3xl md:text-4xl lg:text-5xl leading-[1.1] mb-6 text-cream fade-in-up fade-in-up-delay-1 ${ctaVisible ? 'visible' : ''}`}
+              className={`font-serif text-3xl md:text-4xl lg:text-5xl leading-[1.1] mb-6 fade-in-up fade-in-up-delay-1 ${ctaVisible ? 'visible' : ''}`}
             >
               Ready to elevate
               <br />

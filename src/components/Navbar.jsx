@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { Menu, X, ChevronDown, ShoppingBag } from 'lucide-react'
-import { useCart } from '../context/CartContext'
+import { useCart } from '../context/useCart'
 
 const servicesDropdown = [
   { label: 'Luxury Cart Experiences', href: '/luxury-cart-experiences' },
@@ -34,7 +34,9 @@ export default function Navbar({ onInquire }) {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
+  // Close the mobile menu whenever the user navigates to a new route.
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMobileOpen(false)
     setMobileServicesOpen(false)
   }, [location])
@@ -42,7 +44,7 @@ export default function Navbar({ onInquire }) {
   const handleAnchorClick = (e, href) => {
     if (location.pathname !== '/') {
       e.preventDefault()
-      window.location.href = '/' + href
+      window.location.assign('/' + href)
     }
     setMobileOpen(false)
   }

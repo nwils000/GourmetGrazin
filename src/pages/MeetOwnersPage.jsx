@@ -79,18 +79,32 @@ export default function MeetOwnersPage() {
             reality.
           </p>
 
-          <p className={`text-charcoal-light text-lg leading-relaxed font-light mb-8 fade-in-up fade-in-up-delay-2 ${bioVisible ? 'visible' : ''}`}>
-            Every board we create is inspired by the joy we feel when bringing people together —
-            whether it's for a wedding, a milestone birthday, or an intimate celebration.
-          </p>
+          <blockquote
+            className={`my-12 border-l-2 border-gold pl-6 fade-in-up fade-in-up-delay-2 ${bioVisible ? 'visible' : ''}`}
+          >
+            <p className="font-serif text-2xl md:text-3xl italic text-charcoal leading-snug">
+              Every board we create is inspired by the joy we feel when bringing people together —
+              whether it's for a wedding, a milestone birthday, or an intimate celebration.
+            </p>
+          </blockquote>
+
+          <div className="flex items-center justify-center py-4" aria-hidden="true">
+            <div className="h-px w-12 bg-gold/30" />
+            <div className="mx-3 h-1.5 w-1.5 rotate-45 bg-gold/50" />
+            <div className="h-px w-12 bg-gold/30" />
+          </div>
+
+          <h2 className={`font-serif text-2xl md:text-3xl text-center my-10 fade-in-up fade-in-up-delay-2 ${bioVisible ? 'visible' : ''}`}>
+            At the heart of it all, <em className="text-gold-heading">our family.</em>
+          </h2>
 
           <p className={`text-charcoal-light text-lg leading-relaxed font-light mb-8 fade-in-up fade-in-up-delay-3 ${bioVisible ? 'visible' : ''}`}>
-            At the heart of it all is our growing family. We have two little ones under two who are
-            our greatest joy and our biggest motivation. Our two-year-old son is a sweet, loving boy,
-            full of personality and warmth. Our daughter, now five months old, is our miracle girl —
-            a bright, happy light after spending her first 86 days in the NICU and bravely undergoing
-            three surgeries. Her strength has shaped our perspective on gratitude, resilience, and the
-            beauty of life's moments.
+            We have two little ones under two who are our greatest joy and our biggest motivation.
+            Our two-year-old son is a sweet, loving boy, full of personality and warmth. Our
+            daughter, now five months old, is our miracle girl — a bright, happy light after
+            spending her first 86 days in the NICU and bravely undergoing three surgeries. Her
+            strength has shaped our perspective on gratitude, resilience, and the beauty of life's
+            moments.
           </p>
 
           <p className={`text-charcoal-light text-lg leading-relaxed font-light mb-8 fade-in-up fade-in-up-delay-4 ${bioVisible ? 'visible' : ''}`}>

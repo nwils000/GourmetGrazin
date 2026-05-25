@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useInView } from '../components/useInView'
-import { useCart } from '../context/CartContext'
-import shopifyClient from '../lib/shopify'
+import { useCart } from '../context/useCart'
+import { getShopifyClient } from '../lib/shopify'
 import useSEO from '../hooks/useSEO'
 import ImagePlaceholder from '../components/ImagePlaceholder'
 
@@ -292,10 +292,15 @@ export default function ShopPage() {
   })
 
   useEffect(() => {
-    shopifyClient.product.fetchAll().then((products) => {
-      setShopifyProducts(products)
-      setLoading(false)
-    })
+    let cancelled = false
+    getShopifyClient()
+      .then((client) => client.product.fetchAll())
+      .then((products) => {
+        if (cancelled) return
+        setShopifyProducts(products)
+        setLoading(false)
+      })
+    return () => { cancelled = true }
   }, [])
 
   // Inject dynamic Product schemas from Shopify data for Google Shopping

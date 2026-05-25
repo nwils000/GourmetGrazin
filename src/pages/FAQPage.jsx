@@ -28,7 +28,7 @@ const FAQ_SCHEMA = {
     {
       '@type': 'Question',
       name: "What's included in the charcuterie classes?",
-      acceptedAnswer: { '@type': 'Answer', text: 'Our classes include all supplies, ingredients, a personal cutting board to take home, step-by-step instruction, and tastings. Perfect for groups of 6-20 people.' },
+      acceptedAnswer: { '@type': 'Answer', text: 'Every workshop includes all ingredients and supplies, premium cheeses and accompaniments, step-by-step styling instruction, an individual take-home charcuterie board, and full setup and cleanup. Pricing is per guest based on group size (2-20 guests). Optional add-ons include a curated mocktail bar, premium acacia wood boards, and custom laser-engraved boards.' },
     },
     {
       '@type': 'Question',

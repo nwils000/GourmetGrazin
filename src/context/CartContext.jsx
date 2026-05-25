@@ -1,37 +1,43 @@
-import { createContext, useContext, useState, useEffect, useCallback } from 'react'
-import shopifyClient from '../lib/shopify'
-
-const CartContext = createContext()
+import { useState, useCallback, useRef } from 'react'
+import { getShopifyClient } from '../lib/shopify'
+import { CartContext } from './cartContextValue'
 
 export function CartProvider({ children }) {
   const [checkout, setCheckout] = useState(null)
   const [cartOpen, setCartOpen] = useState(false)
   const [localItems, setLocalItems] = useState([])
+  const checkoutInitRef = useRef(null)
 
-  useEffect(() => {
-    shopifyClient.checkout.create().then(setCheckout)
-  }, [])
-
-  // ── Shopify cart functions (unchanged) ──
+  const ensureCheckout = useCallback(async () => {
+    if (checkout) return checkout
+    if (!checkoutInitRef.current) {
+      checkoutInitRef.current = getShopifyClient().then((c) => c.checkout.create())
+    }
+    const created = await checkoutInitRef.current
+    setCheckout(created)
+    return created
+  }, [checkout])
 
   const addToCart = useCallback(
     async (variantId, quantity = 1, customAttributes = []) => {
-      if (!checkout) return
+      const current = await ensureCheckout()
+      const client = await getShopifyClient()
       const lineItem = { variantId, quantity }
       if (customAttributes.length > 0) {
         lineItem.customAttributes = customAttributes
       }
-      const next = await shopifyClient.checkout.addLineItems(checkout.id, [lineItem])
+      const next = await client.checkout.addLineItems(current.id, [lineItem])
       setCheckout(next)
       setCartOpen(true)
     },
-    [checkout]
+    [ensureCheckout]
   )
 
   const updateQuantity = useCallback(
     async (lineItemId, quantity) => {
       if (!checkout) return
-      const next = await shopifyClient.checkout.updateLineItems(checkout.id, [
+      const client = await getShopifyClient()
+      const next = await client.checkout.updateLineItems(checkout.id, [
         { id: lineItemId, quantity },
       ])
       setCheckout(next)
@@ -42,9 +48,8 @@ export function CartProvider({ children }) {
   const removeFromCart = useCallback(
     async (lineItemId) => {
       if (!checkout) return
-      const next = await shopifyClient.checkout.removeLineItems(checkout.id, [
-        lineItemId,
-      ])
+      const client = await getShopifyClient()
+      const next = await client.checkout.removeLineItems(checkout.id, [lineItemId])
       setCheckout(next)
     },
     [checkout]
@@ -67,7 +72,6 @@ export function CartProvider({ children }) {
             : i
         )
       }
-      // Generate a unique internal key so we can target it for updates/removal
       return [...prev, { ...item, _key: `${item.id}-${Date.now()}` }]
     })
     setCartOpen(true)
@@ -105,7 +109,6 @@ export function CartProvider({ children }) {
       value={{
         cartOpen,
         setCartOpen,
-        // Shopify
         addToCart,
         updateQuantity,
         removeFromCart,
@@ -113,13 +116,11 @@ export function CartProvider({ children }) {
         totalPrice,
         itemCount,
         checkoutUrl,
-        // Local items
         localItems,
         addLocalItem,
         updateLocalQuantity,
         removeLocalItem,
         localTotal,
-        // Combined
         cartTotal,
         cartItemCount,
       }}
@@ -127,8 +128,4 @@ export function CartProvider({ children }) {
       {children}
     </CartContext.Provider>
   )
-}
-
-export function useCart() {
-  return useContext(CartContext)
 }

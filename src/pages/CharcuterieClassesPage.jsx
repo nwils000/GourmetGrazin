@@ -12,41 +12,72 @@ function SectionDivider() {
   )
 }
 
-const whatWeProvide = [
-  'All ingredients: assorted cheeses, cured meats, fresh fruit, nuts, crackers, and sweet treats',
-  'Mini boards or platters for each participant',
-  'Tools for assembly and plating tips',
-  'Step-by-step guidance on design, flavor pairing, and presentation',
-  'Optional take-home containers to enjoy your creations',
-]
-
-const classSizes = [
+const pricingTiers = [
   {
-    label: 'Small Group',
-    participants: '6–10 participants',
-    price: '$450',
-    detail: 'Each participant creates their own personal board',
+    label: '2–4 Guests',
+    price: '$75',
+    unit: 'per guest',
+    detail: 'Intimate experience — ideal for date nights or small gatherings',
   },
   {
-    label: 'Large Group',
-    participants: '10–20 participants',
-    price: '$600',
-    detail: 'Stations set up so everyone can assemble a board or share a platter',
+    label: '5–8 Guests',
+    price: '$65',
+    unit: 'per guest',
+    detail: 'Girls’ nights, small celebrations, cozy group experience',
+  },
+  {
+    label: '9–14 Guests',
+    price: '$58',
+    unit: 'per guest',
+    detail: 'Most popular for parties and social workshops',
+    featured: true,
+  },
+  {
+    label: '15–20 Guests',
+    price: '$52',
+    unit: 'per guest',
+    detail: 'Best value per guest for larger gatherings and events',
   },
 ]
 
-const experienceHighlights = [
-  'Learn professional tips for balancing flavors and textures',
-  'Explore creative layouts for both casual and luxury entertaining',
-  'Taste and enjoy your creations during the class',
-  'Leave with inspiration to wow at your next gathering!',
+const whatsIncluded = [
+  'All ingredients and supplies',
+  'Premium cheeses and accompaniments',
+  'Step-by-step styling instruction',
+  'Individual take-home charcuterie boards',
+  'Setup and cleanup',
+]
+
+const optionalEnhancements = [
+  {
+    title: 'Curated Mocktail Bar',
+    detail: 'A bespoke mocktail experience to pair with your boards — perfect for showers, birthdays, and dry events.',
+  },
+  {
+    title: 'Premium Acacia Wood Boards',
+    detail: 'Upgrade to gorgeous acacia wood boards for each guest to style on and take home as a keepsake.',
+  },
+  {
+    title: 'Custom Laser-Engraved Boards',
+    detail: 'Personalized acacia boards engraved with logos, names, or special messages — ideal for bridal parties, gifts, and branded events.',
+  },
+]
+
+const classPhotos = [
+  { jpg: '/class/owner-cheese.jpg', webp: '/class/owner-cheese.webp', alt: 'Gourmet Grazin’ instructor demonstrating a premium cheese during a charcuterie workshop' },
+  { jpg: '/class/guests-styling.jpg', webp: '/class/guests-styling.webp', alt: 'Workshop guests styling their personal charcuterie boards with fresh kiwi and rosemary' },
+  { jpg: '/class/guests-assembling.jpg', webp: '/class/guests-assembling.webp', alt: 'Attendees assembling individual charcuterie plates with salami roses and seasonal fruit' },
+  { jpg: '/class/owner-cutting.jpg', webp: '/class/owner-cutting.webp', alt: 'Gourmet Grazin’ instructor cutting cheese during a hands-on charcuterie class' },
+  { jpg: '/class/group-photo.jpg', webp: '/class/group-photo.webp', alt: 'Happy charcuterie workshop guests holding the boards they styled' },
+  { jpg: '/class/place-setting.jpg', webp: '/class/place-setting.webp', alt: 'Individual workshop place setting with palm-leaf board and pre-portioned ingredients' },
+  { jpg: '/class/table-setup.jpg', webp: '/class/table-setup.webp', alt: 'Long table set with individual charcuterie stations ready for a Gourmet Grazin’ workshop' },
 ]
 
 const CLASS_SCHEMA = {
   '@context': 'https://schema.org',
   '@type': 'Course',
-  name: 'Charcuterie Board-Building Class',
-  description: 'Hands-on charcuterie board-building class in Kentucky. Learn the art of creating stunning boards with professional guidance. All ingredients and supplies included. Perfect for team building, girls\' night, bridal parties, and family events.',
+  name: 'Charcuterie Class & Workshop',
+  description: 'Hands-on charcuterie workshop in Kentucky. Learn to style your own board with premium ingredients, step-by-step instruction, and take-home charcuterie boards. From $52 per guest depending on group size.',
   provider: {
     '@type': 'Organization',
     name: "Gourmet Grazin'",
@@ -55,42 +86,47 @@ const CLASS_SCHEMA = {
   hasCourseInstance: [
     {
       '@type': 'CourseInstance',
-      name: 'Small Group Class (6-10 participants)',
+      name: 'Intimate Workshop (2-4 guests)',
       courseMode: 'onsite',
       duration: 'PT90M',
-      offers: {
-        '@type': 'Offer',
-        price: '450',
-        priceCurrency: 'USD',
-        availability: 'https://schema.org/InStock',
-      },
+      offers: { '@type': 'Offer', price: '75', priceCurrency: 'USD', availability: 'https://schema.org/InStock' },
     },
     {
       '@type': 'CourseInstance',
-      name: 'Large Group Class (10-20 participants)',
+      name: 'Small Group Workshop (5-8 guests)',
       courseMode: 'onsite',
       duration: 'PT90M',
-      offers: {
-        '@type': 'Offer',
-        price: '600',
-        priceCurrency: 'USD',
-        availability: 'https://schema.org/InStock',
-      },
+      offers: { '@type': 'Offer', price: '65', priceCurrency: 'USD', availability: 'https://schema.org/InStock' },
+    },
+    {
+      '@type': 'CourseInstance',
+      name: 'Signature Workshop (9-14 guests)',
+      courseMode: 'onsite',
+      duration: 'PT90M',
+      offers: { '@type': 'Offer', price: '58', priceCurrency: 'USD', availability: 'https://schema.org/InStock' },
+    },
+    {
+      '@type': 'CourseInstance',
+      name: 'Group Workshop (15-20 guests)',
+      courseMode: 'onsite',
+      duration: 'PT90M',
+      offers: { '@type': 'Offer', price: '52', priceCurrency: 'USD', availability: 'https://schema.org/InStock' },
     },
   ],
 }
 
 export default function CharcuterieClassesPage() {
   const [heroRef, heroVisible] = useInView()
-  const [provideRef, provideVisible] = useInView()
+  const [galleryRef, galleryVisible] = useInView()
   const [pricingRef, pricingVisible] = useInView()
-  const [highlightsRef, highlightsVisible] = useInView()
+  const [includedRef, includedVisible] = useInView()
+  const [enhancementsRef, enhancementsVisible] = useInView()
   const [durationRef, durationVisible] = useInView()
   const [formRef, formVisible] = useInView()
 
   useSEO({
-    title: 'Charcuterie Classes in Kentucky',
-    description: 'Hands-on charcuterie board-building classes for 6-20 people. All ingredients included — perfect for team building, bridal parties & more. From $450.',
+    title: 'Charcuterie Classes & Workshops in Kentucky',
+    description: 'Hands-on charcuterie workshops for 2-20 guests in Kentucky. Premium ingredients, step-by-step styling, and take-home boards. From $52 per guest based on group size.',
     path: '/charcuterie-classes',
     jsonLd: CLASS_SCHEMA,
   })
@@ -116,82 +152,95 @@ export default function CharcuterieClassesPage() {
             className={`text-charcoal-light text-lg md:text-xl max-w-2xl mx-auto font-light leading-relaxed fade-in-up fade-in-up-delay-2 ${heroVisible ? 'visible' : ''}`}
           >
             Join us for a hands-on, interactive charcuterie experience where we teach you
-            the art of creating stunning boards and grazing displays. Perfect for friends,
-            family, or team-building events, each class is designed to be fun, educational,
-            and delicious.
+            the art of styling stunning boards with premium ingredients. Perfect for date
+            nights, girls&rsquo; nights, bridal parties, and team-building events.
           </p>
         </div>
       </section>
 
       <SectionDivider />
 
-      {/* What We Provide Section */}
-      <section className="py-20 lg:py-28 bg-taupe-light" aria-label="What's included">
-        <div ref={provideRef} className="max-w-7xl mx-auto px-6 lg:px-8">
+      {/* Photo Gallery Section */}
+      <section className="py-20 lg:py-28 bg-taupe-light" aria-label="Workshop photos">
+        <div ref={galleryRef} className="max-w-7xl mx-auto px-6 lg:px-8">
           <header className="max-w-2xl mx-auto text-center mb-14">
             <p
-              className={`text-gold-accessible text-xs tracking-[0.3em] uppercase mb-4 fade-in-up ${provideVisible ? 'visible' : ''}`}
+              className={`text-gold-accessible text-xs tracking-[0.3em] uppercase mb-4 fade-in-up ${galleryVisible ? 'visible' : ''}`}
             >
-              The Experience
+              The Workshop
             </p>
             <h2
-              className={`font-serif text-3xl md:text-4xl lg:text-5xl leading-[1.1] fade-in-up fade-in-up-delay-1 ${provideVisible ? 'visible' : ''}`}
+              className={`font-serif text-3xl md:text-4xl lg:text-5xl leading-[1.1] fade-in-up fade-in-up-delay-1 ${galleryVisible ? 'visible' : ''}`}
             >
-              What we <em className="text-gold-heading">provide.</em>
+              See it in <em className="text-gold-heading">action.</em>
             </h2>
           </header>
-          <ul className="max-w-3xl mx-auto space-y-5 list-none">
-            {whatWeProvide.map((item, i) => (
-              <li
-                key={i}
-                className={`bg-cream border border-taupe/40 p-7 md:p-8 hover:border-gold/40 transition-colors duration-500 fade-in-up fade-in-up-delay-${Math.min(i + 1, 4)} ${provideVisible ? 'visible' : ''}`}
-              >
-                <div className="flex items-start gap-4">
-                  <span className="text-gold text-lg mt-0.5" aria-hidden="true">&#10047;</span>
-                  <p className="text-charcoal-light font-light text-sm leading-relaxed">
-                    {item}
-                  </p>
-                </div>
-              </li>
+          <div
+            className={`columns-1 sm:columns-2 lg:columns-3 gap-4 space-y-4 fade-in-up fade-in-up-delay-2 ${galleryVisible ? 'visible' : ''}`}
+          >
+            {classPhotos.map((photo, i) => (
+              <figure key={photo.jpg} className="break-inside-avoid overflow-hidden group">
+                <picture>
+                  <source srcSet={photo.webp} type="image/webp" />
+                  <img
+                    src={photo.jpg}
+                    alt={photo.alt}
+                    loading="lazy"
+                    className="w-full object-cover group-hover:scale-105 transition-transform duration-700"
+                    style={{ height: i % 3 === 0 ? '380px' : i % 3 === 1 ? '300px' : '340px' }}
+                  />
+                </picture>
+              </figure>
             ))}
-          </ul>
+          </div>
         </div>
       </section>
 
       <SectionDivider />
 
-      {/* Class Size & Pricing Section */}
-      <section className="py-20 lg:py-28 bg-cream" aria-label="Pricing">
+      {/* Workshop Pricing Section */}
+      <section className="py-20 lg:py-28 bg-cream" aria-label="Workshop pricing">
         <div ref={pricingRef} className="max-w-7xl mx-auto px-6 lg:px-8">
           <header className="max-w-2xl mx-auto text-center mb-14">
             <p
               className={`text-gold-accessible text-xs tracking-[0.3em] uppercase mb-4 fade-in-up ${pricingVisible ? 'visible' : ''}`}
             >
-              Class Size & Pricing
+              Workshop Pricing
             </p>
             <h2
-              className={`font-serif text-3xl md:text-4xl lg:text-5xl leading-[1.1] fade-in-up fade-in-up-delay-1 ${pricingVisible ? 'visible' : ''}`}
+              className={`font-serif text-3xl md:text-4xl lg:text-5xl leading-[1.1] mb-5 fade-in-up fade-in-up-delay-1 ${pricingVisible ? 'visible' : ''}`}
             >
-              Find your <em className="text-gold-heading">fit.</em>
+              Priced for <em className="text-gold-heading">your group.</em>
             </h2>
+            <p
+              className={`text-charcoal-light font-light text-sm md:text-base leading-relaxed fade-in-up fade-in-up-delay-2 ${pricingVisible ? 'visible' : ''}`}
+            >
+              Pricing is based on group size to ensure the best experience, ingredient
+              quality, and level of instruction for your event.
+            </p>
           </header>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 max-w-4xl mx-auto">
-            {classSizes.map((size, i) => (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+            {pricingTiers.map((tier, i) => (
               <article
-                key={size.label}
-                className={`bg-taupe-light border border-taupe/40 p-8 md:p-10 text-center hover:border-gold/40 transition-colors duration-500 fade-in-up fade-in-up-delay-${Math.min(i + 1, 4)} ${pricingVisible ? 'visible' : ''}`}
+                key={tier.label}
+                className={`relative bg-taupe-light border p-8 text-center hover:border-gold/40 transition-colors duration-500 fade-in-up fade-in-up-delay-${Math.min(i + 1, 4)} ${pricingVisible ? 'visible' : ''} ${tier.featured ? 'border-gold/60' : 'border-taupe/40'}`}
               >
-                <h3 className="font-serif text-2xl md:text-3xl mb-2">
-                  {size.label}
+                {tier.featured && (
+                  <p className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-gold text-cream text-[0.65rem] tracking-[0.25em] uppercase px-3 py-1">
+                    Most Popular
+                  </p>
+                )}
+                <h3 className="font-serif text-xl md:text-2xl mb-3">
+                  {tier.label}
                 </h3>
-                <p className="text-gold font-serif text-lg mb-2">
-                  {size.participants}
+                <p className="text-gold font-serif text-4xl leading-none">
+                  {tier.price}
                 </p>
-                <p className="text-gold font-serif text-3xl mb-4">
-                  {size.price}
+                <p className="text-charcoal-light text-xs tracking-[0.2em] uppercase mt-2 mb-5">
+                  {tier.unit}
                 </p>
                 <p className="text-charcoal-light font-light text-sm leading-relaxed">
-                  {size.detail}
+                  {tier.detail}
                 </p>
               </article>
             ))}
@@ -201,26 +250,26 @@ export default function CharcuterieClassesPage() {
 
       <SectionDivider />
 
-      {/* Experience Highlights Section */}
-      <section className="py-20 lg:py-28 bg-taupe-light" aria-label="Experience highlights">
-        <div ref={highlightsRef} className="max-w-7xl mx-auto px-6 lg:px-8">
+      {/* What's Included Section */}
+      <section className="py-20 lg:py-28 bg-taupe-light" aria-label="What's included">
+        <div ref={includedRef} className="max-w-7xl mx-auto px-6 lg:px-8">
           <header className="max-w-2xl mx-auto text-center mb-14">
             <p
-              className={`text-gold-accessible text-xs tracking-[0.3em] uppercase mb-4 fade-in-up ${highlightsVisible ? 'visible' : ''}`}
+              className={`text-gold-accessible text-xs tracking-[0.3em] uppercase mb-4 fade-in-up ${includedVisible ? 'visible' : ''}`}
             >
-              Experience Highlights
+              What&rsquo;s Included
             </p>
             <h2
-              className={`font-serif text-3xl md:text-4xl lg:text-5xl leading-[1.1] fade-in-up fade-in-up-delay-1 ${highlightsVisible ? 'visible' : ''}`}
+              className={`font-serif text-3xl md:text-4xl lg:text-5xl leading-[1.1] fade-in-up fade-in-up-delay-1 ${includedVisible ? 'visible' : ''}`}
             >
-              What you'll <em className="text-gold-heading">take away.</em>
+              Everything you <em className="text-gold-heading">need.</em>
             </h2>
           </header>
-          <ul className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 max-w-4xl mx-auto list-none">
-            {experienceHighlights.map((item, i) => (
+          <ul className="max-w-3xl mx-auto space-y-5 list-none">
+            {whatsIncluded.map((item, i) => (
               <li
-                key={i}
-                className={`bg-cream border border-taupe/40 p-8 md:p-10 hover:border-gold/40 transition-colors duration-500 fade-in-up fade-in-up-delay-${Math.min(i + 1, 4)} ${highlightsVisible ? 'visible' : ''}`}
+                key={item}
+                className={`bg-cream border border-taupe/40 p-7 md:p-8 hover:border-gold/40 transition-colors duration-500 fade-in-up fade-in-up-delay-${Math.min(i + 1, 4)} ${includedVisible ? 'visible' : ''}`}
               >
                 <div className="flex items-start gap-4">
                   <span className="text-gold text-lg mt-0.5" aria-hidden="true">&#10047;</span>
@@ -236,8 +285,44 @@ export default function CharcuterieClassesPage() {
 
       <SectionDivider />
 
+      {/* Optional Enhancements Section */}
+      <section className="py-20 lg:py-28 bg-cream" aria-label="Optional enhancements">
+        <div ref={enhancementsRef} className="max-w-7xl mx-auto px-6 lg:px-8">
+          <header className="max-w-2xl mx-auto text-center mb-14">
+            <p
+              className={`text-gold-accessible text-xs tracking-[0.3em] uppercase mb-4 fade-in-up ${enhancementsVisible ? 'visible' : ''}`}
+            >
+              Optional Enhancements
+            </p>
+            <h2
+              className={`font-serif text-3xl md:text-4xl lg:text-5xl leading-[1.1] fade-in-up fade-in-up-delay-1 ${enhancementsVisible ? 'visible' : ''}`}
+            >
+              Make it <em className="text-gold-heading">unforgettable.</em>
+            </h2>
+          </header>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 max-w-5xl mx-auto">
+            {optionalEnhancements.map((item, i) => (
+              <article
+                key={item.title}
+                className={`bg-taupe-light border border-taupe/40 p-8 md:p-10 hover:border-gold/40 transition-colors duration-500 fade-in-up fade-in-up-delay-${Math.min(i + 1, 4)} ${enhancementsVisible ? 'visible' : ''}`}
+              >
+                <span className="text-gold text-lg" aria-hidden="true">&#10047;</span>
+                <h3 className="font-serif text-xl md:text-2xl mt-3 mb-3">
+                  {item.title}
+                </h3>
+                <p className="text-charcoal-light font-light text-sm leading-relaxed">
+                  {item.detail}
+                </p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <SectionDivider />
+
       {/* Duration Section */}
-      <section className="py-16 lg:py-20 bg-cream" aria-label="Class duration">
+      <section className="py-16 lg:py-20 bg-taupe-light" aria-label="Class duration">
         <div ref={durationRef} className="max-w-7xl mx-auto px-6 lg:px-8 text-center">
           <div
             className={`fade-in-up ${durationVisible ? 'visible' : ''}`}
@@ -258,16 +343,16 @@ export default function CharcuterieClassesPage() {
       <SectionDivider />
 
       {/* Form Section */}
-      <section className="py-24 lg:py-32 bg-charcoal text-cream" aria-label="Book a class">
+      <section className="py-20 lg:py-24 bg-cream" aria-label="Book a workshop">
         <div ref={formRef} className="max-w-3xl mx-auto px-6 lg:px-8">
           <header className="text-center mb-12">
             <p
               className={`text-gold-accessible text-xs tracking-[0.3em] uppercase mb-4 fade-in-up ${formVisible ? 'visible' : ''}`}
             >
-              Book a Class
+              Book a Workshop
             </p>
             <h2
-              className={`font-serif text-4xl md:text-5xl leading-[1.1] mb-6 text-cream fade-in-up fade-in-up-delay-1 ${formVisible ? 'visible' : ''}`}
+              className={`font-serif text-4xl md:text-5xl leading-[1.1] mb-6 fade-in-up fade-in-up-delay-1 ${formVisible ? 'visible' : ''}`}
             >
               Reserve your
               <br />
