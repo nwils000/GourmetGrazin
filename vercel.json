@@ -9,7 +9,7 @@
         { "key": "Permissions-Policy", "value": "camera=(), microphone=(), geolocation=()" },
         { "key": "Strict-Transport-Security", "value": "max-age=63072000; includeSubDomains; preload" },
         { "key": "Cross-Origin-Opener-Policy", "value": "same-origin" },
-        { "key": "Content-Security-Policy", "value": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.shopify.com https://www.honeybook.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https: blob:; connect-src 'self' https://*.myshopify.com https://*.shopify.com https://www.honeybook.com; frame-src https://www.honeybook.com;" }
+        { "key": "Content-Security-Policy", "value": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.shopify.com https://*.honeybook.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://*.honeybook.com; font-src 'self' data: https://fonts.gstatic.com https://*.honeybook.com; img-src 'self' data: https: blob:; connect-src 'self' https://*.myshopify.com https://*.shopify.com https://*.honeybook.com https://*.hbportal.co; frame-src https://*.honeybook.com https://*.hbportal.co;" }
       ]
     },
     {
