@@ -11,27 +11,32 @@ export default function HoneyBookForm({ formId }) {
   useEffect(() => {
     if (isBot) return
 
-    window._HB_ = window._HB_ || {}
-    window._HB_.pid = HONEYBOOK_PID
+    // Reset HoneyBook's global state. The placement controller guards its
+    // init against re-execution via `window._HB_`, so on SPA navigation the
+    // script silently no-ops and the new placement div is never scanned.
+    delete window._HB_
+    window._HB_ = { pid: HONEYBOOK_PID }
 
-    // Remove any existing script so it re-scans for new placement divs
-    const existing = document.querySelector(`script[src="${HONEYBOOK_SCRIPT_URL}"]`)
-    if (existing) existing.remove()
+    // Drop any prior controller script so a fresh tag executes from scratch.
+    document
+      .querySelectorAll('script[src*="placement-controller"]')
+      .forEach((s) => s.remove())
 
+    // Cache-bust the URL so every mount re-fetches and re-executes the
+    // controller, which then re-scans the DOM and injects the iframe.
     const script = document.createElement('script')
     script.type = 'text/javascript'
     script.async = true
-    script.src = HONEYBOOK_SCRIPT_URL
+    script.src = `${HONEYBOOK_SCRIPT_URL}?t=${Date.now()}`
     document.head.appendChild(script)
 
     return () => {
-      // Clean up on unmount so next mount gets a fresh scan
-      const s = document.querySelector(`script[src="${HONEYBOOK_SCRIPT_URL}"]`)
-      if (s) s.remove()
+      document
+        .querySelectorAll('script[src*="placement-controller"]')
+        .forEach((s) => s.remove())
     }
   }, [formId, isBot])
 
-  // If bot detected, show a fake success message
   if (isBot) {
     return (
       <div className="text-center py-12">
