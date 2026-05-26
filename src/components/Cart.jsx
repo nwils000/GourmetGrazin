@@ -1,4 +1,5 @@
 import { X, Minus, Plus, ShoppingBag } from 'lucide-react'
+import { Link } from 'react-router-dom'
 import { useCart } from '../context/useCart'
 
 export default function Cart() {
@@ -64,12 +65,21 @@ export default function Cart() {
         {/* Body */}
         <div className="flex flex-col h-[calc(100%-73px)]">
           {!hasAnyItems ? (
-            <div className="flex-1 flex flex-col items-center justify-center px-6 text-center">
-              <ShoppingBag size={48} className="text-taupe mb-4" />
-              <p className="font-serif text-xl mb-2">Your cart is empty</p>
-              <p className="text-charcoal-light text-sm font-light">
+            <div className="flex-1 flex flex-col items-center px-6 text-center pt-16 sm:pt-20">
+              <div className="w-20 h-20 rounded-full bg-taupe-light flex items-center justify-center mb-6">
+                <ShoppingBag size={32} className="text-gold" aria-hidden="true" />
+              </div>
+              <p className="font-serif text-2xl mb-3">Your cart is empty</p>
+              <p className="text-charcoal-light text-sm font-light mb-8 max-w-xs">
                 Browse our shop to add handcrafted charcuterie to your order.
               </p>
+              <Link
+                to="/shop"
+                onClick={() => setCartOpen(false)}
+                className="inline-block bg-charcoal text-cream px-10 py-4 text-xs tracking-[0.2em] uppercase hover:bg-gold transition-colors duration-300"
+              >
+                Shop Now
+              </Link>
             </div>
           ) : (
             <>
