@@ -2,12 +2,34 @@ import { useInView } from '../components/useInView'
 import HoneyBookForm from '../components/HoneyBookForm'
 import useSEO from '../hooks/useSEO'
 
+const BOOK_URL = 'https://gourmetgrazin.hbportal.co'
+
 function SectionDivider() {
   return (
     <div className="flex items-center justify-center py-4" aria-hidden="true">
       <div className="h-px w-16 bg-gold/30" />
       <div className="mx-4 h-1.5 w-1.5 rotate-45 bg-gold/50" />
       <div className="h-px w-16 bg-gold/30" />
+    </div>
+  )
+}
+
+function BookNowCTA({ variant = 'dark' }) {
+  const base = 'inline-block px-12 py-4 text-xs tracking-[0.25em] uppercase transition-colors duration-300'
+  const styles =
+    variant === 'gold'
+      ? `${base} bg-gold text-cream hover:bg-charcoal`
+      : `${base} bg-charcoal text-cream hover:bg-gold`
+  return (
+    <div className="text-center">
+      <a
+        href={BOOK_URL}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={styles}
+      >
+        Book Now
+      </a>
     </div>
   )
 }
@@ -149,12 +171,15 @@ export default function CharcuterieClassesPage() {
             <em className="text-gold-heading">of the board.</em>
           </h1>
           <p
-            className={`text-charcoal-light text-lg md:text-xl max-w-2xl mx-auto font-light leading-relaxed fade-in-up fade-in-up-delay-2 ${heroVisible ? 'visible' : ''}`}
+            className={`text-charcoal-light text-lg md:text-xl max-w-2xl mx-auto font-light leading-relaxed mb-10 fade-in-up fade-in-up-delay-2 ${heroVisible ? 'visible' : ''}`}
           >
             Join us for a hands-on, interactive charcuterie experience where we teach you
             the art of styling stunning boards with premium ingredients. Perfect for date
             nights, girls&rsquo; nights, bridal parties, and team-building events.
           </p>
+          <div className={`fade-in-up fade-in-up-delay-3 ${heroVisible ? 'visible' : ''}`}>
+            <BookNowCTA />
+          </div>
         </div>
       </section>
 
@@ -245,6 +270,9 @@ export default function CharcuterieClassesPage() {
               </article>
             ))}
           </div>
+          <div className="mt-14">
+            <BookNowCTA variant="gold" />
+          </div>
         </div>
       </section>
 
@@ -315,6 +343,9 @@ export default function CharcuterieClassesPage() {
                 </p>
               </article>
             ))}
+          </div>
+          <div className="mt-14">
+            <BookNowCTA />
           </div>
         </div>
       </section>
