@@ -90,9 +90,9 @@ const classPhotos = [
   { jpg: '/class/guests-styling.jpg', webp: '/class/guests-styling.webp', alt: 'Workshop guests styling their personal charcuterie boards with fresh kiwi and rosemary' },
   { jpg: '/class/guests-assembling.jpg', webp: '/class/guests-assembling.webp', alt: 'Attendees assembling individual charcuterie plates with salami roses and seasonal fruit' },
   { jpg: '/class/owner-cutting.jpg', webp: '/class/owner-cutting.webp', alt: 'Gourmet Grazin’ instructor cutting cheese during a hands-on charcuterie class' },
-  { jpg: '/class/group-photo.jpg', webp: '/class/group-photo.webp', alt: 'Happy charcuterie workshop guests holding the boards they styled' },
-  { jpg: '/class/place-setting.jpg', webp: '/class/place-setting.webp', alt: 'Individual workshop place setting with palm-leaf board and pre-portioned ingredients' },
-  { jpg: '/class/table-setup.jpg', webp: '/class/table-setup.webp', alt: 'Long table set with individual charcuterie stations ready for a Gourmet Grazin’ workshop' },
+  { jpg: '/class/group-photo.jpg?v=2', webp: '/class/group-photo.webp?v=2', alt: 'Happy charcuterie workshop guests holding the boards they styled' },
+  { jpg: '/class/place-setting.jpg?v=2', webp: '/class/place-setting.webp?v=2', alt: 'Individual workshop place setting with palm-leaf board and pre-portioned ingredients' },
+  { jpg: '/class/table-setup.jpg?v=2', webp: '/class/table-setup.webp?v=2', alt: 'Long table set with individual charcuterie stations ready for a Gourmet Grazin’ workshop' },
 ]
 
 const CLASS_SCHEMA = {

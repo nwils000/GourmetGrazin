@@ -3,7 +3,7 @@ import { useInView } from './useInView'
 import { useDriveImages } from '../hooks/useDriveImages'
 import { FOLDER_IDS } from '../lib/googleDrive'
 
-const toWebp = (src) => src.replace(/\.(jpe?g|png)$/i, '.webp')
+const toWebp = (src) => src.replace(/\.(jpe?g|png)(\?.*)?$/i, '.webp$2')
 
 const defaultGalleryImages = [
   { src: '/gallery/gallery3.jpg', alt: 'Premium grazing table with fresh fruits and artisan crackers' },

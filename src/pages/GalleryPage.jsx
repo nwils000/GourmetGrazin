@@ -4,7 +4,7 @@ import { useDriveImages } from '../hooks/useDriveImages'
 import { FOLDER_IDS } from '../lib/googleDrive'
 import useSEO from '../hooks/useSEO'
 
-const toWebp = (src) => src.replace(/\.(jpe?g|png)$/i, '.webp')
+const toWebp = (src) => src.replace(/\.(jpe?g|png)(\?.*)?$/i, '.webp$2')
 
 const defaultGalleryImages = [
   { src: '/gallery/gallery1.jpg', alt: 'Artisan charcuterie board with imported cheeses and cured meats' },
@@ -20,7 +20,7 @@ const defaultGalleryImages = [
   { src: '/gallery/new/disperse4.jpg', alt: 'Bunny-shaped brie cheese charcuterie board for spring celebration' },
   { src: '/cart-closeup.jpg', alt: 'Close-up of artisan cheese and charcuterie cart spread' },
   { src: '/gallery/new/disperse5.jpeg', alt: 'Chocolate and charcuterie board with truffles and berries' },
-  { src: '/event-photo.jpg', alt: 'Gourmet Grazin charcuterie catering at a live event' },
+  { src: '/event-photo.jpg?v=2', alt: 'Gourmet Grazin charcuterie catering at a live event' },
 ]
 
 const GALLERY_SCHEMA = {
