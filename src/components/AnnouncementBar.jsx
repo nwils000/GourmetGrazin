@@ -9,7 +9,7 @@ export default function AnnouncementBar() {
       >
         <span className="text-gold text-[10px]" aria-hidden="true">&#x2726;</span>
         <span className="text-[10px] sm:text-xs tracking-[0.2em] uppercase font-light">
-          <span className="hidden sm:inline">Now Shipping Across Kentucky &middot; </span>Shop The Collection
+          <span className="hidden sm:inline">Order Charcuterie Online &middot; </span>Shop The Collection
         </span>
         <span className="text-xs transition-transform duration-300 group-hover:translate-x-1" aria-hidden="true">&rarr;</span>
       </Link>
