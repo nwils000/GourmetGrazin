@@ -214,10 +214,11 @@ function BoardModal({ product, onClose }) {
 function BoardCard({ product, onSelect, index, isVisible }) {
   const imgSrc = product.images?.[0]?.src || null
   const startPrice = getStartingPrice(product)
+  const ctaLabel = variantsAreSizes(product) ? 'Select Size' : 'Select Options'
 
   return (
     <article onClick={() => onSelect(product)}
-      className={`group bg-cream border border-gold/15 hover:border-gold/40 transition-all duration-300 cursor-pointer overflow-hidden fade-in-up fade-in-up-delay-${Math.min(index + 1, 4)} ${isVisible ? 'visible' : ''}`}>
+      className={`group bg-cream border border-gold/15 hover:border-gold/40 transition-all duration-300 cursor-pointer overflow-hidden flex flex-col fade-in-up fade-in-up-delay-${Math.min(index + 1, 4)} ${isVisible ? 'visible' : ''}`}>
       <figure className="overflow-hidden">
         {imgSrc ? (
           <img src={imgSrc} alt={product.title} className="w-full h-48 object-cover img-hover" loading="lazy" />
@@ -225,12 +226,19 @@ function BoardCard({ product, onSelect, index, isVisible }) {
           <ImagePlaceholder />
         )}
       </figure>
-      <div className="p-6">
+      <div className="p-6 flex flex-col flex-1">
         <h3 className="font-serif text-lg md:text-xl mb-2 group-hover:text-gold transition-colors duration-300">{product.title}</h3>
-        <p className="text-charcoal-light font-light text-sm leading-relaxed mb-3 line-clamp-3">{product.description}</p>
-        <p className="text-gold font-serif text-sm">
+        <p className="text-charcoal-light font-light text-sm leading-relaxed mb-3 line-clamp-3 flex-1">{product.description}</p>
+        <p className="text-gold font-serif text-sm mb-4">
           {hasSizeVariants(product) ? `starting at $${startPrice}` : `$${startPrice}`}
         </p>
+        <button
+          type="button"
+          onClick={(e) => { e.stopPropagation(); onSelect(product) }}
+          className="w-full bg-charcoal text-cream px-6 py-3 text-xs tracking-[0.2em] uppercase hover:bg-gold transition-colors duration-300"
+        >
+          {ctaLabel} &rarr;
+        </button>
       </div>
     </article>
   )
