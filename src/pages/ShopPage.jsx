@@ -221,7 +221,7 @@ function BoardCard({ product, onSelect, index, isVisible }) {
       className={`group bg-cream border border-gold/15 hover:border-gold/40 transition-all duration-300 cursor-pointer overflow-hidden flex flex-col fade-in-up fade-in-up-delay-${Math.min(index + 1, 4)} ${isVisible ? 'visible' : ''}`}>
       <figure className="overflow-hidden">
         {imgSrc ? (
-          <img src={imgSrc} alt={product.title} className="w-full h-40 sm:h-48 object-cover img-hover" loading="lazy" />
+          <img src={imgSrc} alt={product.title} className="w-full aspect-[4/3] object-cover img-hover" loading="lazy" />
         ) : (
           <ImagePlaceholder />
         )}
@@ -274,7 +274,7 @@ function ItemCard({ product, index, isVisible, minQty = 1, unitLabel = 'each' })
     <article className={`bg-cream overflow-hidden fade-in-up fade-in-up-delay-${Math.min(index + 1, 4)} ${isVisible ? 'visible' : ''}`}>
       <figure className="overflow-hidden">
         {imgSrc ? (
-          <img src={imgSrc} alt={product.title} className="w-full h-40 sm:h-48 object-cover" loading="lazy" />
+          <img src={imgSrc} alt={product.title} className="w-full aspect-[4/3] object-cover" loading="lazy" />
         ) : (
           <ImagePlaceholder />
         )}
