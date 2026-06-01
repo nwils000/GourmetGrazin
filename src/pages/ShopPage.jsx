@@ -20,26 +20,62 @@ function SectionDivider() {
   )
 }
 
+function getProductCategory(product) {
+  const title = product.title.toLowerCase()
+  const tags = (product.tags || []).map(t => t.toLowerCase())
+
+  // Specialty / celebration items first — these don't fit the main category buckets
+  if (title.includes('mom charcuterie') || title.includes('bouquet') ||
+      title.includes('letters') || title.includes('numbers')) return 'celebration'
+
+  // Bundles — explicit tag or 'bundle' in title
+  if (tags.includes('bundles') || tags.includes('bundle') || title.includes('bundle')) return 'bundles'
+
+  // Engraved boards
+  if (tags.includes('engraved boards') || tags.includes('engraved') || title.includes('engrav')) return 'engraved'
+
+  // Lunchtime selection
+  if (tags.includes('lunchtime selection') || tags.includes('lunchtime') ||
+      title.includes('lunch') || title.includes('sandwich')) return 'lunchtime'
+
+  // Standard tag-based categories (trust title over tag for known mistags)
+  if (tags.includes('charcuterie boards')) return 'boards'
+  if (tags.includes('charcuterie boxes')) return 'boxes'
+  if (tags.includes('charcuterie cups')) {
+    if (title.includes('box')) return 'boxes' // safety net for mistagged "box" products
+    return 'cups'
+  }
+
+  // Title-based fallback
+  if (title.includes('board')) return 'boards'
+  if (title.includes('box')) return 'boxes'
+  if (title.includes('cup') || title.includes('shot')) return 'cups'
+
+  return null
+}
+
 function categorizeProducts(products) {
-  const boards = []
-  const cups = []
-  const boxes = []
-  const other = []
-
+  const buckets = { bundles: [], boards: [], cups: [], boxes: [], lunchtime: [], engraved: [], celebration: [] }
   products.forEach(p => {
-    const t = p.title.toLowerCase()
-    if (t.includes('board')) boards.push(p)
-    else if (t.includes('cup')) cups.push(p)
-    else if (t.includes('box')) boxes.push(p)
-    else other.push(p)
+    const cat = getProductCategory(p)
+    if (cat) {
+      buckets[cat].push(p)
+    } else {
+      // Safety net: uncategorized products fall into Celebration so they never silently disappear
+      console.warn(`[Shop] Product "${p.title}" did not match any category; falling back to Celebration Collection. Add a category tag in Shopify.`)
+      buckets.celebration.push(p)
+    }
   })
-
-  return { boards, cups, boxes, other }
+  return buckets
 }
 
 function needsPersonalization(product) {
   const t = product.title.toLowerCase()
-  return t.includes('custom') || t.includes('birthday') || t.includes('anniversary')
+  return t.includes('custom') || t.includes('birthday') || t.includes('anniversary') || t.includes('engrav')
+}
+
+function variantsAreSizes(product) {
+  return product.variants.every(v => /^(small|medium|large|x-?large|extra large)$/i.test(v.title.trim()))
 }
 
 function hasSizeVariants(product) {
@@ -91,6 +127,7 @@ function BoardModal({ product, onClose }) {
   const chosenPrice = parseFloat(chosen.price?.amount || 0)
   const images = product.images || []
   const showPersonalization = needsPersonalization(product)
+  const variantLabel = variantsAreSizes(product) ? 'Select a Size' : 'Select an Option'
 
   async function handleAddToCart() {
     if (adding) return
@@ -128,8 +165,8 @@ function BoardModal({ product, onClose }) {
         {/* Size selector (only if multiple variants) */}
         {variants.length > 1 && variants[0].title !== 'Default Title' ? (
           <>
-            <p className="text-xs tracking-[0.2em] uppercase text-gold mb-3">Select a Size</p>
-            <div className="grid grid-cols-2 gap-3 mb-8" aria-label="Board size">
+            <p className="text-xs tracking-[0.2em] uppercase text-gold mb-3">{variantLabel}</p>
+            <div className="grid grid-cols-2 gap-3 mb-8" aria-label={variantLabel}>
               {variants.map((v, idx) => (
                 <button key={v.id} onClick={() => setSelectedSize(idx)} aria-pressed={selectedSize === idx}
                   className={`border py-3 px-4 text-left transition-all duration-200 ${selectedSize === idx ? 'border-gold bg-gold/10' : 'border-gold/20 hover:border-gold/40'}`}>
@@ -183,7 +220,7 @@ function BoardCard({ product, onSelect, index, isVisible }) {
       className={`group bg-cream border border-gold/15 hover:border-gold/40 transition-all duration-300 cursor-pointer overflow-hidden fade-in-up fade-in-up-delay-${Math.min(index + 1, 4)} ${isVisible ? 'visible' : ''}`}>
       <figure className="overflow-hidden">
         {imgSrc ? (
-          <img src={imgSrc} alt={`${product.title} - handcrafted charcuterie board`} className="w-full h-48 object-cover img-hover" loading="lazy" />
+          <img src={imgSrc} alt={product.title} className="w-full h-48 object-cover img-hover" loading="lazy" />
         ) : (
           <ImagePlaceholder />
         )}
@@ -270,6 +307,48 @@ function ItemCard({ product, index, isVisible, minQty = 1, unitLabel = 'each' })
 }
 
 /* ════════════════════════════════════════════
+   PRODUCT CARD DISPATCHER
+   ════════════════════════════════════════════ */
+
+function ProductCard({ product, onOpenModal, index, isVisible, minQty = 1, unitLabel = 'each' }) {
+  const isMultiVariant = product.variants.length > 1 && product.variants[0].title !== 'Default Title'
+  if (isMultiVariant) {
+    return <BoardCard product={product} onSelect={onOpenModal} index={index} isVisible={isVisible} />
+  }
+  return <ItemCard product={product} index={index} isVisible={isVisible} minQty={minQty} unitLabel={unitLabel} />
+}
+
+function ShopSection({ id, ariaLabel, bg, kicker, title, titleEm, blurb, products, loading, onOpenModal, sectionRef, sectionVisible, minQty, unitLabel }) {
+  return (
+    <section id={id} className={`py-20 lg:py-28 scroll-mt-24 ${bg}`} aria-label={ariaLabel}>
+      <div ref={sectionRef} className="max-w-7xl mx-auto px-6 lg:px-8">
+        <header className="mb-14 max-w-2xl">
+          <p className={`text-gold-accessible text-xs tracking-[0.3em] uppercase mb-4 fade-in-up ${sectionVisible ? 'visible' : ''}`}>{kicker}</p>
+          <h2 className={`font-serif text-4xl md:text-5xl leading-[1.1] mb-4 fade-in-up fade-in-up-delay-1 ${sectionVisible ? 'visible' : ''}`}>
+            {title} {titleEm && <em className="text-gold-heading">{titleEm}</em>}
+          </h2>
+          <p className={`text-charcoal-light leading-relaxed font-light fade-in-up fade-in-up-delay-2 ${sectionVisible ? 'visible' : ''}`}>{blurb}</p>
+        </header>
+        {loading ? (
+          <div className="flex items-center justify-center py-12" role="status">
+            <div className="w-8 h-8 border-2 border-gold/30 border-t-gold rounded-full animate-spin" />
+          </div>
+        ) : products.length > 0 ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+            {products.map((product, i) => (
+              <ProductCard key={product.id} product={product} onOpenModal={onOpenModal}
+                index={i} isVisible={sectionVisible} minQty={minQty} unitLabel={unitLabel} />
+            ))}
+          </div>
+        ) : (
+          <ComingSoon />
+        )}
+      </div>
+    </section>
+  )
+}
+
+/* ════════════════════════════════════════════
    MAIN SHOP PAGE
    ════════════════════════════════════════════ */
 
@@ -279,22 +358,27 @@ export default function ShopPage() {
   const [activeBoard, setActiveBoard] = useState(null)
 
   const [heroRef, heroVisible] = useInView()
+  const [bundlesRef, bundlesVisible] = useInView()
   const [boardsRef, boardsVisible] = useInView()
   const [cupsRef, cupsVisible] = useInView()
   const [boxesRef, boxesVisible] = useInView()
-  const [persRef, persVisible] = useInView()
+  const [lunchRef, lunchVisible] = useInView()
+  const [engravedRef, engravedVisible] = useInView()
+  const [celebrationRef, celebrationVisible] = useInView()
 
   useSEO({
     title: 'Shop Charcuterie Boards Online',
-    description: 'Order handcrafted charcuterie boards, cups, boxes & personalized favors online. Fresh artisan ingredients, delivered across Kentucky. Shop now!',
+    description: 'Order handcrafted charcuterie bundles, boards, cups, boxes, lunchtime selections & engraved boards online. Fresh artisan ingredients, delivered across Kentucky.',
     path: '/shop',
     ogType: 'product',
   })
 
   useEffect(() => {
     let cancelled = false
+    // Pass 250 (Shopify's max page size) so newly-added products always show up
+    // without a code change. fetchAll defaults to 20 and does NOT auto-paginate.
     getShopifyClient()
-      .then((client) => client.product.fetchAll())
+      .then((client) => client.product.fetchAll(250))
       .then((products) => {
         if (cancelled) return
         setShopifyProducts(products)
@@ -349,7 +433,7 @@ export default function ShopPage() {
     return () => { document.body.style.overflow = '' }
   }, [activeBoard])
 
-  const { boards, cups, boxes } = categorizeProducts(shopifyProducts)
+  const { bundles, boards, cups, boxes, lunchtime, engraved, celebration } = categorizeProducts(shopifyProducts)
 
   return (
     <article>
@@ -361,116 +445,77 @@ export default function ShopPage() {
             Handcrafted <em className="text-gold-heading">to order.</em>
           </h1>
           <p className={`text-charcoal-light text-lg md:text-xl max-w-2xl mx-auto font-light leading-relaxed mb-10 fade-in-up fade-in-up-delay-2 ${heroVisible ? 'visible' : ''}`}>
-            Premium charcuterie boards, cups, boxes, and personalized favors — all crafted with artisan ingredients. Select your items below and checkout through our shop.
+            Premium charcuterie bundles, boards, cups, boxes, lunchtime selections, and engraved boards — all crafted with artisan ingredients. Select your items below and checkout through our shop.
           </p>
           <nav className={`flex flex-wrap justify-center gap-3 fade-in-up fade-in-up-delay-3 ${heroVisible ? 'visible' : ''}`} aria-label="Shop sections">
+            <a href="#bundles" className="border border-charcoal text-charcoal px-5 py-2 text-xs tracking-[0.15em] uppercase hover:bg-charcoal hover:text-cream transition-all duration-300">Bundles</a>
             <a href="#boards" className="border border-charcoal text-charcoal px-5 py-2 text-xs tracking-[0.15em] uppercase hover:bg-charcoal hover:text-cream transition-all duration-300">Boards</a>
             <a href="#cups" className="border border-charcoal text-charcoal px-5 py-2 text-xs tracking-[0.15em] uppercase hover:bg-charcoal hover:text-cream transition-all duration-300">Cups</a>
             <a href="#boxes" className="border border-charcoal text-charcoal px-5 py-2 text-xs tracking-[0.15em] uppercase hover:bg-charcoal hover:text-cream transition-all duration-300">Boxes</a>
-            <a href="#personalizations" className="border border-charcoal text-charcoal px-5 py-2 text-xs tracking-[0.15em] uppercase hover:bg-charcoal hover:text-cream transition-all duration-300">Personalizations</a>
+            <a href="#lunchtime" className="border border-charcoal text-charcoal px-5 py-2 text-xs tracking-[0.15em] uppercase hover:bg-charcoal hover:text-cream transition-all duration-300">Lunchtime</a>
+            <a href="#engraved" className="border border-charcoal text-charcoal px-5 py-2 text-xs tracking-[0.15em] uppercase hover:bg-charcoal hover:text-cream transition-all duration-300">Engraved</a>
+            <a href="#celebration" className="border border-charcoal text-charcoal px-5 py-2 text-xs tracking-[0.15em] uppercase hover:bg-charcoal hover:text-cream transition-all duration-300">Celebration</a>
           </nav>
         </div>
       </section>
 
       <SectionDivider />
 
-      {/* ── BOARDS ── */}
-      <section id="boards" className="py-20 lg:py-28 bg-taupe-light scroll-mt-24" aria-label="Charcuterie boards">
-        <div ref={boardsRef} className="max-w-7xl mx-auto px-6 lg:px-8">
-          <header className="mb-14 max-w-2xl">
-            <p className={`text-gold-accessible text-xs tracking-[0.3em] uppercase mb-4 fade-in-up ${boardsVisible ? 'visible' : ''}`}>Our Collection</p>
-            <h2 className={`font-serif text-4xl md:text-5xl leading-[1.1] mb-4 fade-in-up fade-in-up-delay-1 ${boardsVisible ? 'visible' : ''}`}>Charcuterie <em className="text-gold-heading">Boards.</em></h2>
-            <p className={`text-charcoal-light leading-relaxed font-light fade-in-up fade-in-up-delay-2 ${boardsVisible ? 'visible' : ''}`}>
-              Signature boards crafted with care — select your size and quantity, then add to cart.
-            </p>
-          </header>
-          {loading ? (
-            <div className="flex items-center justify-center py-12" role="status">
-              <div className="w-8 h-8 border-2 border-gold/30 border-t-gold rounded-full animate-spin" />
-            </div>
-          ) : boards.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-              {boards.map((product, i) => (
-                <BoardCard key={product.id} product={product} onSelect={setActiveBoard} index={i} isVisible={boardsVisible} />
-              ))}
-            </div>
-          ) : (
-            <ComingSoon />
-          )}
-        </div>
-      </section>
+      <ShopSection id="bundles" ariaLabel="Charcuterie bundles" bg="bg-cream"
+        kicker="Start Here" title="Bundle" titleEm="Options."
+        blurb="Our most popular curated combinations — everything you need for an unforgettable spread, bundled together."
+        products={bundles} loading={loading} onOpenModal={setActiveBoard}
+        sectionRef={bundlesRef} sectionVisible={bundlesVisible} />
 
       <SectionDivider />
 
-      {/* ── CUPS ── */}
-      <section id="cups" className="py-20 lg:py-28 bg-cream scroll-mt-24" aria-label="Charcuterie cups">
-        <div ref={cupsRef} className="max-w-7xl mx-auto px-6 lg:px-8">
-          <header className="mb-14 max-w-2xl">
-            <p className={`text-gold-accessible text-xs tracking-[0.3em] uppercase mb-4 fade-in-up ${cupsVisible ? 'visible' : ''}`}>Charcuterie Cups</p>
-            <h2 className={`font-serif text-4xl md:text-5xl leading-[1.1] mb-4 fade-in-up fade-in-up-delay-1 ${cupsVisible ? 'visible' : ''}`}>Grab-and-go <em className="text-gold-heading">elegance.</em></h2>
-            <p className={`text-charcoal-light leading-relaxed font-light fade-in-up fade-in-up-delay-2 ${cupsVisible ? 'visible' : ''}`}>
-              Individual charcuterie cups — perfect for events of any size. Minimum order of 15.
-            </p>
-          </header>
-          {loading ? (
-            <div className="flex items-center justify-center py-12" role="status">
-              <div className="w-8 h-8 border-2 border-gold/30 border-t-gold rounded-full animate-spin" />
-            </div>
-          ) : cups.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-              {cups.map((product, i) => (
-                <ItemCard key={product.id} product={product} index={i} isVisible={cupsVisible} minQty={15} unitLabel="cup" />
-              ))}
-            </div>
-          ) : (
-            <ComingSoon />
-          )}
-        </div>
-      </section>
+      <ShopSection id="boards" ariaLabel="Charcuterie boards" bg="bg-taupe-light"
+        kicker="Our Collection" title="Charcuterie" titleEm="Boards."
+        blurb="Signature boards crafted with care — select your size and quantity, then add to cart."
+        products={boards} loading={loading} onOpenModal={setActiveBoard}
+        sectionRef={boardsRef} sectionVisible={boardsVisible} />
 
       <SectionDivider />
 
-      {/* ── BOXES ── */}
-      <section id="boxes" className="py-20 lg:py-28 bg-taupe-light scroll-mt-24" aria-label="Charcuterie boxes">
-        <div ref={boxesRef} className="max-w-7xl mx-auto px-6 lg:px-8">
-          <header className="mb-14 max-w-2xl">
-            <p className={`text-gold-accessible text-xs tracking-[0.3em] uppercase mb-4 fade-in-up ${boxesVisible ? 'visible' : ''}`}>Charcuterie Boxes</p>
-            <h2 className={`font-serif text-4xl md:text-5xl leading-[1.1] mb-4 fade-in-up fade-in-up-delay-1 ${boxesVisible ? 'visible' : ''}`}>Shareable <em className="text-gold-heading">indulgence.</em></h2>
-            <p className={`text-charcoal-light leading-relaxed font-light fade-in-up fade-in-up-delay-2 ${boxesVisible ? 'visible' : ''}`}>
-              Curated charcuterie boxes — perfect for sharing. Minimum order of 6.
-            </p>
-          </header>
-          {loading ? (
-            <div className="flex items-center justify-center py-12" role="status">
-              <div className="w-8 h-8 border-2 border-gold/30 border-t-gold rounded-full animate-spin" />
-            </div>
-          ) : boxes.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-              {boxes.map((product, i) => (
-                <ItemCard key={product.id} product={product} index={i} isVisible={boxesVisible} minQty={6} unitLabel="box" />
-              ))}
-            </div>
-          ) : (
-            <ComingSoon />
-          )}
-        </div>
-      </section>
+      <ShopSection id="cups" ariaLabel="Charcuterie cups" bg="bg-cream"
+        kicker="Charcuterie Cups" title="Grab-and-go" titleEm="elegance."
+        blurb="Individual charcuterie cups — perfect for events of any size. Minimum order of 15."
+        products={cups} loading={loading} onOpenModal={setActiveBoard}
+        sectionRef={cupsRef} sectionVisible={cupsVisible}
+        minQty={15} unitLabel="cup" />
 
       <SectionDivider />
 
-      {/* ── PERSONALIZATIONS ── */}
-      <section id="personalizations" className="py-20 lg:py-28 bg-cream scroll-mt-24" aria-label="Personalizations">
-        <div ref={persRef} className="max-w-7xl mx-auto px-6 lg:px-8">
-          <header className="mb-14 max-w-2xl">
-            <p className={`text-gold-accessible text-xs tracking-[0.3em] uppercase mb-4 fade-in-up ${persVisible ? 'visible' : ''}`}>The Details Matter</p>
-            <h2 className={`font-serif text-4xl md:text-5xl leading-[1.1] mb-4 fade-in-up fade-in-up-delay-1 ${persVisible ? 'visible' : ''}`}><em className="text-gold-heading">Personalizations.</em></h2>
-            <p className={`text-charcoal-light leading-relaxed font-light fade-in-up fade-in-up-delay-2 ${persVisible ? 'visible' : ''}`}>
-              Add a meaningful, personal touch to your event with custom details your guests will treasure.
-            </p>
-          </header>
-          <ComingSoon />
-        </div>
-      </section>
+      <ShopSection id="boxes" ariaLabel="Charcuterie boxes" bg="bg-taupe-light"
+        kicker="Charcuterie Boxes" title="Shareable" titleEm="indulgence."
+        blurb="Curated charcuterie boxes — perfect for sharing. Minimum order of 6."
+        products={boxes} loading={loading} onOpenModal={setActiveBoard}
+        sectionRef={boxesRef} sectionVisible={boxesVisible}
+        minQty={6} unitLabel="box" />
+
+      <SectionDivider />
+
+      <ShopSection id="lunchtime" ariaLabel="Lunchtime selection" bg="bg-cream"
+        kicker="Midday Made Simple" title="Lunchtime" titleEm="Selection."
+        blurb="Sandwich trays, lunch boxes, and quick bites — artisan quality for your team meetings, gatherings, and on-the-go moments."
+        products={lunchtime} loading={loading} onOpenModal={setActiveBoard}
+        sectionRef={lunchRef} sectionVisible={lunchVisible} />
+
+      <SectionDivider />
+
+      <ShopSection id="engraved" ariaLabel="Engraved boards" bg="bg-taupe-light"
+        kicker="The Details Matter" title="Engraved" titleEm="Boards."
+        blurb="Personalized wooden boards laser-engraved with your custom message — a keepsake that lasts long after the party."
+        products={engraved} loading={loading} onOpenModal={setActiveBoard}
+        sectionRef={engravedRef} sectionVisible={engravedVisible} />
+
+      <SectionDivider />
+
+      <ShopSection id="celebration" ariaLabel="Celebration collection" bg="bg-cream"
+        kicker="For Every Occasion" title="Celebration" titleEm="Collection."
+        blurb="Specialty creations for life's biggest moments — bouquets, letter boards, and gift-ready arrangements."
+        products={celebration} loading={loading} onOpenModal={setActiveBoard}
+        sectionRef={celebrationRef} sectionVisible={celebrationVisible} />
 
       <SectionDivider />
 
