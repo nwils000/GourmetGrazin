@@ -3,6 +3,7 @@ import { Routes, Route, Navigate, useNavigate } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 import Marquee from './components/Marquee'
+import TwoPaths from './components/TwoPaths'
 import About from './components/About'
 import Services from './components/Services'
 import Gallery from './components/Gallery'
@@ -45,6 +46,7 @@ function HomePage({ onInquire }) {
     <>
       <Hero onInquire={onInquire} />
       <Marquee />
+      <TwoPaths onInquire={onInquire} />
       <About />
       <Services />
       <Gallery />

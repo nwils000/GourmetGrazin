@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { Menu, X, ChevronDown, ShoppingBag } from 'lucide-react'
 import { useCart } from '../context/useCart'
+import AnnouncementBar from './AnnouncementBar'
 
 const servicesDropdown = [
   { label: 'Luxury Cart Experiences', href: '/luxury-cart-experiences' },
@@ -9,13 +10,13 @@ const servicesDropdown = [
   { label: 'Charcuterie Classes', href: '/charcuterie-classes' },
 ]
 
+// Shop is intentionally NOT in this list — it gets a prominent button beside Inquire instead.
 const navLinks = [
   { label: 'About', href: '#about', type: 'anchor' },
   { label: 'Services', type: 'dropdown', items: servicesDropdown },
   { label: 'Gallery', href: '/gallery', type: 'route' },
   { label: 'Meet the Owners', href: '/meet-the-owners', type: 'route' },
   { label: 'FAQ', href: '/faq', type: 'route' },
-  { label: 'Shop', href: '/shop', type: 'route' },
 ]
 
 export default function Navbar({ onInquire }) {
@@ -62,11 +63,13 @@ export default function Navbar({ onInquire }) {
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled ? 'bg-cream/95 backdrop-blur-sm shadow-sm' : 'bg-transparent'
-      }`}
+      className="fixed top-0 left-0 right-0 z-50"
       aria-label="Main navigation"
     >
+      <AnnouncementBar />
+      <div className={`transition-all duration-300 ${
+        scrolled ? 'bg-cream/95 backdrop-blur-sm shadow-sm' : 'bg-cream/85 backdrop-blur-sm'
+      }`}>
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
@@ -140,10 +143,21 @@ aria-current={isActive(item.href) ? 'page' : undefined}
           </div>
 
           {/* CTA + Cart */}
-          <div className="hidden lg:flex items-center gap-4">
+          <div className="hidden lg:flex items-center gap-3">
+            <Link
+              to="/shop"
+              aria-current={isActive('/shop') ? 'page' : undefined}
+              className={`border px-5 py-2.5 text-xs tracking-[0.2em] uppercase transition-colors duration-300 rounded-none ${
+                isActive('/shop')
+                  ? 'border-gold text-gold'
+                  : 'border-charcoal text-charcoal hover:bg-charcoal hover:text-cream'
+              }`}
+            >
+              Shop
+            </Link>
             <button
               onClick={onInquire}
-              className="bg-charcoal text-cream px-6 py-2.5 text-xs tracking-[0.2em] uppercase hover:bg-gold transition-colors duration-300 rounded-none"
+              className="bg-charcoal text-cream px-5 py-2.5 text-xs tracking-[0.2em] uppercase hover:bg-gold transition-colors duration-300 rounded-none"
             >
               Inquire
             </button>
@@ -185,6 +199,7 @@ aria-current={isActive(item.href) ? 'page' : undefined}
             </button>
           </div>
         </div>
+      </div>
       </div>
 
       {/* Mobile Menu */}
@@ -249,12 +264,21 @@ aria-current={isActive(item.href) ? 'page' : undefined}
                 </Link>
               )
             })}
-            <button
-              onClick={() => { onInquire(); setMobileOpen(false) }}
-              className="w-full bg-charcoal text-cream px-6 py-3 text-xs tracking-[0.2em] uppercase hover:bg-gold transition-colors mt-4"
-            >
-              Inquire
-            </button>
+            <div className="flex flex-col gap-3 mt-4">
+              <Link
+                to="/shop"
+                onClick={() => setMobileOpen(false)}
+                className="w-full border border-charcoal text-charcoal text-center px-6 py-3 text-xs tracking-[0.2em] uppercase hover:bg-charcoal hover:text-cream transition-colors"
+              >
+                Shop the Collection
+              </Link>
+              <button
+                onClick={() => { onInquire(); setMobileOpen(false) }}
+                className="w-full bg-charcoal text-cream px-6 py-3 text-xs tracking-[0.2em] uppercase hover:bg-gold transition-colors"
+              >
+                Inquire
+              </button>
+            </div>
           </div>
         </div>
       )}

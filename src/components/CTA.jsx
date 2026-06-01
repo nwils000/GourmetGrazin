@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import { useInView } from './useInView'
 
 export default function CTA({ onInquire }) {
@@ -13,21 +14,27 @@ export default function CTA({ onInquire }) {
               Ready to Graze?
             </p>
             <h2 className={`font-serif text-4xl md:text-5xl leading-[1.1] mb-6 fade-in-up fade-in-up-delay-1 ${isVisible ? 'visible' : ''}`}>
-              Let's make your
-              <br />
-              next event <em className="text-gold-heading">unforgettable.</em>
+              Let's make it <em className="text-gold-heading">unforgettable.</em>
             </h2>
             <p className={`text-charcoal-light leading-relaxed font-light mb-8 fade-in-up fade-in-up-delay-2 ${isVisible ? 'visible' : ''}`}>
-              We book a limited number of events each month to ensure every client receives our
-              full creative attention. If you're ready for an elevated charcuterie experience,
-              let's talk.
+              Whether you're planning a wedding, a corporate gathering, or just need a stunning board
+              for the weekend &mdash; we'd love to be part of it. Reach out for events, or shop our
+              handcrafted collection directly.
             </p>
-            <button
-              onClick={onInquire}
-              className={`bg-charcoal text-cream px-10 py-4 text-xs tracking-[0.2em] uppercase hover:bg-gold transition-colors duration-300 fade-in-up fade-in-up-delay-3 ${isVisible ? 'visible' : ''}`}
-            >
-              Inquire Now
-            </button>
+            <div className={`flex flex-col sm:flex-row gap-4 fade-in-up fade-in-up-delay-3 ${isVisible ? 'visible' : ''}`}>
+              <button
+                onClick={onInquire}
+                className="bg-charcoal text-cream px-10 py-4 text-xs tracking-[0.2em] uppercase hover:bg-gold transition-colors duration-300"
+              >
+                Inquire Now
+              </button>
+              <Link
+                to="/shop"
+                className="border border-charcoal text-charcoal px-10 py-4 text-xs tracking-[0.2em] uppercase hover:bg-charcoal hover:text-cream transition-all duration-300 inline-block text-center"
+              >
+                Shop the Collection
+              </Link>
+            </div>
           </div>
 
           {/* Image */}

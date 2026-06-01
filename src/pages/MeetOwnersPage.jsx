@@ -31,7 +31,7 @@ export default function MeetOwnersPage() {
   const [ctaRef, ctaVisible] = useInView()
 
   return (
-    <article className="pt-24">
+    <article className="pt-36">
       {/* Hero Section */}
       <section className="py-24 lg:py-32 bg-cream" aria-label="Meet the owners">
         <div ref={heroRef} className="max-w-7xl mx-auto px-6 lg:px-8 text-center">

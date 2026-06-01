@@ -61,12 +61,18 @@ export default function Gallery() {
         </div>
       </div>
 
-      <div className="text-center mt-12">
+      <div className="text-center mt-12 flex flex-col sm:flex-row gap-4 justify-center items-center px-6">
         <Link
           to="/gallery"
           className="inline-block border border-charcoal text-charcoal px-10 py-4 text-xs tracking-[0.2em] uppercase hover:bg-charcoal hover:text-cream transition-all duration-300"
         >
           View Full Gallery
+        </Link>
+        <Link
+          to="/shop"
+          className="inline-block bg-charcoal text-cream px-10 py-4 text-xs tracking-[0.2em] uppercase hover:bg-gold transition-colors duration-300"
+        >
+          Shop the Collection &rarr;
         </Link>
       </div>
     </section>

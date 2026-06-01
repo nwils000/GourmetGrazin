@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import { useInView } from './useInView'
 
 export default function About() {
@@ -43,12 +44,20 @@ export default function About() {
               gathering, our cart adds an elevated touch that your guests will remember.
               Based in Kentucky, we bring the graze to you.
             </p>
-            <a
-              href="#services"
-              className={`text-charcoal text-xs tracking-[0.2em] uppercase border-b border-charcoal pb-1 hover:text-gold hover:border-gold transition-colors duration-300 fade-in-up fade-in-up-delay-4 ${isVisible ? 'visible' : ''}`}
-            >
-              Explore Our Services &rarr;
-            </a>
+            <div className={`flex flex-wrap gap-x-8 gap-y-3 fade-in-up fade-in-up-delay-4 ${isVisible ? 'visible' : ''}`}>
+              <a
+                href="#services"
+                className="text-charcoal text-xs tracking-[0.2em] uppercase border-b border-charcoal pb-1 hover:text-gold hover:border-gold transition-colors duration-300"
+              >
+                Explore Our Services &rarr;
+              </a>
+              <Link
+                to="/shop"
+                className="text-charcoal text-xs tracking-[0.2em] uppercase border-b border-charcoal pb-1 hover:text-gold hover:border-gold transition-colors duration-300"
+              >
+                Shop the Collection &rarr;
+              </Link>
+            </div>
           </div>
         </div>
       </div>

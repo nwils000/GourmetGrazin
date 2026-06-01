@@ -63,7 +63,7 @@ export default function GrazingTablesPage() {
   return (
     <article>
       {/* Hero Section */}
-      <section className="relative bg-cream pt-24 pb-16 lg:pb-24" aria-label="Grazing Tables overview">
+      <section className="relative bg-cream pt-36 pb-16 lg:pb-24" aria-label="Grazing Tables overview">
         <div ref={heroRef} className="max-w-7xl mx-auto px-6 lg:px-8 grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           <div className="text-center lg:text-left">
             <p

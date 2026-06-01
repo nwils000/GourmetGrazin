@@ -156,7 +156,7 @@ export default function CharcuterieClassesPage() {
   return (
     <article>
       {/* Hero Section */}
-      <section className="relative flex items-center justify-center bg-cream pt-24 pb-16 lg:pb-24" aria-label="Charcuterie Classes overview">
+      <section className="relative flex items-center justify-center bg-cream pt-36 pb-16 lg:pb-24" aria-label="Charcuterie Classes overview">
         <div ref={heroRef} className="max-w-7xl mx-auto px-6 lg:px-8 text-center">
           <p
             className={`text-gold-accessible text-xs tracking-[0.3em] uppercase mb-6 fade-in-up ${heroVisible ? 'visible' : ''}`}

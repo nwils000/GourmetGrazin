@@ -208,7 +208,7 @@ export default function GalleryPage() {
   return (
     <article>
       {/* Hero */}
-      <section className="pt-24 pb-16 lg:pt-32 lg:pb-20 bg-cream" aria-label="Gallery overview">
+      <section className="pt-36 pb-16 lg:pt-44 lg:pb-20 bg-cream" aria-label="Gallery overview">
         <div ref={heroRef} className="max-w-7xl mx-auto px-6 lg:px-8 text-center">
           <p
             className={`text-gold-accessible text-xs tracking-[0.3em] uppercase mb-4 fade-in-up ${heroVisible ? 'visible' : ''}`}

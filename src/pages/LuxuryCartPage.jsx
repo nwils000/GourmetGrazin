@@ -198,7 +198,7 @@ export default function LuxuryCartPage() {
   return (
     <article>
       {/* Hero Section */}
-      <section className="relative bg-cream pt-24 pb-20 lg:pt-32 lg:pb-28" aria-label="Luxury Cart Experiences overview">
+      <section className="relative bg-cream pt-36 pb-20 lg:pt-44 lg:pb-28" aria-label="Luxury Cart Experiences overview">
         <div ref={heroRef} className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
             <header>

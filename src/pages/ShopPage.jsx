@@ -438,7 +438,7 @@ export default function ShopPage() {
   return (
     <article>
       {/* Hero */}
-      <section className="relative flex items-center justify-center bg-cream pt-24 pb-16 lg:pb-20" aria-label="Shop overview">
+      <section className="relative flex items-center justify-center bg-cream pt-36 pb-16 lg:pb-20" aria-label="Shop overview">
         <div ref={heroRef} className="max-w-7xl mx-auto px-6 lg:px-8 text-center">
           <p className={`text-gold-accessible text-xs tracking-[0.3em] uppercase mb-6 fade-in-up ${heroVisible ? 'visible' : ''}`}>Shop</p>
           <h1 className={`font-serif text-5xl sm:text-6xl md:text-7xl leading-[1.05] mb-8 fade-in-up fade-in-up-delay-1 ${heroVisible ? 'visible' : ''}`}>
