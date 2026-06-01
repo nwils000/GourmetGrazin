@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import { useInView } from '../components/useInView'
 import useSEO from '../hooks/useSEO'
 
@@ -131,12 +132,20 @@ export default function MeetOwnersPage() {
           <p className={`text-charcoal-light leading-relaxed font-light max-w-lg mx-auto mb-10 fade-in-up fade-in-up-delay-1 ${ctaVisible ? 'visible' : ''}`}>
             We'd love to be part of your next celebration. Reach out and let's bring your vision to life.
           </p>
-          <a
-            href="/luxury-cart-experiences#book-cart"
-            className={`inline-block bg-charcoal text-cream px-10 py-4 text-xs tracking-[0.2em] uppercase hover:bg-gold transition-colors duration-300 fade-in-up fade-in-up-delay-2 ${ctaVisible ? 'visible' : ''}`}
-          >
-            Inquire Now
-          </a>
+          <div className={`flex flex-col sm:flex-row gap-4 justify-center fade-in-up fade-in-up-delay-2 ${ctaVisible ? 'visible' : ''}`}>
+            <a
+              href="/luxury-cart-experiences#book-cart"
+              className="inline-block bg-charcoal text-cream px-10 py-4 text-xs tracking-[0.2em] uppercase hover:bg-gold transition-colors duration-300"
+            >
+              Inquire Now
+            </a>
+            <Link
+              to="/shop"
+              className="inline-block border border-charcoal text-charcoal px-10 py-4 text-xs tracking-[0.2em] uppercase hover:bg-charcoal hover:text-cream transition-all duration-300"
+            >
+              Shop the Collection
+            </Link>
+          </div>
         </div>
       </section>
     </article>
