@@ -2,7 +2,7 @@ import { useInView } from '../components/useInView'
 import HoneyBookForm from '../components/HoneyBookForm'
 import useSEO from '../hooks/useSEO'
 
-const BOOK_URL = 'https://gourmetgrazin.hbportal.co'
+const BOOK_URL = 'https://gourmetgrazin.hbportal.co/public/charcuterieclasses/1-Scheduler'
 
 function SectionDivider() {
   return (
