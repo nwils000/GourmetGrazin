@@ -30,8 +30,8 @@ const services = [
     number: '04',
     title: 'Charcuterie Classes',
     description: 'Learn the art of the board! Our hands-on classes are perfect for team building, girls\' night, bridal parties, or anyone who wants to master the art of a beautiful spread.',
-    image: '/charcuterie-class.jpg',
-    imageAlt: 'Hands-on charcuterie board-building class in progress',
+    image: '/class/guests-assembling.jpg',
+    imageAlt: 'Workshop guests assembling individual charcuterie plates at a Gourmet Grazin class',
     link: '/charcuterie-classes',
   },
   {
