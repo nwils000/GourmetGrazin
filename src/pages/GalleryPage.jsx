@@ -200,7 +200,7 @@ export default function GalleryPage() {
 
   useSEO({
     title: 'Charcuterie & Cart Photo Gallery',
-    description: 'Browse stunning charcuterie boards, grazing tables & mobile cart setups from real Kentucky events — weddings, corporate gatherings & celebrations.',
+    description: 'Browse stunning charcuterie boards, grazing tables & mobile cart setups from real Kentucky events: weddings, corporate gatherings & celebrations.',
     path: '/gallery',
     jsonLd: GALLERY_SCHEMA,
   })

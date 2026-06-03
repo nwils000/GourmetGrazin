@@ -19,7 +19,7 @@ export default function Hero({ onInquire }) {
               <em className="text-gold-heading">for every celebration.</em>
             </h1>
             <p className={`text-charcoal-light text-lg md:text-xl max-w-xl mb-10 font-light leading-relaxed fade-in-up fade-in-up-delay-2 ${isVisible ? 'visible' : ''}`}>
-              Handcrafted charcuterie boards, mobile carts, and grazing tables &mdash;
+              Handcrafted charcuterie boards, mobile carts, and grazing tables
               for the event you're planning, or the spread you're craving tonight.
             </p>
             <div className={`flex flex-col sm:flex-row gap-4 fade-in-up fade-in-up-delay-3 ${isVisible ? 'visible' : ''}`}>

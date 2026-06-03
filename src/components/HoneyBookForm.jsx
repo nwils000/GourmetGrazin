@@ -50,7 +50,7 @@ export default function HoneyBookForm({ formId }) {
 
   return (
     <div ref={containerRef}>
-      {/* Honeypot field — visually hidden, bots will fill it */}
+      {/* Honeypot field, visually hidden, bots will fill it */}
       <div
         aria-hidden="true"
         style={{

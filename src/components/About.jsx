@@ -36,7 +36,7 @@ export default function About() {
             <p className={`text-charcoal-light leading-relaxed mb-6 font-light fade-in-up fade-in-up-delay-2 ${isVisible ? 'visible' : ''}`}>
               Gourmet Grazin' brings a one-of-a-kind charcuterie experience to your event with our
               custom-built mobile cart. Stocked with artisan cheeses, cured meats, fresh fruits,
-              gourmet crackers, and all the fixings — beautifully arranged and served right where
+              gourmet crackers, and all the fixings, beautifully arranged and served right where
               your guests are.
             </p>
             <p className={`text-charcoal-light leading-relaxed mb-8 font-light fade-in-up fade-in-up-delay-3 ${isVisible ? 'visible' : ''}`}>

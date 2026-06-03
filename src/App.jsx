@@ -16,7 +16,7 @@ import ScrollToTop from './components/ScrollToTop'
 import { CartProvider } from './context/CartContext'
 import useSEO from './hooks/useSEO'
 
-// Lazy-loaded route chunks — only downloaded when visited
+// Lazy-loaded route chunks, only downloaded when visited
 const FAQPage = lazy(() => import('./pages/FAQPage'))
 const LuxuryCartPage = lazy(() => import('./pages/LuxuryCartPage'))
 const MeetOwnersPage = lazy(() => import('./pages/MeetOwnersPage'))
@@ -38,7 +38,7 @@ function PageLoader() {
 function HomePage({ onInquire }) {
   useSEO({
     title: null,
-    description: "Kentucky's premier charcuterie catering — mobile carts, grazing tables, boards & classes for weddings, corporate events and parties. Book today!",
+    description: "Kentucky's premier charcuterie catering: mobile carts, grazing tables, boards & classes for weddings, corporate events and parties. Book today!",
     path: '/',
   })
 

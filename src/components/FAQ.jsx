@@ -25,7 +25,15 @@ const faqs = [
   },
   {
     question: 'Do you provide setup and breakdown?',
-    answer: 'Yes! We handle everything — arrival, full setup, styling, and cleanup. You and your guests simply enjoy the experience. We typically arrive 30-60 minutes before your event.',
+    answer: 'Yes! We handle everything: arrival, full setup, styling, and cleanup. You and your guests simply enjoy the experience. We typically arrive 30-60 minutes before your event.',
+  },
+  {
+    question: 'When is the latest I can order a board?',
+    answer: 'For the best availability, orders should be placed at least 48 hours in advance. If you need a board sooner, please reach out and we\'ll do our best to accommodate your request based on our schedule. Rush fees may apply.',
+  },
+  {
+    question: 'Can I customize my board?',
+    answer: 'Yes! We\'re happy to accommodate customization requests whenever possible. Whether you have favorite items you\'d like included, ingredients you\'d prefer to avoid, or a specific theme or color palette in mind, let us know when placing your order and we\'ll do our best to create a board that fits your vision.',
   },
 ]
 

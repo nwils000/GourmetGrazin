@@ -4,7 +4,7 @@ const steps = [
   {
     number: '01',
     title: 'Inquire',
-    description: 'Tell us about your event — the date, guest count, venue, and vision. We\'ll get back to you within 24 hours.',
+    description: 'Tell us about your event: the date, guest count, venue, and vision. We\'ll get back to you within 24 hours.',
   },
   {
     number: '02',

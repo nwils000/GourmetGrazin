@@ -39,7 +39,7 @@ const pricingTiers = [
     label: '2–4 Guests',
     price: '$75',
     unit: 'per guest',
-    detail: 'Intimate experience — ideal for date nights or small gatherings',
+    detail: 'Intimate experience, ideal for date nights or small gatherings',
   },
   {
     label: '5–8 Guests',
@@ -73,7 +73,7 @@ const whatsIncluded = [
 const optionalEnhancements = [
   {
     title: 'Curated Mocktail Bar',
-    detail: 'A bespoke mocktail experience to pair with your boards — perfect for showers, birthdays, and dry events.',
+    detail: 'A bespoke mocktail experience to pair with your boards, perfect for showers, birthdays, and dry events.',
   },
   {
     title: 'Premium Acacia Wood Boards',
@@ -81,7 +81,7 @@ const optionalEnhancements = [
   },
   {
     title: 'Custom Laser-Engraved Boards',
-    detail: 'Personalized acacia boards engraved with logos, names, or special messages — ideal for bridal parties, gifts, and branded events.',
+    detail: 'Personalized acacia boards engraved with logos, names, or special messages, ideal for bridal parties, gifts, and branded events.',
   },
 ]
 

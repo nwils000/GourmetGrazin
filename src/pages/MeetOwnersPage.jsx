@@ -67,7 +67,7 @@ export default function MeetOwnersPage() {
           <p className={`text-charcoal-light text-lg leading-relaxed font-light mb-8 fade-in-up ${bioVisible ? 'visible' : ''}`}>
             We're a husband-and-wife team with a deep love for gathering people around beautiful
             spaces and even better food. What started as hosting friends and styling charcuterie
-            boards for family celebrations quickly turned into a passion-driven business — and the
+            boards for family celebrations quickly turned into a passion-driven business, and the
             beginning of something much bigger.
           </p>
 
@@ -84,7 +84,7 @@ export default function MeetOwnersPage() {
             className={`my-12 border-l-2 border-gold pl-6 fade-in-up fade-in-up-delay-2 ${bioVisible ? 'visible' : ''}`}
           >
             <p className="font-serif text-2xl md:text-3xl italic text-charcoal leading-snug">
-              Every board we create is inspired by the joy we feel when bringing people together —
+              Every board we create is inspired by the joy we feel when bringing people together,
               whether it's for a wedding, a milestone birthday, or an intimate celebration.
             </p>
           </blockquote>
@@ -102,7 +102,7 @@ export default function MeetOwnersPage() {
           <p className={`text-charcoal-light text-lg leading-relaxed font-light mb-8 fade-in-up fade-in-up-delay-3 ${bioVisible ? 'visible' : ''}`}>
             We have two little ones under two who are our greatest joy and our biggest motivation.
             Our two-year-old son is a sweet, loving boy, full of personality and warmth. Our
-            daughter, now five months old, is our miracle girl — a bright, happy light after
+            daughter, now five months old, is our miracle girl, a bright, happy light after
             spending her first 86 days in the NICU and bravely undergoing three surgeries. Her
             strength has shaped our perspective on gratitude, resilience, and the beauty of life's
             moments.
@@ -112,13 +112,13 @@ export default function MeetOwnersPage() {
             Entrepreneurship has always been woven into our story. My husband works as a real estate
             agent, and I'm a full-time mom who has always loved creating, hosting, and building
             ventures rooted in passion. Together, we're growing this business with a long-term dream
-            in mind: one day owning our own wedding venue — a space where love stories unfold and
+            in mind: one day owning our own wedding venue, a space where love stories unfold and
             unforgettable celebrations come to life.
           </p>
 
           <p className={`text-charcoal-light text-lg leading-relaxed font-light fade-in-up fade-in-up-delay-4 ${bioVisible ? 'visible' : ''}`}>
             Until then, we're pouring our hearts into every grazing table, cart experience, and
-            detail — grateful for the opportunity to be part of your most special moments.
+            detail, grateful for the opportunity to be part of your most special moments.
           </p>
         </div>
       </section>

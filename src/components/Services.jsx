@@ -5,7 +5,7 @@ const services = [
   {
     number: '01',
     title: 'Mobile Charcuterie Cart',
-    description: 'Our custom-built cart arrives fully stocked and served tableside by our team — an artisan spread of cheeses, cured meats, fruits, and accompaniments with a fully customizable menu. An elevated, budget-friendly centerpiece for any occasion.',
+    description: 'Our custom-built cart arrives fully stocked and served tableside by our team, an artisan spread of cheeses, cured meats, fruits, and accompaniments with a fully customizable menu. An elevated, budget-friendly centerpiece for any occasion.',
     image: '/cart-umbrella.jpg',
     imageAlt: 'Gourmet Grazin mobile charcuterie cart with umbrella at a Kentucky event',
     link: '/luxury-cart-experiences',
@@ -37,7 +37,7 @@ const services = [
   {
     number: '05',
     title: 'Cups, Boxes & More',
-    description: 'Elegant individual charcuterie cups and curated boxes — a stunning, budget-friendly option that delivers the elevated look and feel of a full spread in a perfectly portioned package.',
+    description: 'Elegant individual charcuterie cups and curated boxes, a stunning, budget-friendly option that delivers the elevated look and feel of a full spread in a perfectly portioned package.',
     image: '/cups-boxes/cups.jpg',
     imageAlt: 'Individual charcuterie cups with artisan cheeses, crackers, and fresh fruit',
     link: '/shop#cups',

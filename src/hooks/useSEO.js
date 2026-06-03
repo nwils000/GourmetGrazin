@@ -3,7 +3,7 @@ import { useEffect } from 'react'
 const SITE_NAME = "Gourmet Grazin'"
 const SITE_URL = 'https://www.gourmetgrazinky.com'
 const DEFAULT_DESCRIPTION =
-  "Kentucky's premier charcuterie catering — mobile carts, grazing tables, boards & classes for weddings, corporate events and parties. Book today!"
+  "Kentucky's premier charcuterie catering: mobile carts, grazing tables, boards & classes for weddings, corporate events and parties. Book today!"
 const DEFAULT_OG_IMAGE = `${SITE_URL}/og-image.jpg?v=2`
 
 function setMeta(attr, attrValue, content) {
@@ -44,7 +44,7 @@ export default function useSEO({
   useEffect(() => {
     const fullTitle = title
       ? `${title} | ${SITE_NAME}`
-      : `${SITE_NAME} — Kentucky Charcuterie & Mobile Carts`
+      : `${SITE_NAME} | Kentucky Charcuterie & Mobile Carts`
     const desc = description || DEFAULT_DESCRIPTION
     const pageUrl = path ? `${SITE_URL}${path}` : SITE_URL
     const image = ogImage || DEFAULT_OG_IMAGE

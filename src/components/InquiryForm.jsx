@@ -18,7 +18,7 @@ const serviceTypes = [
   'Grazing Table',
   'Charcuterie Boards',
   'Charcuterie Class',
-  'Not Sure — Help Me Decide!',
+  'Not Sure, Help Me Decide!',
 ]
 
 export default function InquiryForm({ isOpen, onClose }) {
@@ -38,7 +38,7 @@ export default function InquiryForm({ isOpen, onClose }) {
   const handleSubmit = (e) => {
     e.preventDefault()
     // Build mailto or use a form service
-    const subject = encodeURIComponent(`New Inquiry from ${formData.name} — ${formData.eventType}`)
+    const subject = encodeURIComponent(`New Inquiry from ${formData.name}, ${formData.eventType}`)
     const body = encodeURIComponent(
       `Name: ${formData.name}\n` +
       `Email: ${formData.email}\n` +

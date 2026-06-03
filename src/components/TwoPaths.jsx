@@ -15,7 +15,7 @@ export default function TwoPaths({ onInquire }) {
             Plan an event, or <em className="text-gold-heading">shop tonight.</em>
           </h2>
           <p className={`text-charcoal-light leading-relaxed font-light fade-in-up fade-in-up-delay-2 ${isVisible ? 'visible' : ''}`}>
-            Bring our mobile cart and team to your celebration &mdash; or order handcrafted boards, cups, bundles, and engraved keepsakes direct from our shop.
+            Bring our mobile cart and team to your celebration, or order handcrafted boards, cups, bundles, and engraved keepsakes direct from our shop.
           </p>
         </header>
 
@@ -38,7 +38,7 @@ export default function TwoPaths({ onInquire }) {
                 Plan an <em className="text-gold-heading">event.</em>
               </h3>
               <p className="text-charcoal-light leading-relaxed font-light mb-8 flex-1">
-                Mobile carts, grazing tables, weddings, showers, corporate gatherings &mdash; fully styled and staffed by our team.
+                Mobile carts, grazing tables, weddings, showers, corporate gatherings, fully styled and staffed by our team.
               </p>
               <button
                 onClick={onInquire}
@@ -67,7 +67,7 @@ export default function TwoPaths({ onInquire }) {
                 Shop the <em className="text-gold-heading">collection.</em>
               </h3>
               <p className="text-charcoal-light leading-relaxed font-light mb-8 flex-1">
-                Handcrafted boards, cups, boxes, bundles, and engraved keepsakes &mdash; shipped across Kentucky.
+                Handcrafted boards, cups, boxes, bundles, and engraved keepsakes, shipped across Kentucky.
               </p>
               <Link
                 to="/shop"

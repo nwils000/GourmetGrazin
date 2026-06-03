@@ -7,19 +7,19 @@ const grazingItems = [
     title: "Gourmet Grazin'",
     badge: 'MOST POPULAR',
     description:
-      "Our signature mobile charcuterie cart — and the experience that started it all. Stocked with an artisan selection of imported cheeses, premium cured meats, seasonal fruits, gourmet crackers, and house-paired accompaniments, our cart is served tableside by our team for a refined, interactive grazing experience your guests won't forget.",
+      "Our signature mobile charcuterie cart, the experience that started it all. Stocked with an artisan selection of imported cheeses, premium cured meats, seasonal fruits, gourmet crackers, and house-paired accompaniments, our cart is served tableside by our team for a refined, interactive grazing experience your guests won't forget.",
     startingPrice: '$400',
   },
   {
     title: 'Personalized Favor Bar',
     description:
-      "Let your guests curate their own take-home creation. From artisan candy and gourmet cookies to mini charcuterie boards, our favor bar transforms party favors into an experience — beautifully styled and fully customizable to your event's aesthetic.",
+      "Let your guests curate their own take-home creation. From artisan candy and gourmet cookies to mini charcuterie boards, our favor bar transforms party favors into an experience, beautifully styled and fully customizable to your event's aesthetic.",
     startingPrice: '$400',
   },
   {
     title: 'Sweet & Savory Social',
     description:
-      'The best of both worlds on one cart. Indulge in a thoughtfully curated mix of artisan cheeses, cured meats, premium chocolates, candied nuts, and seasonal sweets — a balanced spread that satisfies every craving with effortless sophistication.',
+      'The best of both worlds on one cart. Indulge in a thoughtfully curated mix of artisan cheeses, cured meats, premium chocolates, candied nuts, and seasonal sweets, a balanced spread that satisfies every craving with effortless sophistication.',
     startingPrice: '$400',
   },
 ]
@@ -28,19 +28,19 @@ const beverageItems = [
   {
     title: 'The Mocktail Bar',
     description:
-      "Handcrafted, non-alcoholic cocktails served fresh from our cart. From baby showers and church gatherings to corporate receptions, our mocktail bar brings a sophisticated sipping experience — beautifully garnished and entirely customizable to your event's palette.",
+      "Handcrafted, non-alcoholic cocktails served fresh from our cart. From baby showers and church gatherings to corporate receptions, our mocktail bar brings a sophisticated sipping experience, beautifully garnished and entirely customizable to your event's palette.",
     startingPrice: '$250',
   },
   {
     title: 'The Lemonade Atelier',
     description:
-      'Fresh-pressed lemonade elevated to an art form. Choose from signature infusions like lavender, strawberry basil, and peach mint — each crafted with premium ingredients and served with the elegance your event deserves.',
+      'Fresh-pressed lemonade elevated to an art form. Choose from signature infusions like lavender, strawberry basil, and peach mint, each crafted with premium ingredients and served with the elegance your event deserves.',
     startingPrice: '$250',
   },
   {
     title: 'The Cocoa & Cider Bar',
     description:
-      'A warm, seasonal indulgence for fall and winter gatherings. Rich hot cocoa and spiced apple cider served from our cart with artisan toppings — marshmallows, whipped cream, cinnamon sticks, and caramel drizzle.',
+      'A warm, seasonal indulgence for fall and winter gatherings. Rich hot cocoa and spiced apple cider served from our cart with artisan toppings: marshmallows, whipped cream, cinnamon sticks, and caramel drizzle.',
     startingPrice: '$350',
   },
   {
@@ -55,13 +55,13 @@ const brunchItems = [
   {
     title: 'The Morning Soirée',
     description:
-      'A curated brunch experience served from our cart. Think mini quiches, artisan pastries, fresh fruit, yogurt parfaits, and gourmet spreads — all beautifully arranged and perfect for morning celebrations, bridal brunches, or weekend gatherings.',
+      'A curated brunch experience served from our cart. Think mini quiches, artisan pastries, fresh fruit, yogurt parfaits, and gourmet spreads, all beautifully arranged and perfect for morning celebrations, bridal brunches, or weekend gatherings.',
     startingPrice: '$400',
   },
   {
     title: 'The Build-Your-Own Bowl Bar',
     description:
-      'Interactive and Instagram-worthy. Guests build their own acai bowls, yogurt parfaits, or savory brunch bowls with a stunning spread of premium toppings — from fresh berries and granola to avocado and microgreens.',
+      'Interactive and Instagram-worthy. Guests build their own acai bowls, yogurt parfaits, or savory brunch bowls with a stunning spread of premium toppings, from fresh berries and granola to avocado and microgreens.',
     startingPrice: '$400',
   },
 ]
@@ -70,19 +70,19 @@ const dessertItems = [
   {
     title: 'The Confectionery Cart',
     description:
-      "A sweet lover's dream on wheels. Our dessert cart arrives with an indulgent selection of gourmet treats — from chocolate truffles and macarons to mini tarts and seasonal confections, all styled to perfection.",
+      "A sweet lover's dream on wheels. Our dessert cart arrives with an indulgent selection of gourmet treats, from chocolate truffles and macarons to mini tarts and seasonal confections, all styled to perfection.",
     startingPrice: '$400',
   },
   {
     title: 'The Parisian Pastry Cart',
     description:
-      "Transport your guests to a Parisian patisserie. Mini croissants, delicate macarons, fruit tarts, and éclairs — each piece a work of art, served with the charm and elegance of a French bakery.",
+      "Transport your guests to a Parisian patisserie. Mini croissants, delicate macarons, fruit tarts, and éclairs, each piece a work of art, served with the charm and elegance of a French bakery.",
     startingPrice: '$400',
   },
   {
     title: 'The Chocolate Fondue Bar',
     description:
-      'An interactive, indulgent experience. Rich, melted chocolate paired with fresh strawberries, marshmallows, pretzels, and more — your guests dip, drizzle, and delight in a truly memorable dessert moment.',
+      'An interactive, indulgent experience. Rich, melted chocolate paired with fresh strawberries, marshmallows, pretzels, and more. Your guests dip, drizzle, and delight in a truly memorable dessert moment.',
     startingPrice: '$400',
   },
 ]
@@ -218,7 +218,7 @@ export default function LuxuryCartPage() {
                 className={`text-charcoal-light text-lg md:text-xl leading-relaxed font-light max-w-lg mb-8 fade-in-up fade-in-up-delay-2 ${heroVisible ? 'visible' : ''}`}
               >
                 From signature grazing carts to handcrafted beverage bars,
-                brunch spreads, and indulgent dessert displays — every cart
+                brunch spreads, and indulgent dessert displays. Every cart
                 is styled, stocked, and served with intention.
               </p>
               <button

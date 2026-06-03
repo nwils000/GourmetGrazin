@@ -18,7 +18,7 @@ export default function CTA({ onInquire }) {
             </h2>
             <p className={`text-charcoal-light leading-relaxed font-light mb-8 fade-in-up fade-in-up-delay-2 ${isVisible ? 'visible' : ''}`}>
               Whether you're planning a wedding, a corporate gathering, or just need a stunning board
-              for the weekend &mdash; we'd love to be part of it. Reach out for events, or shop our
+              for the weekend, we'd love to be part of it. Reach out for events, or shop our
               handcrafted collection directly.
             </p>
             <div className={`flex flex-col sm:flex-row gap-4 fade-in-up fade-in-up-delay-3 ${isVisible ? 'visible' : ''}`}>

@@ -33,7 +33,17 @@ const FAQ_SCHEMA = {
     {
       '@type': 'Question',
       name: 'Do you provide setup and breakdown?',
-      acceptedAnswer: { '@type': 'Answer', text: 'Yes! We handle everything — arrival, full setup, styling, and cleanup. We typically arrive 30-60 minutes before your event.' },
+      acceptedAnswer: { '@type': 'Answer', text: 'Yes! We handle everything: arrival, full setup, styling, and cleanup. We typically arrive 30-60 minutes before your event.' },
+    },
+    {
+      '@type': 'Question',
+      name: 'When is the latest I can order a board?',
+      acceptedAnswer: { '@type': 'Answer', text: 'For the best availability, orders should be placed at least 48 hours in advance. If you need a board sooner, please reach out and we\'ll do our best to accommodate your request based on our schedule. Rush fees may apply.' },
+    },
+    {
+      '@type': 'Question',
+      name: 'Can I customize my board?',
+      acceptedAnswer: { '@type': 'Answer', text: 'Yes! We\'re happy to accommodate customization requests whenever possible. Whether you have favorite items you\'d like included, ingredients you\'d prefer to avoid, or a specific theme or color palette in mind, let us know when placing your order and we\'ll do our best to create a board that fits your vision.' },
     },
   ],
 }
@@ -41,7 +51,7 @@ const FAQ_SCHEMA = {
 export default function FAQPage() {
   useSEO({
     title: 'Charcuterie Catering FAQ',
-    description: "Answers about our Kentucky charcuterie services — booking, service areas, dietary options, cart capacity, classes, pricing & what's included.",
+    description: "Answers about our Kentucky charcuterie services: booking, service areas, dietary options, cart capacity, classes, pricing & what's included.",
     path: '/faq',
     jsonLd: FAQ_SCHEMA,
   })

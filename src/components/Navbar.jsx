@@ -10,7 +10,7 @@ const servicesDropdown = [
   { label: 'Charcuterie Classes', href: '/charcuterie-classes' },
 ]
 
-// Shop is intentionally NOT in this list — it gets a prominent button beside Inquire instead.
+// Shop is intentionally NOT in this list, it gets a prominent button beside Inquire instead.
 const navLinks = [
   { label: 'About', href: '#about', type: 'anchor' },
   { label: 'Services', type: 'dropdown', items: servicesDropdown },

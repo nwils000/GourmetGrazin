@@ -24,11 +24,11 @@ function getProductCategory(product) {
   const title = product.title.toLowerCase()
   const tags = (product.tags || []).map(t => t.toLowerCase())
 
-  // Specialty / celebration items first — these don't fit the main category buckets
+  // Specialty / celebration items first, these don't fit the main category buckets
   if (title.includes('mom charcuterie') || title.includes('bouquet') ||
       title.includes('letters') || title.includes('numbers')) return 'celebration'
 
-  // Bundles — explicit tag or 'bundle' in title
+  // Bundles, explicit tag or 'bundle' in title
   if (tags.includes('bundles') || tags.includes('bundle') || title.includes('bundle')) return 'bundles'
 
   // Engraved boards
@@ -200,7 +200,7 @@ function BoardModal({ product, onClose }) {
 
         <button onClick={handleAddToCart} disabled={adding}
           className="w-full bg-charcoal text-cream px-8 py-4 text-xs tracking-[0.2em] uppercase hover:bg-gold transition-colors duration-300 disabled:opacity-50">
-          {adding ? 'Adding...' : `Add to Cart — $${chosenPrice * quantity}`}
+          {adding ? 'Adding...' : `Add to Cart · $${chosenPrice * quantity}`}
         </button>
       </div>
     </div>
@@ -245,7 +245,7 @@ function BoardCard({ product, onSelect, index, isVisible }) {
 }
 
 /* ════════════════════════════════════════════
-   ITEM CARD (inline qty — cups, boxes, etc.)
+   ITEM CARD (inline qty, cups, boxes, etc.)
    ════════════════════════════════════════════ */
 
 function ItemCard({ product, index, isVisible, minQty = 1, unitLabel = 'each' }) {
@@ -453,7 +453,7 @@ export default function ShopPage() {
             Handcrafted <em className="text-gold-heading">to order.</em>
           </h1>
           <p className={`text-charcoal-light text-lg md:text-xl max-w-2xl mx-auto font-light leading-relaxed mb-10 fade-in-up fade-in-up-delay-2 ${heroVisible ? 'visible' : ''}`}>
-            Premium charcuterie bundles, boards, cups, boxes, lunchtime selections, and engraved boards — all crafted with artisan ingredients. Select your items below and checkout through our shop.
+            Premium charcuterie bundles, boards, cups, boxes, lunchtime selections, and engraved boards, all crafted with artisan ingredients. Select your items below and checkout through our shop.
           </p>
           <nav className={`flex flex-wrap justify-center gap-3 fade-in-up fade-in-up-delay-3 ${heroVisible ? 'visible' : ''}`} aria-label="Shop sections">
             <a href="#bundles" className="border border-charcoal text-charcoal px-5 py-2 text-xs tracking-[0.15em] uppercase hover:bg-charcoal hover:text-cream transition-all duration-300">Bundles</a>
@@ -471,7 +471,7 @@ export default function ShopPage() {
 
       <ShopSection id="bundles" ariaLabel="Charcuterie bundles" bg="bg-cream"
         kicker="Start Here" title="Bundle" titleEm="Options."
-        blurb="Our most popular curated combinations — everything you need for an unforgettable spread, bundled together."
+        blurb="Our most popular curated combinations: everything you need for an unforgettable spread, bundled together."
         products={bundles} loading={loading} onOpenModal={setActiveBoard}
         sectionRef={bundlesRef} sectionVisible={bundlesVisible} />
 
@@ -479,7 +479,7 @@ export default function ShopPage() {
 
       <ShopSection id="boards" ariaLabel="Charcuterie boards" bg="bg-taupe-light"
         kicker="Our Collection" title="Charcuterie" titleEm="Boards."
-        blurb="Signature boards crafted with care — select your size and quantity, then add to cart."
+        blurb="Signature boards crafted with care. Select your size and quantity, then add to cart."
         products={boards} loading={loading} onOpenModal={setActiveBoard}
         sectionRef={boardsRef} sectionVisible={boardsVisible} />
 
@@ -487,7 +487,7 @@ export default function ShopPage() {
 
       <ShopSection id="cups" ariaLabel="Charcuterie cups" bg="bg-cream"
         kicker="Charcuterie Cups" title="Grab-and-go" titleEm="elegance."
-        blurb="Individual charcuterie cups — perfect for events of any size. Minimum order of 15."
+        blurb="Individual charcuterie cups, perfect for events of any size. Minimum order of 15."
         products={cups} loading={loading} onOpenModal={setActiveBoard}
         sectionRef={cupsRef} sectionVisible={cupsVisible}
         minQty={15} unitLabel="cup" />
@@ -496,7 +496,7 @@ export default function ShopPage() {
 
       <ShopSection id="boxes" ariaLabel="Charcuterie boxes" bg="bg-taupe-light"
         kicker="Charcuterie Boxes" title="Shareable" titleEm="indulgence."
-        blurb="Curated charcuterie boxes — perfect for sharing. Minimum order of 6."
+        blurb="Curated charcuterie boxes, perfect for sharing. Minimum order of 6."
         products={boxes} loading={loading} onOpenModal={setActiveBoard}
         sectionRef={boxesRef} sectionVisible={boxesVisible}
         minQty={6} unitLabel="box" />
@@ -505,7 +505,7 @@ export default function ShopPage() {
 
       <ShopSection id="lunchtime" ariaLabel="Lunchtime selection" bg="bg-cream"
         kicker="Midday Made Simple" title="Lunchtime" titleEm="Selection."
-        blurb="Sandwich trays, lunch boxes, and quick bites — artisan quality for your team meetings, gatherings, and on-the-go moments."
+        blurb="Sandwich trays, lunch boxes, and quick bites, artisan quality for your team meetings, gatherings, and on-the-go moments."
         products={lunchtime} loading={loading} onOpenModal={setActiveBoard}
         sectionRef={lunchRef} sectionVisible={lunchVisible} />
 
@@ -513,7 +513,7 @@ export default function ShopPage() {
 
       <ShopSection id="engraved" ariaLabel="Engraved boards" bg="bg-taupe-light"
         kicker="The Details Matter" title="Engraved" titleEm="Boards."
-        blurb="Personalized wooden boards laser-engraved with your custom message — a keepsake that lasts long after the party."
+        blurb="Personalized wooden boards laser-engraved with your custom message, a keepsake that lasts long after the party."
         products={engraved} loading={loading} onOpenModal={setActiveBoard}
         sectionRef={engravedRef} sectionVisible={engravedVisible} />
 
@@ -521,7 +521,7 @@ export default function ShopPage() {
 
       <ShopSection id="celebration" ariaLabel="Celebration collection" bg="bg-cream"
         kicker="For Every Occasion" title="Celebration" titleEm="Collection."
-        blurb="Specialty creations for life's biggest moments — bouquets, letter boards, and gift-ready arrangements."
+        blurb="Specialty creations for life's biggest moments: bouquets, letter boards, and gift-ready arrangements."
         products={celebration} loading={loading} onOpenModal={setActiveBoard}
         sectionRef={celebrationRef} sectionVisible={celebrationVisible} />
 

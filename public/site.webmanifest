@@ -1,7 +1,7 @@
 {
   "name": "Gourmet Grazin'",
   "short_name": "Gourmet Grazin'",
-  "description": "Kentucky's premier charcuterie catering — mobile carts, grazing tables, boards & classes.",
+  "description": "Kentucky's premier charcuterie catering: mobile carts, grazing tables, boards & classes.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",

@@ -1,6 +1,6 @@
 # Gourmet Grazin' - Robots.txt
 # https://www.gourmetgrazinky.com
-# Maximum visibility — all crawlers welcome
+# Maximum visibility, all crawlers welcome
 
 User-agent: *
 Allow: /

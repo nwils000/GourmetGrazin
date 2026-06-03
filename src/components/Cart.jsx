@@ -278,7 +278,7 @@ export default function Cart() {
                       rel="noopener noreferrer"
                       className="block w-full bg-charcoal text-cream text-center px-6 py-4 text-xs tracking-[0.2em] uppercase hover:bg-gold transition-colors duration-300"
                     >
-                      Checkout Shop Items &mdash; ${parseFloat(totalPrice).toFixed(2)}
+                      Checkout Shop Items &middot; ${parseFloat(totalPrice).toFixed(2)}
                     </a>
                     <a
                       href="https://gourmetgrazin.hbportal.co/public/gourmet-grazin"
@@ -286,7 +286,7 @@ export default function Cart() {
                       rel="noopener noreferrer"
                       className="block w-full bg-gold text-cream text-center px-6 py-4 text-xs tracking-[0.2em] uppercase hover:bg-charcoal transition-colors duration-300"
                     >
-                      Complete Inquiry &mdash; ${localTotal.toFixed(2)}
+                      Complete Inquiry &middot; ${localTotal.toFixed(2)}
                     </a>
                   </div>
                 )}
