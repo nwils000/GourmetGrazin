@@ -88,9 +88,9 @@ export default function GrazingTablesPage() {
           </div>
           <div className={`fade-in-up fade-in-up-delay-2 ${heroVisible ? 'visible' : ''}`}>
             <picture>
-              <source srcSet="/grazing-table.webp" type="image/webp" />
+              <source srcSet="/grazing-table.webp?v=2" type="image/webp" />
               <img
-                src="/grazing-table.jpg"
+                src="/grazing-table.jpg?v=2"
                 alt="A lavish Gourmet Grazin' grazing table with cheeses, cured meats, fresh fruit, and seasonal accompaniments"
                 width="1200"
                 height="1600"
