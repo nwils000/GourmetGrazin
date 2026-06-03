@@ -53,8 +53,8 @@ export default function TwoPaths({ onInquire }) {
           <article className={`group bg-warm-white border border-taupe/30 overflow-hidden flex flex-col fade-in-up fade-in-up-delay-3 ${isVisible ? 'visible' : ''}`}>
             <figure className="overflow-hidden">
               <img
-                src="/charcuterie-board.jpg"
-                alt="Handcrafted charcuterie board from the Gourmet Grazin' online shop"
+                src="/charcuterie-collection.jpg"
+                alt="Fresh fruit and veggie charcuterie boards from the Gourmet Grazin' online collection"
                 className="w-full h-64 md:h-72 lg:h-80 object-cover img-hover"
                 loading="lazy"
                 width="600"

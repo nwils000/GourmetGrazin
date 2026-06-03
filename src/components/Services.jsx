@@ -22,8 +22,8 @@ const services = [
     number: '03',
     title: 'Charcuterie Boards',
     description: 'From intimate dinner parties to gift-worthy arrangements, our handcrafted boards feature premium ingredients arranged with artful precision. Available in classic, sweet & savory, fruit, veggie, and fully customizable styles.',
-    image: '/charcuterie-board.jpg',
-    imageAlt: 'Handcrafted charcuterie board with premium cheeses, meats, and fresh fruits',
+    image: '/charcuterie-boards-trio.jpg',
+    imageAlt: 'Trio of handcrafted Gourmet Grazin charcuterie boards: meat & cheese, veggie crudite, and fresh fruit',
     link: '/shop#boards',
   },
   {

@@ -92,8 +92,8 @@ export default function GrazingTablesPage() {
               <img
                 src="/grazing-table.jpg"
                 alt="A lavish Gourmet Grazin' grazing table with cheeses, cured meats, fresh fruit, and seasonal accompaniments"
-                width="1024"
-                height="1536"
+                width="1200"
+                height="1600"
                 fetchPriority="high"
                 className="w-full h-auto max-h-[600px] object-cover shadow-lg"
               />
