@@ -39,14 +39,17 @@ export default function CTA({ onInquire }) {
 
           {/* Image */}
           <figure className={`overflow-hidden fade-in-up fade-in-up-delay-2 ${isVisible ? 'visible' : ''}`}>
-            <img
-              src="/charcuterie-board.jpg"
-              alt="Premium charcuterie board by Gourmet Grazin' with artisan cheeses and seasonal fruits"
-              className="w-full h-[500px] object-cover"
-              loading="lazy"
-              width="600"
-              height="500"
-            />
+            <picture>
+              <source srcSet="/cta-buffet-bar.webp" type="image/webp" />
+              <img
+                src="/cta-buffet-bar.jpg"
+                alt="Gourmet Grazin' charcuterie buffet bar with stainless trays of pepperoni, salami, cheese, strawberries, almonds, gherkins and a guest building a personal charcuterie board"
+                className="w-full h-[500px] object-cover"
+                loading="lazy"
+                width="1600"
+                height="1200"
+              />
+            </picture>
           </figure>
         </div>
       </div>

@@ -19,7 +19,6 @@ const defaultGalleryImages = [
   { src: '/gallery/gourmet-cart-2.jpeg', alt: 'Gourmet Grazin mobile charcuterie cart setup at an event' },
   { src: '/gallery/new/disperse4.jpg', alt: 'Bunny-shaped brie cheese charcuterie board for spring celebration' },
   { src: '/cart-closeup.jpg', alt: 'Close-up of artisan cheese and charcuterie cart spread' },
-  { src: '/gallery/new/disperse5.jpeg', alt: 'Chocolate and charcuterie board with truffles and berries' },
   { src: '/event-photo.jpg?v=2', alt: 'Gourmet Grazin charcuterie catering at a live event' },
 ]
 

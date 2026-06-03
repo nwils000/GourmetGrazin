@@ -48,13 +48,13 @@ export default function Hero({ onInquire }) {
           <figure className={`fade-in-up fade-in-up-delay-2 ${isVisible ? 'visible' : ''}`}>
             <div className="relative">
               <picture>
-                <source srcSet="/gallery/new/disperse5.webp" type="image/webp" />
+                <source srcSet="/charcuterie-board-hero.webp" type="image/webp" />
                 <img
-                  src="/gallery/new/disperse5.jpeg"
-                  alt="Beautifully arranged artisan charcuterie board with imported cheeses, cured meats, and fresh fruits by Gourmet Grazin'"
+                  src="/charcuterie-board-hero.jpg"
+                  alt="Handcrafted Gourmet Grazin' charcuterie board with salami rose, brie, aged cheddar, kiwi, grapes, and rosemary"
                   className="w-full h-[500px] lg:h-[600px] object-cover shadow-lg"
-                  width="768"
-                  height="1055"
+                  width="1265"
+                  height="1244"
                   fetchpriority="high"
                 />
               </picture>
