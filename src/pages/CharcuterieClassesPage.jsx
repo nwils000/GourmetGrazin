@@ -36,26 +36,26 @@ function BookNowCTA({ variant = 'dark' }) {
 
 const pricingTiers = [
   {
-    label: '2–4 Guests',
+    label: '2-4 Guests',
     price: '$75',
     unit: 'per guest',
     detail: 'Intimate experience, ideal for date nights or small gatherings',
   },
   {
-    label: '5–8 Guests',
+    label: '5-8 Guests',
     price: '$65',
     unit: 'per guest',
     detail: 'Girls’ nights, small celebrations, cozy group experience',
   },
   {
-    label: '9–14 Guests',
+    label: '9-14 Guests',
     price: '$58',
     unit: 'per guest',
     detail: 'Most popular for parties and social workshops',
     featured: true,
   },
   {
-    label: '15–20 Guests',
+    label: '15-20 Guests',
     price: '$52',
     unit: 'per guest',
     detail: 'Best value per guest for larger gatherings and events',

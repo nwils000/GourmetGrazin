@@ -9,11 +9,11 @@ const faqs = [
   },
   {
     question: 'How far in advance should I book for larger events?',
-    answer: 'We recommend booking 1\u20132 months in advance for most events. For weddings and peak season (spring through fall), we suggest reaching out even earlier \u2014 popular dates fill quickly, so the sooner the better!',
+    answer: 'We recommend booking 1-2 months in advance for most events. For weddings and peak season (spring through fall), we suggest reaching out even earlier, popular dates fill quickly, so the sooner the better!',
   },
   {
     question: 'How many guests can the mobile cart serve?',
-    answer: 'Our cart comfortably serves 25\u2013150+ guests depending on the package. For groups smaller than 25, we recommend one of our beautifully crafted charcuterie boards instead. For larger events, we can supplement with additional grazing tables \u2014 we\'ll customize to your guest count.',
+    answer: 'Our cart comfortably serves 25-150+ guests depending on the package. For groups smaller than 25, we recommend one of our beautifully crafted charcuterie boards instead. For larger events, we can supplement with additional grazing tables, we\'ll customize to your guest count.',
   },
   {
     question: 'Can you accommodate dietary restrictions?',
@@ -21,7 +21,7 @@ const faqs = [
   },
   {
     question: 'What\'s included in the charcuterie classes?',
-    answer: 'Every workshop includes all ingredients and supplies, premium cheeses and accompaniments, step-by-step styling instruction, an individual take-home charcuterie board, and full setup and cleanup. We come to your home or venue. Pricing is per guest based on group size (2\u201320 guests). Optional add-ons include a curated mocktail bar, premium acacia wood boards, and custom laser-engraved boards.',
+    answer: 'Every workshop includes all ingredients and supplies, premium cheeses and accompaniments, step-by-step styling instruction, an individual take-home charcuterie board, and full setup and cleanup. We come to your home or venue. Pricing is per guest based on group size (2-20 guests). Optional add-ons include a curated mocktail bar, premium acacia wood boards, and custom laser-engraved boards.',
   },
   {
     question: 'Do you provide setup and breakdown?',
@@ -34,6 +34,25 @@ const faqs = [
   {
     question: 'Can I customize my board?',
     answer: 'Yes! We\'re happy to accommodate customization requests whenever possible. Whether you have favorite items you\'d like included, ingredients you\'d prefer to avoid, or a specific theme or color palette in mind, let us know when placing your order and we\'ll do our best to create a board that fits your vision.',
+  },
+  {
+    question: 'How many people does each board serve?',
+    answer: (
+      <>
+        <p className="mb-3">
+          Serving sizes may vary depending on the occasion and whether the board is being enjoyed as an appetizer or a meal. As a general guideline for appetizers:
+        </p>
+        <ul className="mb-3 space-y-1 list-none pl-0">
+          <li><strong className="text-charcoal font-medium">Small (14"):</strong> Serves 4-6</li>
+          <li><strong className="text-charcoal font-medium">Medium (16"):</strong> Serves 6-10</li>
+          <li><strong className="text-charcoal font-medium">Large (17" x 12"):</strong> Serves 10-15</li>
+          <li><strong className="text-charcoal font-medium">X-Large (22" x 12"):</strong> Serves 15-20</li>
+        </ul>
+        <p>
+          Need help choosing the right size? Contact us and we&rsquo;d be happy to recommend the best option for your gathering.
+        </p>
+      </>
+    ),
   },
 ]
 
@@ -74,12 +93,12 @@ export default function FAQ() {
                   }`}
                 />
               </button>
-              <div className={`overflow-hidden transition-all duration-300 ${
-                openIndex === i ? 'max-h-48 pb-6' : 'max-h-0'
+              <div className={`overflow-hidden transition-all duration-500 ${
+                openIndex === i ? 'max-h-[40rem] pb-6' : 'max-h-0'
               }`}>
-                <p className="text-charcoal-light font-light leading-relaxed text-sm">
-                  {faq.answer}
-                </p>
+                <div className="text-charcoal-light font-light leading-relaxed text-sm">
+                  {typeof faq.answer === 'string' ? <p>{faq.answer}</p> : faq.answer}
+                </div>
               </div>
             </div>
           ))}

@@ -146,7 +146,7 @@ export default function GrazingTablesPage() {
             <p
               className={`text-gold-accessible text-xs tracking-[0.3em] uppercase mb-4 fade-in-up ${sizesVisible ? 'visible' : ''}`}
             >
-              20–200+ Guests
+              20-200+ Guests
             </p>
             <h2
               className={`font-serif text-3xl md:text-4xl lg:text-5xl leading-[1.1] fade-in-up fade-in-up-delay-1 ${sizesVisible ? 'visible' : ''}`}

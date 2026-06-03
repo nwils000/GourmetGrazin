@@ -45,6 +45,11 @@ const FAQ_SCHEMA = {
       name: 'Can I customize my board?',
       acceptedAnswer: { '@type': 'Answer', text: 'Yes! We\'re happy to accommodate customization requests whenever possible. Whether you have favorite items you\'d like included, ingredients you\'d prefer to avoid, or a specific theme or color palette in mind, let us know when placing your order and we\'ll do our best to create a board that fits your vision.' },
     },
+    {
+      '@type': 'Question',
+      name: 'How many people does each board serve?',
+      acceptedAnswer: { '@type': 'Answer', text: 'Serving sizes may vary depending on the occasion and whether the board is being enjoyed as an appetizer or a meal. As a general guideline for appetizers: Small (14") serves 4-6, Medium (16") serves 6-10, Large (17" x 12") serves 10-15, and X-Large (22" x 12") serves 15-20. Need help choosing the right size? Contact us and we\'ll be happy to recommend the best option for your gathering.' },
+    },
   ],
 }
 

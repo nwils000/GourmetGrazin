@@ -10,7 +10,7 @@ const testimonials = [
   {
     name: 'Paty Vance',
     event: 'Private Event',
-    text: 'I highly recommend this charcuterie cart business! My personal experience was absolutely wonderful from start to finish. The service was friendly, professional, and very attentive to every detail. The presentation was beautiful, elegant, and truly impressive\u2014it added a special touch to the event.',
+    text: 'I highly recommend this charcuterie cart business! My personal experience was absolutely wonderful from start to finish. The service was friendly, professional, and very attentive to every detail. The presentation was beautiful, elegant, and truly impressive, it added a special touch to the event.',
   },
   {
     name: 'Heather Norden Toy',
@@ -25,7 +25,7 @@ const testimonials = [
   {
     name: 'Kensey Denninghoff Hill',
     event: 'Baby Shower',
-    text: "Gourmet Grazin' was AMAZING! The team created a sweet and salty menu and it was the perfect balance for the baby shower\u2014everything was fresh, delicious, and beautifully displayed. The cart itself was stunning and added such a special touch to our event. The setup & service was so seamless and professional!",
+    text: "Gourmet Grazin' was AMAZING! The team created a sweet and salty menu and it was the perfect balance for the baby shower. Everything was fresh, delicious, and beautifully displayed. The cart itself was stunning and added such a special touch to our event. The setup & service was so seamless and professional!",
   },
   {
     name: 'Lindsey Barber',
@@ -35,7 +35,7 @@ const testimonials = [
   {
     name: 'Christa Stocker Campbell',
     event: 'Open House',
-    text: "Gourmet Grazin' catered our open house for our brand-new childcare center and was absolutely incredible! The menu was thoughtfully personalized to fit our needs and very affordable. It was such a fun and unique experience\u2014many of our guests are still talking about it. We can't wait to have them back!",
+    text: "Gourmet Grazin' catered our open house for our brand-new childcare center and was absolutely incredible! The menu was thoughtfully personalized to fit our needs and very affordable. It was such a fun and unique experience. Many of our guests are still talking about it. We can't wait to have them back!",
   },
   {
     name: 'Julie Ann McGuire',
