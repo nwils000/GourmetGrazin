@@ -8,7 +8,7 @@ const faqs = [
     answer: 'We are based in Kentucky and serve events throughout the state. Travel fees may apply for venues beyond our standard service area. Contact us for specifics!',
   },
   {
-    question: 'How far in advance should I book?',
+    question: 'How far in advance should I book for larger events?',
     answer: 'We recommend booking 1\u20132 months in advance for most events. For weddings and peak season (spring through fall), we suggest reaching out even earlier \u2014 popular dates fill quickly, so the sooner the better!',
   },
   {

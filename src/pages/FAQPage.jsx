@@ -12,7 +12,7 @@ const FAQ_SCHEMA = {
     },
     {
       '@type': 'Question',
-      name: 'How far in advance should I book?',
+      name: 'How far in advance should I book for larger events?',
       acceptedAnswer: { '@type': 'Answer', text: 'We recommend booking 1-2 months in advance for most events. For weddings and peak season (spring through fall), we suggest reaching out even earlier.' },
     },
     {
