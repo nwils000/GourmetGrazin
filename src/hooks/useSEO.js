@@ -4,7 +4,7 @@ const SITE_NAME = "Gourmet Grazin'"
 const SITE_URL = 'https://www.gourmetgrazinky.com'
 const DEFAULT_DESCRIPTION =
   "Kentucky's premier charcuterie catering — mobile carts, grazing tables, boards & classes for weddings, corporate events and parties. Book today!"
-const DEFAULT_OG_IMAGE = `${SITE_URL}/og-image.jpg`
+const DEFAULT_OG_IMAGE = `${SITE_URL}/og-image.jpg?v=2`
 
 function setMeta(attr, attrValue, content) {
   let el = document.querySelector(`meta[${attr}="${attrValue}"]`)
