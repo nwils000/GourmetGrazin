@@ -8,6 +8,7 @@ import About from './components/About'
 import Services from './components/Services'
 import Gallery from './components/Gallery'
 import Testimonials from './components/Testimonials'
+import AsSeenOn from './components/AsSeenOn'
 import HowItWorks from './components/HowItWorks'
 import CTA from './components/CTA'
 import Footer from './components/Footer'
@@ -51,6 +52,7 @@ function HomePage({ onInquire }) {
       <Services />
       <Gallery />
       <Testimonials />
+      <AsSeenOn />
       <HowItWorks />
       <CTA onInquire={onInquire} />
     </>
