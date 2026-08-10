@@ -6,21 +6,21 @@ import { useInView } from './useInView'
 const VIDEO_ID = 'rwli1wftDW4'
 const VIDEO_URL = `https://www.youtube.com/watch?v=${VIDEO_ID}`
 
-// Add new press / podcast / magazine features here — the row centers itself.
+// Add new press / podcast / magazine features here. The row centers itself.
 // `url` is optional; a feature without one renders as a plain (unlinked) card.
 const features = [
   {
     name: 'FOX 56',
-    detail: 'TV Interview',
+    detail: 'Television Interview',
     img: '/press/fox-56',
-    alt: 'FOX 56 logo — Gourmet Grazin’ featured in a FOX 56 television interview',
+    alt: 'FOX 56 logo: Gourmet Grazin’ featured in a FOX 56 television interview',
     url: VIDEO_URL,
   },
   {
     name: 'Live From Chevy Chase',
-    detail: 'Featured Guest',
+    detail: 'FOX 56 Lifestyle Show',
     img: '/press/live-from-chevy-chase',
-    alt: 'Live From Chevy Chase logo — Gourmet Grazin’ featured on Live From Chevy Chase',
+    alt: 'Live From Chevy Chase logo: Gourmet Grazin’ featured on Live From Chevy Chase',
     url: VIDEO_URL,
   },
 ]
@@ -128,11 +128,11 @@ export default function AsSeenOn() {
             As Seen On
           </p>
           <h2 className={`font-serif text-4xl md:text-5xl leading-[1.1] mb-6 fade-in-up fade-in-up-delay-1 ${isVisible ? 'visible' : ''}`}>
-            In the <em className="text-gold-heading">spotlight.</em>
+            Featured on <em className="text-gold-heading">FOX 56.</em>
           </h2>
           <p className={`text-charcoal-light leading-relaxed font-light max-w-xl mx-auto fade-in-up fade-in-up-delay-2 ${isVisible ? 'visible' : ''}`}>
-            We joined FOX 56's <em>Live From Chevy Chase</em> to talk elevated charcuterie,
-            grazing tables, and the cart that started it all.
+            We joined <em>Live From Chevy Chase</em>, the FOX 56 lifestyle show in Lexington,
+            to talk elevated charcuterie, grazing tables, and the cart that started it all.
           </p>
         </header>
 
