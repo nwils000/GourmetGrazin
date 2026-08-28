@@ -1,21 +1,21 @@
 import { useState, useEffect, useRef } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { Menu, X, ChevronDown, ShoppingBag } from 'lucide-react'
-import { useCart } from '../context/useCart'
+import { Menu, X, ChevronDown } from 'lucide-react'
 import AnnouncementBar from './AnnouncementBar'
 
 const servicesDropdown = [
-  { label: 'Luxury Cart Experiences', href: '/luxury-cart-experiences' },
   { label: 'Grazing Tables', href: '/grazing-tables' },
+  { label: 'Corporate & Lunch Catering', href: '/corporate-catering' },
+  { label: 'Luxury Cart Experiences', href: '/luxury-cart-experiences' },
   { label: 'Charcuterie Classes', href: '/charcuterie-classes' },
 ]
 
-// Shop is intentionally NOT in this list, it gets a prominent button beside Inquire instead.
+// One CTA only. Everything routes to the inquiry form, which is the sales funnel.
 const navLinks = [
-  { label: 'About', href: '#about', type: 'anchor' },
   { label: 'Services', type: 'dropdown', items: servicesDropdown },
+  { label: 'Menu', href: '/menu', type: 'route' },
   { label: 'Gallery', href: '/gallery', type: 'route' },
-  { label: 'Meet the Owners', href: '/meet-the-owners', type: 'route' },
+  { label: 'About', href: '/meet-the-owners', type: 'route' },
   { label: 'FAQ', href: '/faq', type: 'route' },
 ]
 
@@ -27,7 +27,6 @@ export default function Navbar({ onInquire }) {
   const dropdownRef = useRef(null)
   const timeoutRef = useRef(null)
   const location = useLocation()
-  const { setCartOpen, cartItemCount: itemCount } = useCart()
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50)
@@ -142,53 +141,24 @@ aria-current={isActive(item.href) ? 'page' : undefined}
             })}
           </div>
 
-          {/* CTA + Cart */}
+          {/* CTA */}
           <div className="hidden lg:flex items-center gap-3">
-            <Link
-              to="/shop"
-              aria-current={isActive('/shop') ? 'page' : undefined}
-              className={`border px-5 py-2.5 text-xs tracking-[0.2em] uppercase transition-colors duration-300 rounded-none ${
-                isActive('/shop')
-                  ? 'border-gold text-gold'
-                  : 'border-charcoal text-charcoal hover:bg-charcoal hover:text-cream'
-              }`}
+            <a
+              href="tel:+15027358428"
+              className="text-charcoal hover:text-gold text-xs tracking-[0.2em] uppercase transition-colors duration-300"
             >
-              Shop
-            </Link>
+              (502) 735-8428
+            </a>
             <button
               onClick={onInquire}
-              className="bg-charcoal text-cream px-5 py-2.5 text-xs tracking-[0.2em] uppercase hover:bg-gold transition-colors duration-300 rounded-none"
+              className="bg-charcoal text-cream px-6 py-2.5 text-xs tracking-[0.2em] uppercase hover:bg-gold transition-colors duration-300 rounded-none"
             >
-              Inquire
-            </button>
-            <button
-              onClick={() => setCartOpen(true)}
-              className="relative text-charcoal hover:text-gold transition-colors duration-300 p-2"
-              aria-label={`Shopping cart${itemCount > 0 ? `, ${itemCount} item${itemCount > 1 ? 's' : ''}` : ''}`}
-            >
-              <ShoppingBag size={20} aria-hidden="true" />
-              {itemCount > 0 && (
-                <span className="absolute -top-1 -right-1 bg-gold text-cream text-[9px] w-4.5 h-4.5 flex items-center justify-center rounded-full font-sans leading-none" aria-hidden="true">
-                  {itemCount}
-                </span>
-              )}
+              Get a Quote
             </button>
           </div>
 
-          {/* Mobile Menu + Cart */}
+          {/* Mobile Menu */}
           <div className="lg:hidden flex items-center gap-2">
-            <button
-              onClick={() => setCartOpen(true)}
-              className="relative text-charcoal hover:text-gold transition-colors p-2"
-              aria-label={`Shopping cart${itemCount > 0 ? `, ${itemCount} item${itemCount > 1 ? 's' : ''}` : ''}`}
-            >
-              <ShoppingBag size={20} aria-hidden="true" />
-              {itemCount > 0 && (
-                <span className="absolute -top-1 -right-1 bg-gold text-cream text-[9px] w-4.5 h-4.5 flex items-center justify-center rounded-full font-sans leading-none" aria-hidden="true">
-                  {itemCount}
-                </span>
-              )}
-            </button>
             <button
               className="text-charcoal p-2"
               onClick={() => setMobileOpen(!mobileOpen)}
@@ -265,19 +235,18 @@ aria-current={isActive(item.href) ? 'page' : undefined}
               )
             })}
             <div className="flex flex-col gap-3 mt-4">
-              <Link
-                to="/shop"
-                onClick={() => setMobileOpen(false)}
-                className="w-full border border-charcoal text-charcoal text-center px-6 py-3 text-xs tracking-[0.2em] uppercase hover:bg-charcoal hover:text-cream transition-colors"
-              >
-                Shop the Collection
-              </Link>
               <button
                 onClick={() => { onInquire(); setMobileOpen(false) }}
                 className="w-full bg-charcoal text-cream px-6 py-3 text-xs tracking-[0.2em] uppercase hover:bg-gold transition-colors"
               >
-                Inquire
+                Get a Quote
               </button>
+              <a
+                href="tel:+15027358428"
+                className="w-full border border-charcoal text-charcoal text-center px-6 py-3 text-xs tracking-[0.2em] uppercase hover:bg-charcoal hover:text-cream transition-colors"
+              >
+                Call (502) 735-8428
+              </a>
             </div>
           </div>
         </div>

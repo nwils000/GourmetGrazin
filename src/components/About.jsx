@@ -52,10 +52,10 @@ export default function About() {
                 Explore Our Services &rarr;
               </a>
               <Link
-                to="/shop"
+                to="/menu"
                 className="text-charcoal text-xs tracking-[0.2em] uppercase border-b border-charcoal pb-1 hover:text-gold hover:border-gold transition-colors duration-300"
               >
-                Shop the Collection &rarr;
+                See the Menu &rarr;
               </Link>
             </div>
           </div>

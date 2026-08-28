@@ -69,10 +69,10 @@ export default function Gallery() {
           View Full Gallery
         </Link>
         <Link
-          to="/shop"
+          to="/menu"
           className="inline-block bg-charcoal text-cream px-10 py-4 text-xs tracking-[0.2em] uppercase hover:bg-gold transition-colors duration-300"
         >
-          Shop the Collection &rarr;
+          See the Menu &rarr;
         </Link>
       </div>
     </section>

@@ -24,7 +24,7 @@ const services = [
     description: 'From intimate dinner parties to gift-worthy arrangements, our handcrafted boards feature premium ingredients arranged with artful precision. Available in classic, sweet & savory, fruit, veggie, and fully customizable styles.',
     image: '/charcuterie-boards-trio.jpg',
     imageAlt: 'Trio of handcrafted Gourmet Grazin charcuterie boards: meat & cheese, veggie crudite, and fresh fruit',
-    link: '/shop#boards',
+    link: '/menu#boards',
   },
   {
     number: '04',
@@ -40,7 +40,7 @@ const services = [
     description: 'Elegant individual charcuterie cups and curated boxes, a stunning, budget-friendly option that delivers the elevated look and feel of a full spread in a perfectly portioned package.',
     image: '/cups-boxes/cups.jpg?v=2',
     imageAlt: 'Individual charcuterie cups with artisan cheeses, crackers, and fresh fruit',
-    link: '/shop#cups',
+    link: '/menu#cups',
   },
 ]
 

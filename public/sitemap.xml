@@ -42,13 +42,29 @@
     </image:image>
   </url>
   <url>
-    <loc>https://www.gourmetgrazinky.com/shop</loc>
-    <lastmod>2026-05-25</lastmod>
+    <loc>https://www.gourmetgrazinky.com/inquire</loc>
+    <lastmod>2026-08-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://www.gourmetgrazinky.com/corporate-catering</loc>
+    <lastmod>2026-08-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://www.gourmetgrazinky.com/charcuterie-boards-trio.jpg</image:loc>
+      <image:title>Corporate &amp; Office Lunch Catering in Lexington KY</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.gourmetgrazinky.com/menu</loc>
+    <lastmod>2026-08-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
     <image:image>
       <image:loc>https://www.gourmetgrazinky.com/charcuterie-boards-trio.jpg</image:loc>
-      <image:title>Shop Charcuterie Boards, Cups, Boxes &amp; Personalizations</image:title>
+      <image:title>Menu &amp; Pricing: Grazing Tables, Boards, Trays &amp; Boxes</image:title>
     </image:image>
   </url>
   <url>
@@ -72,5 +88,41 @@
     <lastmod>2026-05-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.gourmetgrazinky.com/charcuterie-catering-lexington-ky</loc>
+    <lastmod>2026-08-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://www.gourmetgrazinky.com/charcuterie-catering-georgetown-ky</loc>
+    <lastmod>2026-08-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.gourmetgrazinky.com/charcuterie-catering-frankfort-ky</loc>
+    <lastmod>2026-08-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.gourmetgrazinky.com/charcuterie-catering-versailles-ky</loc>
+    <lastmod>2026-08-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.gourmetgrazinky.com/charcuterie-catering-nicholasville-ky</loc>
+    <lastmod>2026-08-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.gourmetgrazinky.com/charcuterie-catering-richmond-ky</loc>
+    <lastmod>2026-08-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
   </url>
 </urlset>

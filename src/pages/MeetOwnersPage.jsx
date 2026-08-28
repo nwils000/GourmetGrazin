@@ -140,10 +140,10 @@ export default function MeetOwnersPage() {
               Inquire Now
             </a>
             <Link
-              to="/shop"
+              to="/menu"
               className="inline-block border border-charcoal text-charcoal px-10 py-4 text-xs tracking-[0.2em] uppercase hover:bg-charcoal hover:text-cream transition-all duration-300"
             >
-              Shop the Collection
+              See the Menu
             </Link>
           </div>
         </div>

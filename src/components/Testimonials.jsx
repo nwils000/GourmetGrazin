@@ -1,5 +1,6 @@
 import { useInView } from './useInView'
 import { Star, Quote } from 'lucide-react'
+import { REVIEW_COUNT, REVIEW_RATING, REVIEW_PROFILE_URL } from '../data/reviews'
 
 const testimonials = [
   {
@@ -122,8 +123,15 @@ export default function Testimonials() {
               <Star key={i} size={18} className="fill-gold text-gold" />
             ))}
           </div>
-          <span className="text-charcoal font-serif text-lg">5.0</span>
-          <span className="text-charcoal-light text-sm font-light">on Google</span>
+          <span className="text-charcoal font-serif text-lg">{REVIEW_RATING}</span>
+          <a
+            href={REVIEW_PROFILE_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-charcoal-light text-sm font-light hover:text-gold transition-colors duration-300"
+          >
+            from {REVIEW_COUNT} Google reviews
+          </a>
         </div>
       </div>
 

@@ -1,6 +1,8 @@
 import { useInView } from '../components/useInView'
 import HoneyBookForm from '../components/HoneyBookForm'
 import useSEO from '../hooks/useSEO'
+import { Link } from 'react-router-dom'
+import { SERVICE_AREAS } from '../data/serviceAreas'
 
 function SectionDivider() {
   return (
@@ -39,10 +41,24 @@ const SERVICE_SCHEMA = {
   description: 'Stunning grazing tablescapes for Kentucky events, serving 20-200+ guests. Perfect for weddings, corporate receptions, and large gatherings with artisan cheeses, cured meats, and fresh accompaniments.',
   provider: {
     '@type': 'CateringService',
+    '@id': 'https://www.gourmetgrazinky.com/#business',
     name: "Gourmet Grazin'",
     url: 'https://www.gourmetgrazinky.com',
+    telephone: '+1-502-735-8428',
   },
-  areaServed: { '@type': 'State', name: 'Kentucky' },
+  // City-level areaServed so this page competes for "grazing table {city}"
+  areaServed: [
+    { '@type': 'State', name: 'Kentucky' },
+    ...SERVICE_AREAS.map((area) => ({
+      '@type': 'City',
+      name: area.city,
+      addressRegion: 'KY',
+      containedInPlace: {
+        '@type': 'AdministrativeArea',
+        name: `${area.county}, Kentucky`,
+      },
+    })),
+  ],
   serviceType: 'Grazing Table Catering',
 }
 
@@ -51,11 +67,12 @@ export default function GrazingTablesPage() {
   const [provideRef, provideVisible] = useInView()
   const [sizesRef, sizesVisible] = useInView()
   const [whyRef, whyVisible] = useInView()
+  const [areasRef, areasVisible] = useInView()
   const [formRef, formVisible] = useInView()
 
   useSEO({
-    title: 'Grazing Tables for Kentucky Events',
-    description: 'Stunning charcuterie grazing tables for 20-200+ guests. Perfect for Kentucky weddings, corporate events & celebrations. Full setup included.',
+    title: 'Grazing Tables in Lexington & Central Kentucky',
+    description: 'Grazing tables for 20-200+ guests in Lexington, Georgetown, Frankfort, Versailles, Nicholasville & Richmond KY. Weddings, corporate events & celebrations. Full setup included.',
     path: '/grazing-tables',
     jsonLd: SERVICE_SCHEMA,
   })
@@ -206,6 +223,47 @@ export default function GrazingTablesPage() {
                     {item}
                   </p>
                 </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      <SectionDivider />
+
+      {/* Where We Set Up */}
+      <section className="py-20 lg:py-28 bg-cream" aria-label="Where we set up grazing tables">
+        <div ref={areasRef} className="max-w-4xl mx-auto px-6 lg:px-8">
+          <header className="text-center mb-12">
+            <p
+              className={`text-gold-accessible text-xs tracking-[0.3em] uppercase mb-4 fade-in-up ${areasVisible ? 'visible' : ''}`}
+            >
+              Where We Set Up
+            </p>
+            <h2
+              className={`font-serif text-3xl md:text-4xl lg:text-5xl leading-[1.1] fade-in-up fade-in-up-delay-1 ${areasVisible ? 'visible' : ''}`}
+            >
+              Grazing tables across <em className="text-gold-heading">Central Kentucky.</em>
+            </h2>
+            <p
+              className={`text-charcoal-light text-base md:text-lg max-w-xl mx-auto font-light leading-relaxed mt-6 fade-in-up fade-in-up-delay-2 ${areasVisible ? 'visible' : ''}`}
+            >
+              We deliver, build, and style the table on site, then clear it all away afterward.
+              Choose your city to see what we cater there most.
+            </p>
+          </header>
+          <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4 list-none">
+            {SERVICE_AREAS.map((area, i) => (
+              <li key={area.slug}>
+                <Link
+                  to={`/${area.slug}`}
+                  className={`block bg-taupe-light border border-taupe/40 px-6 py-5 hover:border-gold/40 transition-colors duration-500 fade-in-up fade-in-up-delay-${Math.min(i + 1, 4)} ${areasVisible ? 'visible' : ''}`}
+                >
+                  <span className="font-serif text-lg text-gold">Grazing Tables in {area.city}</span>
+                  <span className="block text-charcoal-light text-xs font-light mt-1">
+                    {area.county}
+                  </span>
+                </Link>
               </li>
             ))}
           </ul>

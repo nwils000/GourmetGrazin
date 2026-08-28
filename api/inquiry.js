@@ -1,0 +1,147 @@
+// Receives an inquiry, emails Aiyana a complete brief, and sends the customer
+// an instant confirmation with their estimate.
+//
+// The brief includes the generated shopping list, so the two jobs that used to
+// happen by hand after every booking -- pricing it and writing the grocery
+// list -- are already done by the time she opens the email.
+
+import { MENU_BY_ID, BOARD_SIZES } from '../src/data/menu.js'
+import { CART_PACKAGES, ADDONS, formatRange } from '../src/data/quote.js'
+import { buildGroceryList } from '../src/data/groceries.js'
+import { readJson, sendEmail, OWNER_EMAIL, esc } from './_shared.js'
+
+function serviceName(id) {
+  return MENU_BY_ID[id]?.name || CART_PACKAGES.find((c) => c.id === id)?.name || id
+}
+function addonName(id) {
+  return ADDONS.find((a) => a.id === id)?.name || id
+}
+
+function row(label, value) {
+  if (!value) return ''
+  return `<tr><td style="padding:6px 14px 6px 0;color:#7a7168;font-size:13px;vertical-align:top;white-space:nowrap">${esc(label)}</td><td style="padding:6px 0;color:#2c2c2c;font-size:14px">${esc(value)}</td></tr>`
+}
+
+export default async function handler(req, res) {
+  if (req.method !== 'POST') {
+    res.setHeader('Allow', 'POST')
+    return res.status(405).json({ error: 'Method not allowed' })
+  }
+
+  let payload
+  try {
+    payload = await readJson(req)
+  } catch {
+    return res.status(400).json({ error: 'Invalid JSON' })
+  }
+
+  const form = payload.form || {}
+  if (!form.name || !form.email) {
+    return res.status(400).json({ error: 'Name and email are required' })
+  }
+
+  const services = Array.isArray(payload.services) ? payload.services : []
+  const addons = Array.isArray(payload.addons) ? payload.addons : []
+  const dietary = Array.isArray(payload.dietary) ? payload.dietary : []
+  const quote = payload.quote || { low: 0, high: 0, lines: [] }
+  const range = formatRange(quote.low, quote.high)
+
+  let groceries = { sections: [], estimatedCost: 0, assumptions: [] }
+  try {
+    groceries = buildGroceryList(
+      {
+        guests: form.guests,
+        services,
+        role: payload.role,
+        sizes: payload.sizes,
+        quantities: payload.quantities,
+        addons,
+      },
+      BOARD_SIZES,
+    )
+  } catch {
+    // A shopping list is a bonus; never let it block the inquiry.
+  }
+
+  const flagged = payload.unusualRequest || /budget|cheap|afford|custom|special request/i.test(form.notes || '')
+
+  const ownerHtml = `
+    <div style="font-family:Georgia,serif;max-width:640px;margin:0 auto;color:#2c2c2c">
+      ${flagged ? '<p style="background:#fdf3e3;border-left:3px solid #c4a265;padding:12px 16px;font-size:14px;margin:0 0 20px"><strong>Needs your eyes.</strong> This inquiry mentions a custom request or a budget constraint.</p>' : ''}
+      <h1 style="font-size:22px;margin:0 0 4px">New inquiry — ${esc(form.eventType || 'Event')}</h1>
+      <p style="color:#7a7168;font-size:14px;margin:0 0 22px">${esc(form.name)} · ${esc(form.date || 'no date given')} · ${esc(form.guests || '?')} guests</p>
+
+      <table style="border-collapse:collapse;width:100%;margin-bottom:24px">
+        ${row('Name', form.name)}
+        ${row('Email', form.email)}
+        ${row('Phone', form.phone)}
+        ${row('Event', form.eventType)}
+        ${row('Date', form.date)}
+        ${row('Guests', form.guests)}
+        ${row('City', form.city)}
+        ${row('Venue', form.venue)}
+        ${row('Budget', form.budget)}
+        ${row('Services', services.map(serviceName).join(', '))}
+        ${row('Add-ons', addons.map(addonName).join(', '))}
+        ${row('Dietary', dietary.join(', '))}
+        ${row('Table role', payload.role === 'main' ? 'Main food' : 'Appetizer / grazing')}
+      </table>
+
+      ${form.notes ? `<h2 style="font-size:15px;margin:0 0 6px">Their notes</h2><p style="font-size:14px;line-height:1.6;white-space:pre-wrap;margin:0 0 24px">${esc(form.notes)}</p>` : ''}
+
+      <h2 style="font-size:15px;margin:0 0 8px">Estimate shown to them</h2>
+      <p style="font-size:20px;color:#a8863f;margin:0 0 8px">${esc(range || 'none')}</p>
+      <table style="border-collapse:collapse;width:100%;margin-bottom:24px">
+        ${(quote.lines || []).map((l) => `<tr><td style="padding:4px 14px 4px 0;font-size:13px;color:#7a7168">${esc(l.label)}</td><td style="padding:4px 0;font-size:13px;text-align:right">${esc(formatRange(l.low, l.high))}</td></tr>`).join('')}
+      </table>
+
+      ${groceries.sections.length ? `
+        <h2 style="font-size:15px;margin:0 0 4px">Shopping list</h2>
+        <p style="color:#7a7168;font-size:12px;margin:0 0 12px">Auto-generated. Estimated food cost <strong>$${groceries.estimatedCost}</strong> against a ${esc(range || 'n/a')} quote.</p>
+        ${groceries.sections.map((s) => `
+          <p style="font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:#a8863f;margin:16px 0 6px">${esc(s.section)}</p>
+          <table style="border-collapse:collapse;width:100%">
+            ${s.items.map((i) => `<tr><td style="padding:3px 14px 3px 0;font-size:13px">${esc(i.name)}</td><td style="padding:3px 0;font-size:13px;color:#7a7168;white-space:nowrap">${esc(i.buy)}</td></tr>`).join('')}
+          </table>`).join('')}
+      ` : ''}
+
+      <p style="margin-top:28px;font-size:13px;color:#7a7168">
+        Reply straight to this email to reach ${esc(form.name)}.
+      </p>
+    </div>`
+
+  const customerHtml = `
+    <div style="font-family:Georgia,serif;max-width:560px;margin:0 auto;color:#2c2c2c">
+      <h1 style="font-size:22px;margin:0 0 16px">Thank you, ${esc(form.name.split(' ')[0])}!</h1>
+      <p style="font-size:15px;line-height:1.7;margin:0 0 20px">
+        We have your inquiry for ${esc(form.eventType || 'your event')}${form.date ? ` on ${esc(form.date)}` : ''}${form.guests ? ` for ${esc(form.guests)} guests` : ''}.
+        Aiyana will come back to you within 24 hours with a firm quote.
+      </p>
+      ${range ? `
+        <p style="font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:#a8863f;margin:0 0 6px">Your estimate</p>
+        <p style="font-size:24px;margin:0 0 6px">${esc(range)}</p>
+        <p style="font-size:12px;color:#7a7168;margin:0 0 24px">An estimate, not a final quote — we tailor every event.</p>` : ''}
+      <p style="font-size:15px;line-height:1.7;margin:0 0 20px">
+        Something you forgot to mention? Just reply to this email, or call
+        <a href="tel:+15027358428" style="color:#a8863f">(502) 735-8428</a>.
+      </p>
+      <p style="font-size:13px;color:#7a7168;border-top:1px solid #e6e0d8;padding-top:16px">
+        Gourmet Grazin' · Grazing tables, charcuterie &amp; corporate catering across Central Kentucky<br>
+        5.0 stars from 45 Google reviews
+      </p>
+    </div>`
+
+  const subject = `${flagged ? '[Needs you] ' : ''}Inquiry — ${form.eventType || 'Event'} · ${form.guests || '?'} guests · ${form.date || 'no date'}`
+
+  const [ownerSent] = await Promise.all([
+    sendEmail({ to: OWNER_EMAIL, subject, html: ownerHtml, replyTo: form.email }),
+    sendEmail({ to: form.email, subject: "We've got your inquiry — Gourmet Grazin'", html: customerHtml }),
+  ])
+
+  // Log the payload so nothing is lost even if mail is not wired up yet.
+  if (!ownerSent) {
+    console.log('INQUIRY (email not configured):', JSON.stringify({ form, services, addons, dietary, range }))
+  }
+
+  return res.status(200).json({ ok: true, emailed: ownerSent })
+}

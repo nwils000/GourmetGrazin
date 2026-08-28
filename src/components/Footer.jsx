@@ -1,17 +1,19 @@
 import { Instagram } from 'lucide-react'
 import { Link } from 'react-router-dom'
+import { SERVICE_AREAS } from '../data/serviceAreas'
 
 export default function Footer() {
   return (
     <footer className="bg-charcoal text-cream py-16" role="contentinfo">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
-        <div className="grid md:grid-cols-3 gap-12">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12">
           {/* Brand */}
           <div>
             <h3 className="font-serif text-2xl text-cream mb-4 tracking-wide">Gourmet Grazin'</h3>
             <p className="text-cream/80 font-light text-sm leading-relaxed max-w-xs">
               Elevated charcuterie and custom mobile carts for weddings, showers, parties,
-              and more. Proudly serving Kentucky.
+              and more. Serving Lexington, Georgetown, Frankfort, and the rest of Central
+              Kentucky.
             </p>
           </div>
 
@@ -19,6 +21,7 @@ export default function Footer() {
           <nav aria-label="Footer navigation">
             <h4 className="text-xs tracking-[0.2em] uppercase mb-6 text-cream/80">Navigation</h4>
             <div className="space-y-3">
+              <Link to="/inquire" className="block text-cream/80 text-sm font-light hover:text-gold transition-colors duration-300">Get a Quote</Link>
               <a
                 href="#about"
                 className="block text-cream/80 text-sm font-light hover:text-gold transition-colors duration-300"
@@ -27,11 +30,28 @@ export default function Footer() {
               </a>
               <Link to="/luxury-cart-experiences" className="block text-cream/80 text-sm font-light hover:text-gold transition-colors duration-300">Luxury Cart Experiences</Link>
               <Link to="/grazing-tables" className="block text-cream/80 text-sm font-light hover:text-gold transition-colors duration-300">Grazing Tables</Link>
+              <Link to="/corporate-catering" className="block text-cream/80 text-sm font-light hover:text-gold transition-colors duration-300">Corporate Catering</Link>
               <Link to="/charcuterie-classes" className="block text-cream/80 text-sm font-light hover:text-gold transition-colors duration-300">Charcuterie Classes</Link>
-              <Link to="/shop" className="block text-cream/80 text-sm font-light hover:text-gold transition-colors duration-300">Shop</Link>
+              <Link to="/menu" className="block text-cream/80 text-sm font-light hover:text-gold transition-colors duration-300">Menu &amp; Pricing</Link>
               <Link to="/gallery" className="block text-cream/80 text-sm font-light hover:text-gold transition-colors duration-300">Gallery</Link>
               <Link to="/meet-the-owners" className="block text-cream/80 text-sm font-light hover:text-gold transition-colors duration-300">Meet the Owners</Link>
               <Link to="/faq" className="block text-cream/80 text-sm font-light hover:text-gold transition-colors duration-300">FAQ</Link>
+            </div>
+          </nav>
+
+          {/* Service Areas */}
+          <nav aria-label="Service areas">
+            <h4 className="text-xs tracking-[0.2em] uppercase mb-6 text-cream/80">Service Areas</h4>
+            <div className="space-y-3">
+              {SERVICE_AREAS.map((area) => (
+                <Link
+                  key={area.slug}
+                  to={`/${area.slug}`}
+                  className="block text-cream/80 text-sm font-light hover:text-gold transition-colors duration-300"
+                >
+                  Charcuterie Catering in {area.city}
+                </Link>
+              ))}
             </div>
           </nav>
 
@@ -61,8 +81,16 @@ export default function Footer() {
               </a>
             </div>
 
-            <address className="mt-8 not-italic">
-              <p className="text-cream/70 text-xs tracking-wide">Kentucky, United States</p>
+            <address className="mt-8 not-italic space-y-2">
+              <a
+                href="tel:+15027358428"
+                className="block text-cream/80 text-sm font-light hover:text-gold transition-colors duration-300"
+              >
+                (502) 735-8428
+              </a>
+              <p className="text-cream/70 text-xs tracking-wide">
+                Serving Central Kentucky
+              </p>
             </address>
           </div>
         </div>

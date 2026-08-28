@@ -29,10 +29,10 @@ export default function CTA({ onInquire }) {
                 Inquire Now
               </button>
               <Link
-                to="/shop"
+                to="/menu"
                 className="border border-charcoal text-charcoal px-10 py-4 text-xs tracking-[0.2em] uppercase hover:bg-charcoal hover:text-cream transition-all duration-300 inline-block text-center"
               >
-                Shop the Collection
+                See the Menu
               </Link>
             </div>
           </div>

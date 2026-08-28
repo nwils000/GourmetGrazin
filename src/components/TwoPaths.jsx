@@ -64,16 +64,16 @@ export default function TwoPaths({ onInquire }) {
             <div className="p-8 lg:p-10 flex flex-col flex-1">
               <p className="text-gold-accessible text-xs tracking-[0.3em] uppercase mb-3">Order Online</p>
               <h3 className="font-serif text-2xl md:text-3xl mb-4 group-hover:text-gold transition-colors duration-300">
-                Shop the <em className="text-gold-heading">collection.</em>
+                Browse the <em className="text-gold-heading">menu.</em>
               </h3>
               <p className="text-charcoal-light leading-relaxed font-light mb-8 flex-1">
                 Handcrafted boards, cups, boxes, bundles, and engraved keepsakes, shipped across Kentucky.
               </p>
               <Link
-                to="/shop"
+                to="/menu"
                 className="self-start bg-charcoal text-cream px-8 py-4 text-xs tracking-[0.2em] uppercase hover:bg-gold transition-colors duration-300"
               >
-                Shop the Collection &rarr;
+                See the Menu &rarr;
               </Link>
             </div>
           </article>

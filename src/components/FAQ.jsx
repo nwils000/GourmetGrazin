@@ -67,9 +67,9 @@ export default function FAQ() {
           <p className={`text-gold-accessible text-xs tracking-[0.3em] uppercase mb-4 fade-in-up ${isVisible ? 'visible' : ''}`}>
             FAQ
           </p>
-          <h2 className={`font-serif text-4xl md:text-5xl leading-[1.1] fade-in-up fade-in-up-delay-1 ${isVisible ? 'visible' : ''}`}>
+          <h1 className={`font-serif text-4xl md:text-5xl leading-[1.1] fade-in-up fade-in-up-delay-1 ${isVisible ? 'visible' : ''}`}>
             Frequently Asked Questions
-          </h2>
+          </h1>
           <p className={`text-charcoal-light font-light mt-4 fade-in-up fade-in-up-delay-2 ${isVisible ? 'visible' : ''}`}>
             Everything you need to know about working with us.
           </p>
