@@ -17,6 +17,12 @@ function SectionDivider() {
 
 const options = [
   {
+    title: 'Corporate Grazing Tables',
+    price: 'priced per guest · 20-200+ guests',
+    description:
+      'The centrepiece for client receptions, office open houses, and holiday parties. A styled grazing table of artisan cheeses, cured meats, seasonal fruit and gourmet accompaniments, built and styled on site and cleared away afterward.',
+  },
+  {
     title: 'Artisan Lunch Boxes',
     price: 'from $18 per box · 10 minimum',
     description:
@@ -41,12 +47,6 @@ const options = [
       'Mini pastries, bagels and spreads, yogurt parfaits, and fresh fruit for early starts and morning meetings.',
   },
   {
-    title: 'Grazing Tables',
-    price: 'priced per guest',
-    description:
-      'For client events, open houses, and holiday parties. A styled centerpiece that gets people out of their chairs and talking.',
-  },
-  {
     title: 'Charcuterie Cups & Boxes',
     price: 'from $5 per serving',
     description:
@@ -55,6 +55,10 @@ const options = [
 ]
 
 const whyUs = [
+  {
+    title: 'A grazing table does the work for you',
+    body: 'Plated lunches keep people seated. A grazing table gets them up, moving and talking, which is usually the point of a client event or an office open house in the first place.',
+  },
   {
     title: 'One invoice, one contact',
     body: 'You deal with Aiyana directly, from the first email to the final delivery. No call centre, no account manager rotation.',
@@ -77,10 +81,10 @@ const SCHEMA = [
   {
     '@context': 'https://schema.org',
     '@type': 'Service',
-    name: 'Corporate & Office Catering in Lexington, KY',
-    serviceType: ['Corporate Catering', 'Office Lunch Catering', 'Charcuterie Catering'],
+    name: 'Corporate Catering & Grazing Tables in Lexington, KY',
+    serviceType: ['Corporate Catering', 'Grazing Table Catering', 'Office Lunch Catering', 'Charcuterie Catering'],
     description:
-      'Corporate lunch catering in Lexington and Central Kentucky: artisan lunch boxes, sandwich trays, breakfast trays, and grazing tables for meetings, client events, and office celebrations.',
+      'Corporate catering in Lexington and Central Kentucky: grazing tables for client events and office parties, plus artisan lunch boxes, sandwich trays and breakfast trays for meetings.',
     provider: {
       '@type': 'CateringService',
       '@id': 'https://www.gourmetgrazinky.com/#business',
@@ -132,6 +136,22 @@ const SCHEMA = [
       },
       {
         '@type': 'Question',
+        name: 'Do you do grazing tables for corporate events?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Yes — corporate grazing tables are one of our most requested services. We build and style the table on site for client receptions, office open houses, holiday parties and company milestones, from 20 to 200+ guests, then clear everything away afterward.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'How much does a corporate grazing table cost in Lexington?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Grazing tables are priced per guest and the rate comes down as the headcount rises. The quickest way to get a number is our inquiry form, which prices your event on the spot and shows the delivery cost for your city before you send anything.',
+        },
+      },
+      {
+        '@type': 'Question',
         name: 'Can you invoice our company?',
         acceptedAnswer: {
           '@type': 'Answer',
@@ -149,9 +169,9 @@ export default function CorporateCateringPage() {
   const [ctaRef, ctaVisible] = useInView()
 
   useSEO({
-    title: 'Corporate & Office Lunch Catering in Lexington, KY',
+    title: 'Corporate Catering & Grazing Tables in Lexington, KY',
     description:
-      'Corporate catering in Lexington KY: artisan lunch boxes from $18, sandwich trays, breakfast trays and grazing tables for meetings and client events. Delivered and set up. 5.0 stars.',
+      'Corporate catering in Lexington KY: grazing tables for client events, artisan lunch boxes from $18, sandwich trays and breakfast trays for meetings. Delivered and set up. 5.0 stars.',
     path: '/corporate-catering',
     jsonLd: SCHEMA,
   })
@@ -165,14 +185,15 @@ export default function CorporateCateringPage() {
               Corporate &amp; Office Catering
             </p>
             <h1 className={`font-serif text-5xl sm:text-6xl md:text-7xl leading-[1.05] mb-8 fade-in-up fade-in-up-delay-1 ${heroVisible ? 'visible' : ''}`}>
-              Lunch your team
+              Corporate catering
               <br />
-              <em className="text-gold-heading">actually looks forward to.</em>
+              <em className="text-gold-heading">your team looks forward to.</em>
             </h1>
             <p className={`text-charcoal-light text-lg md:text-xl font-light leading-relaxed fade-in-up fade-in-up-delay-2 ${heroVisible ? 'visible' : ''}`}>
-              Artisan lunch boxes, sandwich trays, breakfast spreads, and grazing tables
-              for offices across Lexington and Central Kentucky. Delivered, set up, and
-              cleared away, so nobody on your team has to think about it.
+              Grazing tables for client events and office parties, plus artisan lunch
+              boxes, sandwich trays and breakfast spreads for everyday meetings. Serving
+              offices across Lexington and Central Kentucky, delivered, set up and cleared
+              away, so nobody on your team has to think about it.
             </p>
             <div className={`flex items-center justify-center lg:justify-start gap-3 mt-8 fade-in-up fade-in-up-delay-3 ${heroVisible ? 'visible' : ''}`}>
               <span className="flex gap-0.5" aria-hidden="true">
@@ -209,7 +230,7 @@ export default function CorporateCateringPage() {
               What Teams Order
             </p>
             <h2 className={`font-serif text-3xl md:text-4xl lg:text-5xl leading-[1.1] fade-in-up fade-in-up-delay-1 ${optVisible ? 'visible' : ''}`}>
-              Built for a <em className="text-gold-heading">working day.</em>
+              Grazing tables &amp; lunch, <em className="text-gold-heading">built for a working day.</em>
             </h2>
           </header>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 max-w-5xl mx-auto">
@@ -264,8 +285,9 @@ export default function CorporateCateringPage() {
             Get pricing in <em className="text-gold-heading">under a minute.</em>
           </h2>
           <p className={`text-charcoal-light text-base md:text-lg font-light leading-relaxed mb-10 fade-in-up fade-in-up-delay-2 ${ctaVisible ? 'visible' : ''}`}>
-            Tell us your headcount and date and the form prices it for you on the spot.
-            We invoice businesses directly and set up standing orders on request.
+            Tell us your headcount and date and the form prices your grazing table or
+            lunch order on the spot. We invoice businesses directly and set up standing
+            orders on request.
           </p>
           <div className={`flex flex-col sm:flex-row items-center justify-center gap-4 fade-in-up fade-in-up-delay-3 ${ctaVisible ? 'visible' : ''}`}>
             <Link

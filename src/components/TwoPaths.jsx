@@ -12,10 +12,10 @@ export default function TwoPaths({ onInquire }) {
             Two Ways to Grazin'
           </p>
           <h2 className={`font-serif text-4xl md:text-5xl leading-[1.1] mb-6 fade-in-up fade-in-up-delay-1 ${isVisible ? 'visible' : ''}`}>
-            Plan an event, or <em className="text-gold-heading">shop tonight.</em>
+            Grazing tables, or <em className="text-gold-heading">something smaller.</em>
           </h2>
           <p className={`text-charcoal-light leading-relaxed font-light fade-in-up fade-in-up-delay-2 ${isVisible ? 'visible' : ''}`}>
-            Bring our mobile cart and team to your celebration, or order handcrafted boards, cups, bundles, and engraved keepsakes direct from our shop.
+            Bring a styled grazing table, our mobile cart and team to your celebration, or order handcrafted charcuterie boards, cups and boxes for something more intimate.
           </p>
         </header>
 

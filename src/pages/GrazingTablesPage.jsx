@@ -22,16 +22,18 @@ const whatWeProvide = [
 ]
 
 const eventTypes = [
+  { title: 'Corporate & Client Events', description: 'A grazing table gets people out of their chairs and talking. The easiest way to make an office open house, client reception, or holiday party feel considered rather than catered.' },
   { title: 'Weddings & Receptions', description: 'Make your big day unforgettable with a stunning grazing display that keeps guests mingling and celebrating.' },
-  { title: 'Corporate Events', description: 'Impress clients and colleagues with an elevated catering experience that sparks conversation and connection.' },
   { title: 'Bridal & Baby Showers', description: 'A beautifully curated spread that serves as both a centerpiece and a crowd-pleaser for your celebration.' },
   { title: 'Holiday & Private Parties', description: 'From intimate gatherings to large-scale events, our grazing tables bring warmth and sophistication to any occasion.' },
 ]
 
 const whyChooseUs = [
-  'Each table is curated and styled to be both a feast for the eyes and the palate',
+  'Each grazing table is curated and styled to be both a feast for the eyes and the palate',
+  'Corporate grazing tables scale from a 20-person client reception to a 200-guest company party',
   'Perfect for creating Instagram-worthy moments at your event',
   'Custom options available for dietary restrictions, color schemes, and event themes',
+  'We invoice businesses directly, and standing orders for recurring events are welcome',
 ]
 
 const SERVICE_SCHEMA = {
@@ -91,9 +93,9 @@ export default function GrazingTablesPage() {
             <h1
               className={`font-serif text-5xl sm:text-6xl md:text-7xl leading-[1.05] mb-8 fade-in-up fade-in-up-delay-1 ${heroVisible ? 'visible' : ''}`}
             >
-              Stunning spreads,
+              Grazing tables
               <br />
-              <em className="text-gold-heading">unforgettable impact.</em>
+              <em className="text-gold-heading">that stop the room.</em>
             </h1>
             <p
               className={`text-charcoal-light text-lg md:text-xl font-light leading-relaxed fade-in-up fade-in-up-delay-2 ${heroVisible ? 'visible' : ''}`}
@@ -133,7 +135,7 @@ export default function GrazingTablesPage() {
             <h2
               className={`font-serif text-3xl md:text-4xl lg:text-5xl leading-[1.1] fade-in-up fade-in-up-delay-1 ${provideVisible ? 'visible' : ''}`}
             >
-              What we <em className="text-gold-heading">provide.</em>
+              What's on a <em className="text-gold-heading">grazing table.</em>
             </h2>
           </header>
           <ul className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 max-w-4xl mx-auto list-none">
@@ -168,7 +170,7 @@ export default function GrazingTablesPage() {
             <h2
               className={`font-serif text-3xl md:text-4xl lg:text-5xl leading-[1.1] fade-in-up fade-in-up-delay-1 ${sizesVisible ? 'visible' : ''}`}
             >
-              Perfect for every <em className="text-gold-heading">occasion.</em>
+              Grazing tables for every <em className="text-gold-heading">occasion.</em>
             </h2>
             <p
               className={`text-charcoal-light text-base md:text-lg max-w-xl mx-auto font-light leading-relaxed mt-6 fade-in-up fade-in-up-delay-2 ${sizesVisible ? 'visible' : ''}`}
@@ -208,7 +210,7 @@ export default function GrazingTablesPage() {
             <h2
               className={`font-serif text-3xl md:text-4xl lg:text-5xl leading-[1.1] fade-in-up fade-in-up-delay-1 ${whyVisible ? 'visible' : ''}`}
             >
-              More than a table, <em className="text-gold-heading">an experience.</em>
+              Why hosts choose <em className="text-gold-heading">our grazing tables.</em>
             </h2>
           </header>
           <ul className="max-w-3xl mx-auto space-y-6 list-none">

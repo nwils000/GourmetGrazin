@@ -14,7 +14,7 @@ export default function Hero({ onInquire }) {
               Elevated Charcuterie & Custom Mobile Carts
             </p>
             <h1 className={`font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl leading-[1.05] mb-8 fade-in-up fade-in-up-delay-1 ${isVisible ? 'visible' : ''}`}>
-              Elevated charcuterie
+              Grazing tables &amp; charcuterie
               <br />
               <em className="text-gold-heading">for every celebration.</em>
             </h1>
