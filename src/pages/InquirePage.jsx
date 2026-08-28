@@ -217,6 +217,9 @@ export default function InquirePage() {
       // would return HTML. Require the JSON contract before claiming success.
       const data = await res.json().catch(() => null)
       if (!data || data.ok !== true) throw new Error('unexpected response')
+      // The inquiry is recorded, but if mail delivery is not configured yet it
+      // has not actually reached Aiyana. Never imply it did.
+      if (data.emailed === false) throw new Error('not delivered')
       setSubmit({
         status: 'sent',
         message: "Got it. Aiyana will come back to you within 24 hours — usually much sooner.",
