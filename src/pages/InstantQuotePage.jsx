@@ -1,6 +1,6 @@
 import { useState, useMemo, useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
-import { Star, Check, Loader2, Sparkles, AlertCircle } from 'lucide-react'
+import { Star, Check, Loader2, Sparkles, AlertCircle, Lock } from 'lucide-react'
 import useSEO from '../hooks/useSEO'
 import { MENU, MENU_BY_ID, BOARD_SIZES } from '../data/menu'
 import {
@@ -116,6 +116,11 @@ export default function InstantQuotePage() {
   const [sizes, setSizes] = useState({})
   const [dietary, setDietary] = useState([])
   const [role, setRole] = useState('appetizer')
+
+  // The estimate is the thing people want, so it is what earns the contact
+  // details. They build the quote first, then unlock the number -- by which
+  // point they have invested enough effort that the ask converts well.
+  const [unlocked, setUnlocked] = useState(false)
 
   const [aiText, setAiText] = useState('')
   const [aiState, setAiState] = useState({ status: 'idle', message: '' })
@@ -256,10 +261,13 @@ export default function InstantQuotePage() {
 
   async function handleSubmit(e) {
     e.preventDefault()
-    if (!form.name || !form.email) {
-      setSubmit({ status: 'error', message: 'We need a name and an email to send your quote.' })
+    if (!form.name || !form.email || !form.phone) {
+      setSubmit({ status: 'error', message: 'We need your name, email and phone to send your quote.' })
       return
     }
+    // Reveal immediately. The lead is already captured below, so a slow or
+    // failed send never costs them the number they came for.
+    setUnlocked(true)
     setSubmit({ status: 'sending', message: '' })
     const payload = { form, services, addons, sizes, dietary, role, quote, availability }
     try {
@@ -273,9 +281,9 @@ export default function InstantQuotePage() {
       // would return HTML. Require the JSON contract before claiming success.
       const data = await res.json().catch(() => null)
       if (!data || data.ok !== true) throw new Error('unexpected response')
-      // The inquiry is recorded, but if mail delivery is not configured yet it
-      // has not actually reached Aiyana. Never imply it did.
-      if (data.emailed === false) throw new Error('not delivered')
+      // Only claim it reached her if something actually carried it -- email or
+      // the Zapier hook. Otherwise fall back rather than imply delivery.
+      if (data.emailed === false && data.zapped !== true) throw new Error('not delivered')
       setSubmit({
         status: 'sent',
         message: "Got it. Aiyana will come back to you within 24 hours — usually much sooner.",
@@ -548,21 +556,9 @@ export default function InstantQuotePage() {
               </div>
             </fieldset>
 
-            <h2 className="font-serif text-2xl mt-10 mb-6">How to reach you</h2>
-            <div className="grid sm:grid-cols-2 gap-x-6">
-              <Field label="Name" htmlFor="name">
-                <input id="name" required value={form.name} onChange={set('name')} className={inputClass} />
-              </Field>
-              <Field label="Email" htmlFor="email">
-                <input id="email" type="email" required value={form.email} onChange={set('email')} className={inputClass} />
-              </Field>
-              <Field label="Phone" htmlFor="phone">
-                <input id="phone" type="tel" value={form.phone} onChange={set('phone')} className={inputClass} />
-              </Field>
-              <Field label="Budget in mind" hint="Optional. We work with a range." htmlFor="budget">
-                <input id="budget" value={form.budget} onChange={set('budget')} placeholder="e.g. around $800" className={inputClass} />
-              </Field>
-            </div>
+            <Field label="Budget in mind" hint="Optional. We work with a range." htmlFor="budget">
+              <input id="budget" value={form.budget} onChange={set('budget')} placeholder="e.g. around $800" className={inputClass} />
+            </Field>
 
             <Field label="Anything else?" hint="Themes, colors, a request you have not seen us offer — ask." htmlFor="notes">
               <textarea id="notes" rows={4} value={form.notes} onChange={set('notes')} className={inputClass} />
@@ -574,10 +570,35 @@ export default function InstantQuotePage() {
             <div className="border border-taupe/50 bg-warm-white p-7">
               <h2 className="font-serif text-xl mb-1">Your estimate</h2>
               <p className="text-charcoal-light text-xs font-light mb-5">
-                Updates as you choose. Final pricing confirmed by Aiyana.
+                {unlocked
+                  ? 'Updates as you choose. Final pricing confirmed by Aiyana.'
+                  : 'Built from what you have chosen. Tell us where to send it.'}
               </p>
 
-              {quote.hasEstimate ? (
+              {!quote.hasEstimate && (
+                <p className="text-charcoal-light text-sm font-light mb-5">
+                  Choose a guest count and what you are thinking, and your estimate
+                  appears here.
+                </p>
+              )}
+
+              {quote.hasEstimate && !unlocked && (
+                <div className="mb-6">
+                  <div className="flex items-center gap-2 mb-3">
+                    <Lock size={14} className="text-gold" aria-hidden="true" />
+                    <p className="text-charcoal text-sm">Your estimate is ready</p>
+                  </div>
+                  <p className="font-serif text-3xl text-gold-heading select-none blur-[7px]" aria-hidden="true">
+                    $0,000 – $0,000
+                  </p>
+                  <p className="text-charcoal-light text-xs font-light mt-3">
+                    {quote.lines.length} item{quote.lines.length === 1 ? '' : 's'}, delivery to{' '}
+                    {form.city || 'your city'} included.
+                  </p>
+                </div>
+              )}
+
+              {quote.hasEstimate && unlocked && (
                 <>
                   <p className="font-serif text-3xl text-gold-heading mb-5">
                     {formatRange(quote.low, quote.high)}
@@ -597,19 +618,31 @@ export default function InstantQuotePage() {
                       </li>
                     ))}
                   </ul>
+                  {quote.notes.map((n, i) => (
+                    <p key={i} className="text-charcoal-light text-xs font-light mb-2 flex gap-2">
+                      <AlertCircle size={13} className="text-gold flex-shrink-0 mt-0.5" aria-hidden="true" />
+                      {n}
+                    </p>
+                  ))}
                 </>
-              ) : (
-                <p className="text-charcoal-light text-sm font-light mb-5">
-                  Choose a guest count and what you are thinking, and your estimate appears here.
-                </p>
               )}
 
-              {quote.notes.map((n, i) => (
-                <p key={i} className="text-charcoal-light text-xs font-light mb-2 flex gap-2">
-                  <AlertCircle size={13} className="text-gold flex-shrink-0 mt-0.5" aria-hidden="true" />
-                  {n}
-                </p>
-              ))}
+              {!unlocked && (
+                <div className="border-t border-taupe/40 pt-5 space-y-3">
+                  <div>
+                    <label htmlFor="name" className="block text-charcoal text-sm mb-1.5">Name</label>
+                    <input id="name" required value={form.name} onChange={set('name')} className={inputClass} />
+                  </div>
+                  <div>
+                    <label htmlFor="email" className="block text-charcoal text-sm mb-1.5">Email</label>
+                    <input id="email" type="email" required value={form.email} onChange={set('email')} className={inputClass} />
+                  </div>
+                  <div>
+                    <label htmlFor="phone" className="block text-charcoal text-sm mb-1.5">Phone</label>
+                    <input id="phone" type="tel" required value={form.phone} onChange={set('phone')} className={inputClass} />
+                  </div>
+                </div>
+              )}
 
               <div className="border-t border-taupe/40 mt-5 pt-5">
                 <p className="text-gold-accessible text-[10px] tracking-[0.25em] uppercase mb-2">
@@ -622,12 +655,18 @@ export default function InstantQuotePage() {
 
               <button
                 type="submit"
-                disabled={submit.status === 'sending'}
-                className="w-full mt-6 bg-charcoal text-cream px-6 py-4 text-xs tracking-[0.2em] uppercase hover:bg-gold transition-colors disabled:opacity-50 inline-flex items-center justify-center gap-2"
+                disabled={submit.status === 'sending' || !quote.hasEstimate}
+                className="w-full mt-6 bg-charcoal text-cream px-6 py-4 text-xs tracking-[0.2em] uppercase hover:bg-gold transition-colors disabled:opacity-40 disabled:cursor-not-allowed inline-flex items-center justify-center gap-2"
               >
                 {submit.status === 'sending' && <Loader2 size={13} className="animate-spin" aria-hidden="true" />}
-                Send My Inquiry
+                {unlocked ? 'Send Updated Details' : 'Show My Estimate'}
               </button>
+
+              {!unlocked && (
+                <p className="text-charcoal-light text-[11px] font-light mt-3 text-center">
+                  No obligation. We will send your quote and follow up within 24 hours.
+                </p>
+              )}
 
               <div ref={resultRef}>
                 {submit.status === 'sent' && (

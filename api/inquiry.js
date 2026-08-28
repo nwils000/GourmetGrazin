@@ -166,6 +166,44 @@ export default async function handler(req, res) {
       </p>
     </div>`
 
+  // Zapier catch hook: one flat payload Aiyana can map to a HoneyBook project,
+  // a spreadsheet row, or anything else, without touching this code again.
+  const zapUrl = process.env.ZAPIER_WEBHOOK_URL
+  let zapped = false
+  if (zapUrl) {
+    try {
+      const zapRes = await fetch(zapUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: form.name,
+          email: form.email,
+          phone: form.phone,
+          event_type: form.eventType,
+          event_date: form.date,
+          guests: form.guests,
+          city: form.city,
+          venue: form.venue,
+          budget: form.budget,
+          services: services.map(serviceName).join(', '),
+          addons: addons.map(addonName).join(', '),
+          dietary: dietary.join(', '),
+          notes: form.notes,
+          estimate_low: quote.low,
+          estimate_high: quote.high,
+          estimate_range: range || '',
+          needs_attention: flagged,
+          grocery_cost_estimate: groceries.estimatedCost,
+          shopping_list_url: groceryLink(form, services, addons, payload),
+          submitted_at: new Date().toISOString(),
+        }),
+      })
+      zapped = zapRes.ok
+    } catch {
+      // A Zapier outage must never lose the inquiry; the email still goes.
+    }
+  }
+
   const subject = `${flagged ? '[Needs you] ' : ''}Inquiry — ${form.eventType || 'Event'} · ${form.guests || '?'} guests · ${form.date || 'no date'}`
 
   const [ownerSent] = await Promise.all([
@@ -178,5 +216,5 @@ export default async function handler(req, res) {
     console.log('INQUIRY (email not configured):', JSON.stringify({ form, services, addons, dietary, range }))
   }
 
-  return res.status(200).json({ ok: true, emailed: ownerSent })
+  return res.status(200).json({ ok: true, emailed: ownerSent, zapped })
 }
