@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { Star } from 'lucide-react'
 import HoneyBookForm from '../components/HoneyBookForm'
 import useSEO from '../hooks/useSEO'
@@ -12,11 +12,15 @@ import { SERVICE_AREAS } from '../data/serviceAreas'
 // data/features.js when it is ready to take real customers.
 
 export default function InquirePage() {
+  // This page serves both /inquire and /book depending on which form is live,
+  // so the canonical has to follow where it actually is.
+  const { pathname } = useLocation()
+
   useSEO({
     title: 'Book Grazing Tables & Charcuterie Catering',
     description:
       'Tell us about your event and we will come back within 24 hours with a quote. Grazing tables, charcuterie and corporate catering across Lexington and Central Kentucky. 5.0 stars from 45 reviews.',
-    path: '/inquire',
+    path: pathname === '/book' ? '/book' : '/inquire',
   })
 
   return (
@@ -30,9 +34,9 @@ export default function InquirePage() {
             <em className="text-gold-heading">celebrating.</em>
           </h1>
           <p className="text-charcoal-light text-lg font-light leading-relaxed max-w-2xl mx-auto">
+            Pick your date and time, build your cart, and secure it with your deposit.
             Grazing tables, charcuterie boards, mobile carts and corporate catering across
-            Central Kentucky. Send us your date and guest count and we will come back with
-            a quote within 24 hours &mdash; usually much sooner.
+            Central Kentucky.
           </p>
           <div className="flex items-center justify-center gap-3 mt-6">
             <span className="flex gap-0.5" aria-hidden="true">

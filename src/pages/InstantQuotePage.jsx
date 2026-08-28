@@ -12,6 +12,7 @@ import {
   DELIVERY_CITIES,
 } from '../data/quote'
 import { REVIEW_COUNT, REVIEW_RATING } from '../data/reviews'
+import { INSTANT_QUOTE_LIVE } from '../data/features'
 import { CART_BUILDER, PREMIUM_ITEMS, CONTACT_METHODS, REFERRAL_SOURCES, TERMS } from '../data/cartMenu'
 
 const EVENT_TYPES = [
@@ -100,11 +101,11 @@ function Chip({ active, onClick, children, sub }) {
 
 export default function InstantQuotePage() {
   useSEO({
-    title: 'Instant Quote (Preview)',
+    title: INSTANT_QUOTE_LIVE ? 'Get an Instant Quote' : 'Instant Quote (Preview)',
     description:
-      'Preview of the instant quote form: pricing, availability and delivery cost in seconds.',
-    path: '/inquire/preview',
-    noindex: true,
+      'Tell us about your event and get pricing, availability and delivery cost in seconds. Grazing tables, charcuterie and corporate catering across Central Kentucky.',
+    path: INSTANT_QUOTE_LIVE ? '/inquire' : '/inquire/preview',
+    noindex: !INSTANT_QUOTE_LIVE,
   })
 
   const [form, setForm] = useState({
@@ -315,9 +316,11 @@ export default function InstantQuotePage() {
       {/* Hero */}
       <section className="pt-36 pb-10 px-6 lg:px-8" aria-label="Request a quote">
         <div className="max-w-6xl mx-auto text-center">
-          <p className="inline-block border border-gold/60 bg-gold/10 text-gold-accessible text-[11px] tracking-[0.2em] uppercase px-4 py-2 mb-6">
-            Preview &middot; not yet live for customers
-          </p>
+          {!INSTANT_QUOTE_LIVE && (
+            <p className="inline-block border border-gold/60 bg-gold/10 text-gold-accessible text-[11px] tracking-[0.2em] uppercase px-4 py-2 mb-6">
+              Preview &middot; not yet live for customers
+            </p>
+          )}
           <p className="text-gold-accessible text-xs tracking-[0.3em] uppercase mb-4">Get a Quote</p>
           <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl leading-[1.05] mb-6">
             Pricing and availability,
@@ -811,10 +814,10 @@ export default function InstantQuotePage() {
 
               {unlocked && (
                 <Link
-                  to="/inquire"
+                  to="/book"
                   className="block w-full mt-3 border border-charcoal/30 text-charcoal text-center px-6 py-4 text-xs tracking-[0.2em] uppercase hover:border-gold hover:text-gold transition-colors"
                 >
-                  Ready? Book Your Date &rarr;
+                  Ready? Pick Your Date &amp; Book &rarr;
                 </Link>
               )}
 

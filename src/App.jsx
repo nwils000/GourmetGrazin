@@ -86,9 +86,11 @@ function App() {
           <Suspense fallback={<PageLoader />}>
             <Routes>
               <Route path="/" element={<HomePage onInquire={handleInquire} />} />
-              {/* HoneyBook today; flip INSTANT_QUOTE_LIVE to swap in the new form */}
+              {/* /inquire is the front door; /book is always the HoneyBook form,
+                  which is where the deposit and the calendar slot actually happen. */}
               <Route path="/inquire" element={INSTANT_QUOTE_LIVE ? <InstantQuotePage /> : <InquirePage />} />
               <Route path="/inquire/preview" element={<InstantQuotePage />} />
+              <Route path="/book" element={<InquirePage />} />
               <Route path="/menu" element={<MenuPage />} />
               <Route path="/grazing-tables" element={<GrazingTablesPage />} />
               <Route path="/corporate-catering" element={<CorporateCateringPage />} />
