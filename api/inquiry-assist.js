@@ -159,6 +159,19 @@ export function sanitize(out, today) {
   }
 }
 
+// Backstop against a runaway bill. Per-instance, so treat it as a ceiling on
+// damage rather than an exact quota -- the real cap is the spend limit on the
+// Anthropic account. Override with ASSIST_DAILY_CAP.
+const DAILY_CAP = () => Number(process.env.ASSIST_DAILY_CAP || 250)
+let dailyCount = { day: '', n: 0 }
+
+function underDailyCap(today) {
+  if (dailyCount.day !== today) dailyCount = { day: today, n: 0 }
+  if (dailyCount.n >= DAILY_CAP()) return false
+  dailyCount.n += 1
+  return true
+}
+
 const CONFIGURED = () => Boolean(process.env.ANTHROPIC_API_KEY)
 
 // en-CA renders as YYYY-MM-DD. Kentucky time, not the server's.
@@ -214,11 +227,16 @@ export default async function handler(req, res) {
 
   const today = todayInKentucky()
 
+  if (!underDailyCap(today)) {
+    console.warn('assist: daily cap reached')
+    return res.status(429).json({ error: 'The helper is resting for today — please fill the form in below.' })
+  }
+
   try {
     const client = new Anthropic()
     const response = await client.messages.parse({
       model: MODEL,
-      max_tokens: 4000,
+      max_tokens: 1500,
       system: buildSystem(today),
       // Extraction is simple, but the rules are strict and the input is
       // untrusted; medium gives reliable instruction-following without the
