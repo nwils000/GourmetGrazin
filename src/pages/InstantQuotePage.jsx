@@ -12,6 +12,7 @@ import {
   DELIVERY_CITIES,
 } from '../data/quote'
 import { REVIEW_COUNT, REVIEW_RATING } from '../data/reviews'
+import { CART_BUILDER, PREMIUM_ITEMS, CONTACT_METHODS, REFERRAL_SOURCES, TERMS } from '../data/cartMenu'
 
 const EVENT_TYPES = [
   'Wedding or reception',
@@ -107,10 +108,14 @@ export default function InstantQuotePage() {
   })
 
   const [form, setForm] = useState({
-    name: '', email: '', phone: '',
-    eventType: '', date: '', guests: '', city: 'Lexington',
+    name: '', email: '', phone: '', contactMethod: 'Any', referral: '',
+    eventType: '', date: '', time: '', guests: '', city: 'Lexington',
     venue: '', budget: '', notes: '',
   })
+  // Build-your-cart picks, keyed by group id.
+  const [cart, setCart] = useState({})
+  const [premium, setPremium] = useState([])
+  const [agreed, setAgreed] = useState(false)
   const [services, setServices] = useState([])
   const [addons, setAddons] = useState([])
   const [sizes, setSizes] = useState({})
@@ -150,8 +155,8 @@ export default function InstantQuotePage() {
     setList((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]))
 
   const quote = useMemo(
-    () => estimate({ guests: form.guests, services, addons, city: form.city, sizes }),
-    [form.guests, form.city, services, addons, sizes],
+    () => estimate({ guests: form.guests, services, addons, city: form.city, sizes, premium }),
+    [form.guests, form.city, services, addons, sizes, premium],
   )
   // Instant answer from the local rules, then confirmed against the real
   // calendar when one is connected. The local result always shows first so the
@@ -265,11 +270,15 @@ export default function InstantQuotePage() {
       setSubmit({ status: 'error', message: 'We need your name, email and phone to send your quote.' })
       return
     }
+    if (!agreed) {
+      setSubmit({ status: 'error', message: 'Please read and agree to the terms before we book you in.' })
+      return
+    }
     // Reveal immediately. The lead is already captured below, so a slow or
     // failed send never costs them the number they came for.
     setUnlocked(true)
     setSubmit({ status: 'sending', message: '' })
-    const payload = { form, services, addons, sizes, dietary, role, quote, availability }
+    const payload = { form, services, addons, sizes, dietary, role, quote, availability, cart, premium, agreedToTerms: agreed }
     try {
       const res = await fetch('/api/inquiry', {
         method: 'POST',
@@ -420,6 +429,10 @@ export default function InstantQuotePage() {
                 />
               </Field>
 
+              <Field label="Preferred start time" hint="Optional — helps us plan the day." htmlFor="time">
+                <input id="time" type="time" value={form.time} onChange={set('time')} className={inputClass} />
+              </Field>
+
               <Field label="City" htmlFor="city">
                 <select id="city" value={form.city} onChange={set('city')} className={inputClass}>
                   {DELIVERY_CITIES.map((c) => (
@@ -429,9 +442,23 @@ export default function InstantQuotePage() {
               </Field>
             </div>
 
-            <Field label="Venue or address" hint="Optional — helps us plan load-in." htmlFor="venue">
+            <Field label="Event address" hint="Where we are setting up. Helps us plan load-in and confirm delivery." htmlFor="venue">
               <input id="venue" value={form.venue} onChange={set('venue')} className={inputClass} />
             </Field>
+
+            <div className="grid sm:grid-cols-2 gap-x-6">
+              <Field label="Best way to reach you" htmlFor="contactMethod">
+                <select id="contactMethod" value={form.contactMethod} onChange={set('contactMethod')} className={inputClass}>
+                  {CONTACT_METHODS.map((m) => (<option key={m} value={m}>{m}</option>))}
+                </select>
+              </Field>
+              <Field label="How did you hear about us?" htmlFor="referral">
+                <select id="referral" value={form.referral} onChange={set('referral')} className={inputClass}>
+                  <option value="">Select one</option>
+                  {REFERRAL_SOURCES.map((r) => (<option key={r} value={r}>{r}</option>))}
+                </select>
+              </Field>
+            </div>
 
             <h2 className="font-serif text-2xl mt-10 mb-6">What are you thinking?</h2>
             <p className="text-charcoal-light text-sm font-light mb-6 -mt-4">
@@ -543,6 +570,94 @@ export default function InstantQuotePage() {
               </div>
             </fieldset>
 
+            {services.some((id) => CART_PACKAGES.some((c) => c.id === id)) && (
+              <div className="border border-gold/40 bg-warm-white p-6 mb-8">
+                <h3 className="font-serif text-lg mb-1">Build your cart</h3>
+                <p className="text-charcoal-light text-xs font-light mb-5">
+                  Pick what you would like on it. Not sure? Leave it and we will suggest a mix.
+                </p>
+                {CART_BUILDER.map((group) => {
+                  const chosen = cart[group.id] || []
+                  const full = chosen.length >= group.choose
+                  return (
+                    <fieldset key={group.id} className="mb-5">
+                      <legend className="text-charcoal text-sm mb-1">
+                        {group.label}{' '}
+                        <span className="text-charcoal-light text-xs">
+                          (choose {group.choose}{chosen.length ? ` — ${chosen.length} selected` : ''})
+                        </span>
+                      </legend>
+                      <div className="flex flex-wrap gap-2 mt-2">
+                        {group.options.map((opt) => {
+                          const on = chosen.includes(opt)
+                          const disabled = !on && full
+                          return (
+                            <button
+                              key={opt}
+                              type="button"
+                              aria-pressed={on}
+                              disabled={disabled}
+                              onClick={() =>
+                                // Derive from the live state, not the render
+                                // closure: two quick clicks would otherwise both
+                                // read the same stale array and lose one.
+                                setCart((c) => {
+                                  const cur = c[group.id] || []
+                                  const isOn = cur.includes(opt)
+                                  if (!isOn && cur.length >= group.choose) return c
+                                  return {
+                                    ...c,
+                                    [group.id]: isOn ? cur.filter((x) => x !== opt) : [...cur, opt],
+                                  }
+                                })
+                              }
+                              className={`border px-3 py-1.5 text-xs font-light transition-colors ${
+                                on
+                                  ? 'border-gold bg-gold/10 text-charcoal'
+                                  : disabled
+                                    ? 'border-taupe/30 text-charcoal-light/40 cursor-not-allowed'
+                                    : 'border-taupe/50 text-charcoal-light hover:border-gold/50'
+                              }`}
+                            >
+                              {opt}
+                            </button>
+                          )
+                        })}
+                      </div>
+                    </fieldset>
+                  )
+                })}
+                <fieldset>
+                  <legend className="text-charcoal text-sm mb-1">
+                    Premium items{' '}
+                    <span className="text-charcoal-light text-xs">(+$1 per guest, per item)</span>
+                  </legend>
+                  <div className="flex flex-wrap gap-2 mt-2">
+                    {PREMIUM_ITEMS.options.map((opt) => {
+                      const on = premium.includes(opt)
+                      return (
+                        <button
+                          key={opt}
+                          type="button"
+                          aria-pressed={on}
+                          onClick={() =>
+                            setPremium((pv) =>
+                              pv.includes(opt) ? pv.filter((x) => x !== opt) : [...pv, opt],
+                            )
+                          }
+                          className={`border px-3 py-1.5 text-xs font-light transition-colors ${
+                            on ? 'border-gold bg-gold/10 text-charcoal' : 'border-taupe/50 text-charcoal-light hover:border-gold/50'
+                          }`}
+                        >
+                          {opt}
+                        </button>
+                      )
+                    })}
+                  </div>
+                </fieldset>
+              </div>
+            )}
+
             <fieldset className="mb-8">
               <legend className="text-gold-accessible text-xs tracking-[0.25em] uppercase mb-3">
                 Dietary needs
@@ -559,6 +674,32 @@ export default function InstantQuotePage() {
             <Field label="Budget in mind" hint="Optional. We work with a range." htmlFor="budget">
               <input id="budget" value={form.budget} onChange={set('budget')} placeholder="e.g. around $800" className={inputClass} />
             </Field>
+
+            <details className="border border-taupe/50 bg-warm-white mb-8 px-5">
+              <summary className="cursor-pointer py-4 text-charcoal text-sm">
+                Booking terms &mdash; please read before you book
+              </summary>
+              <ul className="list-none pb-5 space-y-2">
+                {TERMS.map((t, i) => (
+                  <li key={i} className="text-charcoal-light text-xs font-light flex gap-2">
+                    <span className="text-gold flex-shrink-0" aria-hidden="true">&#10047;</span>
+                    {t}
+                  </li>
+                ))}
+              </ul>
+            </details>
+
+            <label className="flex items-start gap-3 mb-8 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={agreed}
+                onChange={(e) => setAgreed(e.target.checked)}
+                className="mt-1 accent-gold"
+              />
+              <span className="text-charcoal-light text-sm font-light">
+                I have read and agree to the booking terms above.
+              </span>
+            </label>
 
             <Field label="Anything else?" hint="Themes, colors, a request you have not seen us offer — ask." htmlFor="notes">
               <textarea id="notes" rows={4} value={form.notes} onChange={set('notes')} className={inputClass} />

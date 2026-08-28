@@ -114,12 +114,23 @@ export default async function handler(req, res) {
         ${row('Guests', form.guests)}
         ${row('City', form.city)}
         ${row('Venue', form.venue)}
+        ${row('Time', form.time)}
         ${row('Budget', form.budget)}
+        ${row('Best contact', form.contactMethod)}
+        ${row('Heard about us', form.referral)}
         ${row('Services', services.map(serviceName).join(', '))}
         ${row('Add-ons', addons.map(addonName).join(', '))}
         ${row('Dietary', dietary.join(', '))}
         ${row('Table role', payload.role === 'main' ? 'Main food' : 'Appetizer / grazing')}
+        ${row('Premium items', (payload.premium || []).join(', '))}
+        ${row('Agreed to terms', payload.agreedToTerms ? 'Yes' : 'NO — follow up')}
       </table>
+
+      ${Object.keys(payload.cart || {}).length ? `
+        <h2 style="font-size:15px;margin:0 0 6px">Cart selections</h2>
+        <table style="border-collapse:collapse;width:100%;margin-bottom:24px">
+          ${Object.entries(payload.cart).filter(([, v]) => (v || []).length).map(([k, v]) => row(k, (v || []).join(', '))).join('')}
+        </table>` : ''}
 
       ${form.notes ? `<h2 style="font-size:15px;margin:0 0 6px">Their notes</h2><p style="font-size:14px;line-height:1.6;white-space:pre-wrap;margin:0 0 24px">${esc(form.notes)}</p>` : ''}
 
@@ -185,6 +196,15 @@ export default async function handler(req, res) {
           city: form.city,
           venue: form.venue,
           budget: form.budget,
+          preferred_contact: form.contactMethod,
+          heard_about_us: form.referral,
+          event_time: form.time,
+          agreed_to_terms: Boolean(payload.agreedToTerms),
+          cart_selections: Object.entries(payload.cart || {})
+            .map(([k, v]) => `${k}: ${(v || []).join(', ')}`)
+            .filter((line) => !line.endsWith(': '))
+            .join(' | '),
+          premium_items: (payload.premium || []).join(', '),
           services: services.map(serviceName).join(', '),
           addons: addons.map(addonName).join(', '),
           dietary: dietary.join(', '),

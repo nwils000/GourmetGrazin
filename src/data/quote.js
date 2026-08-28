@@ -49,19 +49,20 @@ export const ADDONS = [
 ]
 
 // --- Delivery -------------------------------------------------------------
-// Flat fee per city, covering the drive, load-in, setup, and breakdown.
-// `null` means "we will confirm" rather than guessing.
+// Matches the published policy: free within 20 miles of the Georgetown base,
+// then $25-$100 by distance. `null` means "we will confirm" rather than guess.
 export const DELIVERY_FEES = {
-  Lexington: 25,
-  Nicholasville: 30,
-  Versailles: 30,
-  Georgetown: 35,
-  Winchester: 40,
-  Frankfort: 45,
+  Georgetown: 0,
+  Lexington: 0,
+  Frankfort: 0,
+  Versailles: 0,
+  Nicholasville: 25,
+  Winchester: 35,
   Richmond: 45,
-  Louisville: 95,
+  Louisville: 100,
   Other: null,
 }
+export const FREE_DELIVERY_RADIUS_MILES = 20
 
 export const DELIVERY_CITIES = [
   ...SERVICE_AREAS.map((a) => a.city),
@@ -199,6 +200,19 @@ export function estimate(input) {
     }
   }
 
+  const premiumCount = (input.premium || []).length
+  if (premiumCount && guests) {
+    const total = premiumCount * guests
+    lines.push({
+      label: `Premium items ×${premiumCount}`,
+      low: total,
+      high: total,
+      detail: `$1 per guest, per item`,
+    })
+    low += total
+    high += total
+  }
+
   for (const id of addons) {
     const addon = ADDONS.find((a) => a.id === id)
     if (!addon) continue
@@ -211,7 +225,12 @@ export function estimate(input) {
     ? DELIVERY_FEES[input.city]
     : null
   if (fee !== null && (low > 0 || high > 0)) {
-    lines.push({ label: `Delivery, setup & breakdown — ${input.city}`, low: fee, high: fee, detail: 'flat' })
+    lines.push({
+      label: `Delivery, setup & breakdown — ${input.city}`,
+      low: fee,
+      high: fee,
+      detail: fee === 0 ? `free, within ${FREE_DELIVERY_RADIUS_MILES} miles of us` : 'flat',
+    })
     low += fee
     high += fee
   } else if (input.city && low > 0) {
