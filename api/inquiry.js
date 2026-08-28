@@ -8,7 +8,7 @@
 import { MENU_BY_ID, BOARD_SIZES } from '../src/data/menu.js'
 import { CART_PACKAGES, ADDONS, formatRange } from '../src/data/quote.js'
 import { buildGroceryList } from '../src/data/groceries.js'
-import { readJson, sendEmail, OWNER_EMAIL, esc } from './_shared.js'
+import { readJson, sendEmail, OWNER_EMAIL, esc, looksAutomated, isSameOrigin, clientKey, rateLimit } from './_shared.js'
 
 function serviceName(id) {
   return MENU_BY_ID[id]?.name || CART_PACKAGES.find((c) => c.id === id)?.name || id
@@ -28,11 +28,26 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' })
   }
 
+  if (!isSameOrigin(req)) {
+    return res.status(403).json({ error: 'Forbidden' })
+  }
+
   let payload
   try {
     payload = await readJson(req)
   } catch {
     return res.status(400).json({ error: 'Invalid JSON' })
+  }
+
+  // Look successful to a bot so it stops trying, but send nothing.
+  if (looksAutomated(payload)) {
+    return res.status(200).json({ ok: true, emailed: true })
+  }
+
+  const limit = rateLimit('inquiry:' + clientKey(req), { limit: 8, windowMs: 60 * 60 * 1000 })
+  if (!limit.ok) {
+    res.setHeader('Retry-After', String(limit.retryAfter))
+    return res.status(429).json({ error: 'Too many inquiries from here. Call (502) 735-8428 and we will sort it out.' })
   }
 
   const form = payload.form || {}

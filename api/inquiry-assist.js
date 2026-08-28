@@ -9,7 +9,7 @@ import { z } from 'zod'
 import { zodOutputFormat } from '@anthropic-ai/sdk/helpers/zod'
 import { MENU } from '../src/data/menu.js'
 import { CART_PACKAGES, ADDONS, DELIVERY_CITIES } from '../src/data/quote.js'
-import { readJson, MODEL } from './_shared.js'
+import { readJson, MODEL, looksAutomated, isSameOrigin, clientKey, rateLimit } from './_shared.js'
 
 const SERVICE_IDS = [...MENU.map((m) => m.id), ...CART_PACKAGES.map((c) => c.id)]
 const ADDON_IDS = ADDONS.map((a) => a.id)
@@ -38,23 +38,50 @@ Rules:
 - Set unusualRequest to true for anything off-menu (a specific dish we do not list) or any mention of a tight budget.
 - The summary speaks to the customer, warmly and briefly.`
 
+const CONFIGURED = () => Boolean(process.env.ANTHROPIC_API_KEY)
+
 export default async function handler(req, res) {
+  // The page asks whether assist is switched on, so it can hide the feature
+  // rather than show a button that cannot work. No key, no LLM call, no cost.
+  if (req.method === 'GET') {
+    res.setHeader('Cache-Control', 'public, max-age=300')
+    return res.status(200).json({ enabled: CONFIGURED() })
+  }
   if (req.method !== 'POST') {
-    res.setHeader('Allow', 'POST')
+    res.setHeader('Allow', 'GET, POST')
     return res.status(405).json({ error: 'Method not allowed' })
   }
-  if (!process.env.ANTHROPIC_API_KEY) {
+  if (!CONFIGURED()) {
     return res.status(503).json({ error: 'Assist is not configured' })
   }
+  if (!isSameOrigin(req)) {
+    return res.status(403).json({ error: 'Forbidden' })
+  }
 
-  let text
+  let body
   try {
-    ({ text } = await readJson(req))
+    body = await readJson(req)
   } catch {
     return res.status(400).json({ error: 'Invalid JSON' })
   }
+
+  // Silently no-op for bots: they get a plausible reply and no model call.
+  if (looksAutomated(body)) {
+    return res.status(200).json({ fields: {}, services: [], addons: [], dietary: [], summary: '' })
+  }
+
+  const limit = rateLimit('assist:' + clientKey(req), { limit: 6, windowMs: 10 * 60 * 1000 })
+  if (!limit.ok) {
+    res.setHeader('Retry-After', String(limit.retryAfter))
+    return res.status(429).json({ error: 'That is a lot of tries — give it a minute, or just fill the form in.' })
+  }
+
+  const { text } = body
   if (typeof text !== 'string' || !text.trim()) {
     return res.status(400).json({ error: 'Nothing to read' })
+  }
+  if (text.length > 2000) {
+    return res.status(413).json({ error: 'That is longer than we can read — trim it down a little.' })
   }
 
   try {
@@ -65,7 +92,7 @@ export default async function handler(req, res) {
       system: SYSTEM,
       // Straightforward extraction; low effort keeps it fast and cheap.
       output_config: { effort: 'low', format: zodOutputFormat(Extraction) },
-      messages: [{ role: 'user', content: text.slice(0, 4000) }],
+      messages: [{ role: 'user', content: text.slice(0, 2000) }],
     })
 
     const out = response.parsed_output

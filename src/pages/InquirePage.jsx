@@ -121,6 +121,24 @@ export default function InquirePage() {
   const [submit, setSubmit] = useState({ status: 'idle', message: '' })
   const resultRef = useRef(null)
 
+  // Anti-abuse. The trap fields are invisible to people and left empty; bots
+  // fill every input they find. `mountedAt` catches scripted posts, which
+  // arrive far faster than anyone can actually type.
+  const mountedAt = useRef(Date.now())
+  const [trap, setTrap] = useState({ website_url: '', company_fax: '' })
+  const guardFields = () => ({ ...trap, elapsedMs: Date.now() - mountedAt.current })
+
+  // null until we know; the assist box stays hidden unless it can really work.
+  const [assistEnabled, setAssistEnabled] = useState(null)
+  useEffect(() => {
+    let alive = true
+    fetch('/api/inquiry-assist')
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d) => alive && setAssistEnabled(Boolean(d && d.enabled)))
+      .catch(() => alive && setAssistEnabled(false))
+    return () => { alive = false }
+  }, [])
+
   const set = (k) => (e) => setForm((f) => ({ ...f, [k]: e.target.value }))
   const toggle = (list, setList) => (id) =>
     setList((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]))
@@ -145,8 +163,13 @@ export default function InquirePage() {
       const res = await fetch('/api/inquiry-assist', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ text: aiText }),
+        body: JSON.stringify({ text: aiText, ...guardFields() }),
       })
+      if (res.status === 429 || res.status === 413) {
+        const info = await res.json().catch(() => null)
+        setAiState({ status: 'error', message: (info && info.error) || 'Try again shortly.' })
+        return
+      }
       if (!res.ok) throw new Error(`assist unavailable (${res.status})`)
       const data = await res.json().catch(() => null)
       if (!data) throw new Error('unexpected response')
@@ -210,7 +233,7 @@ export default function InquirePage() {
       const res = await fetch('/api/inquiry', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
+        body: JSON.stringify({ ...payload, ...guardFields() }),
       })
       if (!res.ok) throw new Error(String(res.status))
       // A 200 alone is not proof: if the function is missing, the SPA fallback
@@ -269,7 +292,28 @@ export default function InquirePage() {
         <div className="grid lg:grid-cols-[1fr_380px] gap-10 lg:gap-14 items-start">
           {/* ---------------- Form ---------------- */}
           <div>
-            {/* AI assist */}
+            {/* Hidden from people, irresistible to bots. Not display:none, which
+                some bots skip; positioned off-screen instead. */}
+            <div
+              aria-hidden="true"
+              style={{ position: 'absolute', left: '-9999px', top: '-9999px', width: 1, height: 1, overflow: 'hidden' }}
+            >
+              <label htmlFor="website_url">Website</label>
+              <input
+                id="website_url" name="website_url" type="text" tabIndex={-1} autoComplete="off"
+                value={trap.website_url}
+                onChange={(e) => setTrap((t) => ({ ...t, website_url: e.target.value }))}
+              />
+              <label htmlFor="company_fax">Fax</label>
+              <input
+                id="company_fax" name="company_fax" type="text" tabIndex={-1} autoComplete="off"
+                value={trap.company_fax}
+                onChange={(e) => setTrap((t) => ({ ...t, company_fax: e.target.value }))}
+              />
+            </div>
+
+            {/* AI assist — only rendered once the server confirms it is on */}
+            {assistEnabled && (
             <div className="border border-gold/40 bg-warm-white p-6 mb-10">
               <div className="flex items-center gap-2 mb-2">
                 <Sparkles size={16} className="text-gold" aria-hidden="true" />
@@ -306,6 +350,7 @@ export default function InquirePage() {
                 )}
               </div>
             </div>
+            )}
 
             <h2 className="font-serif text-2xl mb-6">Your event</h2>
 
