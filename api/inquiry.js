@@ -97,7 +97,15 @@ export default async function handler(req, res) {
     // A shopping list is a bonus; never let it block the inquiry.
   }
 
-  const flagged = payload.unusualRequest || /budget|cheap|afford|custom|special request/i.test(form.notes || '')
+  // The assist sets unusualRequest when it runs, but plenty of people type
+  // straight into the notes. These phrases are how an off-menu or
+  // budget-constrained request actually reads when someone writes it by hand.
+  const ASKS_FOR_SOMETHING_ELSE =
+    /budget|cheap|afford|discount|custom|special request|can you do|could you do|do you (also )?(do|offer|make)|is it possible|instead of|not on the (menu|list)|allerg/i
+  const flagged =
+    Boolean(payload.unusualRequest) ||
+    ASKS_FOR_SOMETHING_ELSE.test(form.notes || '') ||
+    ASKS_FOR_SOMETHING_ELSE.test(form.budget || '')
 
   const ownerHtml = `
     <div style="font-family:Georgia,serif;max-width:640px;margin:0 auto;color:#2c2c2c">
@@ -179,6 +187,28 @@ export default async function handler(req, res) {
 
   // Zapier catch hook: one flat payload Aiyana can map to a HoneyBook project,
   // a spreadsheet row, or anything else, without touching this code again.
+  // HoneyBook's Zapier action maps field by field, so give it the shapes it
+  // expects: names split, a ready-made project title, and one readable block
+  // that can be dropped straight into the project notes.
+  const nameParts = String(form.name || '').trim().split(/\s+/)
+  const firstName = nameParts[0] || ''
+  const lastName = nameParts.slice(1).join(' ')
+  const projectName = [form.name, form.eventType, form.date].filter(Boolean).join(' — ')
+  const summaryBlock = [
+    `${form.eventType || 'Event'}${form.date ? ` on ${form.date}` : ''}${form.guests ? ` for ${form.guests} guests` : ''}`,
+    form.city ? `Location: ${form.city}${form.venue ? ` — ${form.venue}` : ''}` : '',
+    services.length ? `Wants: ${services.map(serviceName).join(', ')}` : '',
+    addons.length ? `Add-ons: ${addons.map(addonName).join(', ')}` : '',
+    dietary.length ? `Dietary: ${dietary.join(', ')}` : '',
+    (payload.premium || []).length ? `Premium items: ${payload.premium.join(', ')}` : '',
+    range ? `Estimate shown: ${range}` : '',
+    form.budget ? `Their budget: ${form.budget}` : '',
+    form.contactMethod ? `Prefers contact by: ${form.contactMethod}` : '',
+    form.referral ? `Heard about us via: ${form.referral}` : '',
+    flagged ? 'NEEDS ATTENTION: custom request or budget concern.' : '',
+    form.notes ? `\nTheir notes:\n${form.notes}` : '',
+  ].filter(Boolean).join('\n')
+
   const zapUrl = process.env.ZAPIER_WEBHOOK_URL
   let zapped = false
   if (zapUrl) {
@@ -188,6 +218,10 @@ export default async function handler(req, res) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           name: form.name,
+          first_name: firstName,
+          last_name: lastName,
+          project_name: projectName,
+          inquiry_summary: summaryBlock,
           email: form.email,
           phone: form.phone,
           event_type: form.eventType,
