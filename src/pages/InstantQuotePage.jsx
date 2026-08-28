@@ -809,6 +809,15 @@ export default function InstantQuotePage() {
                 </p>
               )}
 
+              {unlocked && (
+                <Link
+                  to="/inquire"
+                  className="block w-full mt-3 border border-charcoal/30 text-charcoal text-center px-6 py-4 text-xs tracking-[0.2em] uppercase hover:border-gold hover:text-gold transition-colors"
+                >
+                  Ready? Book Your Date &rarr;
+                </Link>
+              )}
+
               <div ref={resultRef}>
                 {submit.status === 'sent' && (
                   <p className="mt-4 text-sm font-light text-charcoal border border-gold/50 bg-gold/10 p-4" role="status">

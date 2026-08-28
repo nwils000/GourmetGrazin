@@ -38,6 +38,11 @@ export default function handler(req, res) {
       },
     },
     optional: {
+      'Shopping list from HoneyBook bookings': {
+        on: set('HONEYBOOK_WEBHOOK_SECRET') && set('RESEND_API_KEY'),
+        needs: 'HONEYBOOK_WEBHOOK_SECRET, RESEND_API_KEY',
+        note: 'Lets the HoneyBook form stay exactly as it is. HoneyBook fires a Zap on each new booking, this builds the costed shopping list and emails it over.',
+      },
       'Email straight from the site': {
         on: set('RESEND_API_KEY'),
         needs: 'RESEND_API_KEY, FROM_EMAIL, OWNER_EMAIL',

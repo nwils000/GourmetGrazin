@@ -125,6 +125,14 @@ Output: everything empty, unusualRequest false, summary inviting them to add det
  * calendar. This is the guarantee: whatever the model returns, only values that
  * exist and make sense ever reach the form. Exported so it can be tested.
  */
+/** Read a blob of text into sanitised fields. Shared with the HoneyBook hook. */
+export async function extractFromText(text) {
+  if (!CONFIGURED()) return null
+  const today = todayInKentucky()
+  const out = await extract(buildSystem(today), `<customer_text>\n${text}\n</customer_text>`)
+  return out ? sanitize(out, today) : null
+}
+
 export function sanitize(out, today) {
   const services = [...new Set((out.services || []).filter((id) => SERVICE_IDS.includes(id)))]
   const addons = [...new Set((out.addons || []).filter((id) => ADDON_IDS.includes(id)))]
@@ -182,6 +190,7 @@ function provider() {
   return null
 }
 const CONFIGURED = () => provider() !== null
+export const assistConfigured = CONFIGURED
 
 // Structured outputs, one schema, both providers.
 async function extract(system, text) {
