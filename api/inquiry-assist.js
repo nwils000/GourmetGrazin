@@ -8,6 +8,7 @@
 // seconds to fill, a wrong one can cost a booking. When in doubt, leave it.
 
 import Anthropic from '@anthropic-ai/sdk'
+import OpenAI from 'openai'
 import { z } from 'zod'
 import { zodOutputFormat } from '@anthropic-ai/sdk/helpers/zod'
 import { MENU, MENU_BY_ID } from '../src/data/menu.js'
@@ -172,7 +173,56 @@ function underDailyCap(today) {
   return true
 }
 
-const CONFIGURED = () => Boolean(process.env.ANTHROPIC_API_KEY)
+// Either provider can drive this. OpenAI wins when both are set, so a key
+// borrowed for a prototype can be swapped for the business's own later without
+// touching anything but the environment.
+function provider() {
+  if (process.env.OPENAI_API_KEY) return 'openai'
+  if (process.env.ANTHROPIC_API_KEY) return 'anthropic'
+  return null
+}
+const CONFIGURED = () => provider() !== null
+
+// Structured outputs, one schema, both providers.
+async function extract(system, text) {
+  if (provider() === 'openai') {
+    const client = new OpenAI()
+    const schema = z.toJSONSchema(Extraction)
+    delete schema.$schema // OpenAI rejects the draft marker
+    const completion = await client.chat.completions.create({
+      model: process.env.OPENAI_MODEL || 'gpt-4o-mini',
+      max_tokens: 1500,
+      messages: [
+        { role: 'system', content: system },
+        { role: 'user', content: text },
+      ],
+      response_format: {
+        type: 'json_schema',
+        json_schema: { name: 'inquiry_extraction', strict: true, schema },
+      },
+    })
+    const raw = completion.choices?.[0]?.message?.content
+    if (!raw) return null
+    try {
+      return JSON.parse(raw)
+    } catch {
+      return null
+    }
+  }
+
+  const client = new Anthropic()
+  const response = await client.messages.parse({
+    model: MODEL,
+    max_tokens: 1500,
+    system,
+    // Extraction is simple, but the rules are strict and the input is
+    // untrusted; medium gives reliable instruction-following without the
+    // latency of a higher tier.
+    output_config: { effort: 'medium', format: zodOutputFormat(Extraction) },
+    messages: [{ role: 'user', content: text }],
+  })
+  return response.parsed_output
+}
 
 // en-CA renders as YYYY-MM-DD. Kentucky time, not the server's.
 function todayInKentucky() {
@@ -186,7 +236,7 @@ export default async function handler(req, res) {
   // rather than show a button that cannot work. No key, no LLM call, no cost.
   if (req.method === 'GET') {
     res.setHeader('Cache-Control', 'public, max-age=300')
-    return res.status(200).json({ enabled: CONFIGURED() })
+    return res.status(200).json({ enabled: CONFIGURED(), provider: provider() })
   }
   if (req.method !== 'POST') {
     res.setHeader('Allow', 'GET, POST')
@@ -233,34 +283,23 @@ export default async function handler(req, res) {
   }
 
   try {
-    const client = new Anthropic()
-    const response = await client.messages.parse({
-      model: MODEL,
-      max_tokens: 1500,
-      system: buildSystem(today),
-      // Extraction is simple, but the rules are strict and the input is
-      // untrusted; medium gives reliable instruction-following without the
-      // latency of a higher tier.
-      output_config: { effort: 'medium', format: zodOutputFormat(Extraction) },
-      messages: [
-        {
-          role: 'user',
-          // Fenced so the model can tell description from instruction.
-          content: `<customer_text>\n${text.slice(0, 2000)}\n</customer_text>`,
-        },
-      ],
-    })
-
-    const out = response.parsed_output
+    const out = await extract(
+      buildSystem(today),
+      // Fenced so the model can tell description from instruction.
+      `<customer_text>\n${text.slice(0, 2000)}\n</customer_text>`,
+    )
     if (!out) return res.status(502).json({ error: 'Could not read that' })
     return res.status(200).json(sanitize(out, today))
   } catch (err) {
-    if (err instanceof Anthropic.RateLimitError) {
+    const status = err?.status ?? err?.statusCode
+    if (err instanceof Anthropic.RateLimitError || status === 429) {
       return res.status(429).json({ error: 'Busy right now, try again in a moment' })
     }
-    if (err instanceof Anthropic.APIError) {
+    if (err instanceof Anthropic.APIError || (status >= 400 && status < 600)) {
+      console.error('assist provider error', provider(), status, err?.message)
       return res.status(502).json({ error: 'Assist unavailable' })
     }
+    console.error('assist failed', err?.message)
     return res.status(500).json({ error: 'Assist failed' })
   }
 }
