@@ -17,6 +17,25 @@ function addonName(id) {
   return ADDONS.find((a) => a.id === id)?.name || id
 }
 
+// Deep link into the shopping-list tool with this event already loaded, so
+// planning it later never means re-entering what the inquiry already said.
+function groceryLink(form, services, addons, payload) {
+  const q = new URLSearchParams()
+  const name = [form.name, form.eventType, form.date].filter(Boolean).join(' — ')
+  if (name) q.set('event', name)
+  if (form.guests) q.set('g', String(form.guests))
+  if (payload.role === 'main') q.set('role', 'main')
+  if (services.length) q.set('s', services.join(','))
+  if (addons.length) q.set('a', addons.join(','))
+  const pairs = (obj) =>
+    Object.entries(obj || {}).filter(([, v]) => v !== '' && v != null).map(([k, v]) => `${k}:${v}`).join(',')
+  const sz = pairs(payload.sizes)
+  if (sz) q.set('sz', sz)
+  const qty = pairs(payload.quantities)
+  if (qty) q.set('q', qty)
+  return `https://www.gourmetgrazinky.com/tools/grocery-list?${q.toString()}`
+}
+
 function row(label, value) {
   if (!value) return ''
   return `<tr><td style="padding:6px 14px 6px 0;color:#7a7168;font-size:13px;vertical-align:top;white-space:nowrap">${esc(label)}</td><td style="padding:6px 0;color:#2c2c2c;font-size:14px">${esc(value)}</td></tr>`
@@ -112,7 +131,8 @@ export default async function handler(req, res) {
 
       ${groceries.sections.length ? `
         <h2 style="font-size:15px;margin:0 0 4px">Shopping list</h2>
-        <p style="color:#7a7168;font-size:12px;margin:0 0 12px">Auto-generated. Estimated food cost <strong>$${groceries.estimatedCost}</strong> against a ${esc(range || 'n/a')} quote.</p>
+        <p style="color:#7a7168;font-size:12px;margin:0 0 10px">Auto-generated. Estimated food cost <strong>$${groceries.estimatedCost}</strong> against a ${esc(range || 'n/a')} quote.</p>
+        <p style="margin:0 0 16px"><a href="${esc(groceryLink(form, services, addons, payload))}" style="display:inline-block;background:#2c2c2c;color:#faf8f5;text-decoration:none;padding:9px 16px;font-size:12px;letter-spacing:.12em;text-transform:uppercase">Open this list to edit &amp; print</a></p>
         ${groceries.sections.map((s) => `
           <p style="font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:#a8863f;margin:16px 0 6px">${esc(s.section)}</p>
           <table style="border-collapse:collapse;width:100%">

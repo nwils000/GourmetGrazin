@@ -1,5 +1,6 @@
-import { useState, useMemo } from 'react'
-import { Printer } from 'lucide-react'
+import { useState, useMemo, useEffect } from 'react'
+import { useSearchParams } from 'react-router-dom'
+import { Printer, Copy, Check } from 'lucide-react'
 import useSEO from '../hooks/useSEO'
 import { MENU, MENU_BY_ID, BOARD_SIZES } from '../data/menu'
 import { buildGroceryList } from '../data/groceries'
@@ -19,6 +20,25 @@ const GROUPS = [
 const inputClass =
   'w-full bg-warm-white border border-taupe/50 px-3 py-2 text-charcoal text-sm font-light focus:border-gold focus:outline-none'
 
+// The whole tool's state lives in the URL, so an event can be opened straight
+// from its inquiry email, bookmarked, or sent to whoever is doing the shopping.
+const parseList = (v) => (v ? v.split(',').filter(Boolean) : [])
+const parsePairs = (v) =>
+  Object.fromEntries(parseList(v).map((pair) => pair.split(':')).filter((p) => p.length === 2))
+const encodePairs = (obj) =>
+  Object.entries(obj).filter(([, v]) => v !== '' && v != null).map(([k, v]) => `${k}:${v}`).join(',')
+
+function listToText(list, { eventName, guests }) {
+  const lines = [eventName || 'Shopping list', `${guests || 0} guests`, '']
+  for (const section of list.sections) {
+    lines.push(section.section.toUpperCase())
+    for (const item of section.items) lines.push(`  [ ] ${item.name} — ${item.buy}`)
+    lines.push('')
+  }
+  lines.push(`Estimated food cost: $${list.estimatedCost}`)
+  return lines.join('\n')
+}
+
 export default function GroceryListPage() {
   useSEO({
     title: 'Shopping List Builder',
@@ -27,13 +47,32 @@ export default function GroceryListPage() {
     noindex: true,
   })
 
-  const [guests, setGuests] = useState('40')
-  const [role, setRole] = useState('appetizer')
-  const [services, setServices] = useState(['grazing-table'])
-  const [quantities, setQuantities] = useState({})
-  const [sizes, setSizes] = useState({})
-  const [addons, setAddons] = useState([])
-  const [eventName, setEventName] = useState('')
+  const [params, setParams] = useSearchParams()
+  const [guests, setGuests] = useState(() => params.get('g') || '40')
+  const [role, setRole] = useState(() => (params.get('role') === 'main' ? 'main' : 'appetizer'))
+  const [services, setServices] = useState(() =>
+    params.has('s') ? parseList(params.get('s')) : ['grazing-table'])
+  const [quantities, setQuantities] = useState(() => parsePairs(params.get('q')))
+  const [sizes, setSizes] = useState(() => parsePairs(params.get('sz')))
+  const [addons, setAddons] = useState(() => parseList(params.get('a')))
+  const [eventName, setEventName] = useState(() => params.get('event') || '')
+  const [copied, setCopied] = useState(false)
+
+  // Keep the URL in step with the form so the page can always be shared or
+  // reopened exactly as it stands. replace:true keeps the back button usable.
+  useEffect(() => {
+    const next = new URLSearchParams()
+    if (eventName) next.set('event', eventName)
+    if (guests) next.set('g', guests)
+    if (role !== 'appetizer') next.set('role', role)
+    if (services.length) next.set('s', services.join(','))
+    if (addons.length) next.set('a', addons.join(','))
+    const sz = encodePairs(sizes)
+    if (sz) next.set('sz', sz)
+    const q = encodePairs(quantities)
+    if (q) next.set('q', q)
+    setParams(next, { replace: true })
+  }, [eventName, guests, role, services, addons, sizes, quantities, setParams])
 
   const toggle = (id) =>
     setServices((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]))
@@ -172,13 +211,32 @@ export default function GroceryListPage() {
                     {guests || 0} guests · {services.length} item{services.length === 1 ? '' : 's'}
                   </p>
                 </div>
-                <button
-                  type="button"
-                  onClick={() => window.print()}
-                  className="print:hidden border border-charcoal/30 text-charcoal px-4 py-2 text-xs tracking-[0.15em] uppercase hover:border-gold hover:text-gold transition-colors inline-flex items-center gap-2"
-                >
-                  <Printer size={13} aria-hidden="true" /> Print
-                </button>
+                <div className="print:hidden flex gap-2">
+                  <button
+                    type="button"
+                    onClick={async () => {
+                      try {
+                        await navigator.clipboard.writeText(listToText(list, { eventName, guests }))
+                        setCopied(true)
+                        setTimeout(() => setCopied(false), 2000)
+                      } catch {
+                        setCopied(false)
+                      }
+                    }}
+                    className="border border-charcoal/30 text-charcoal px-4 py-2 text-xs tracking-[0.15em] uppercase hover:border-gold hover:text-gold transition-colors inline-flex items-center gap-2"
+                  >
+                    {copied
+                      ? (<><Check size={13} aria-hidden="true" /> Copied</>)
+                      : (<><Copy size={13} aria-hidden="true" /> Copy</>)}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => window.print()}
+                    className="border border-charcoal/30 text-charcoal px-4 py-2 text-xs tracking-[0.15em] uppercase hover:border-gold hover:text-gold transition-colors inline-flex items-center gap-2"
+                  >
+                    <Printer size={13} aria-hidden="true" /> Print
+                  </button>
+                </div>
               </div>
 
               <div className="grid sm:grid-cols-3 gap-4 mb-8 pb-6 border-b border-taupe/40">
