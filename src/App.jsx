@@ -15,6 +15,7 @@ import Footer from './components/Footer'
 import ScrollToTop from './components/ScrollToTop'
 import useSEO from './hooks/useSEO'
 import { SERVICE_AREAS } from './data/serviceAreas'
+import { INSTANT_QUOTE_LIVE } from './data/features'
 
 // Lazy-loaded route chunks, only downloaded when visited
 const FAQPage = lazy(() => import('./pages/FAQPage'))
@@ -26,6 +27,7 @@ const CharcuterieClassesPage = lazy(() => import('./pages/CharcuterieClassesPage
 const CorporateCateringPage = lazy(() => import('./pages/CorporateCateringPage'))
 const MenuPage = lazy(() => import('./pages/MenuPage'))
 const InquirePage = lazy(() => import('./pages/InquirePage'))
+const InstantQuotePage = lazy(() => import('./pages/InstantQuotePage'))
 const GroceryListPage = lazy(() => import('./pages/GroceryListPage'))
 const ServiceAreaPage = lazy(() => import('./pages/ServiceAreaPage'))
 
@@ -84,7 +86,9 @@ function App() {
           <Suspense fallback={<PageLoader />}>
             <Routes>
               <Route path="/" element={<HomePage onInquire={handleInquire} />} />
-              <Route path="/inquire" element={<InquirePage />} />
+              {/* HoneyBook today; flip INSTANT_QUOTE_LIVE to swap in the new form */}
+              <Route path="/inquire" element={INSTANT_QUOTE_LIVE ? <InstantQuotePage /> : <InquirePage />} />
+              <Route path="/inquire/preview" element={<InstantQuotePage />} />
               <Route path="/menu" element={<MenuPage />} />
               <Route path="/grazing-tables" element={<GrazingTablesPage />} />
               <Route path="/corporate-catering" element={<CorporateCateringPage />} />
